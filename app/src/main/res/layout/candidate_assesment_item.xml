@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <ImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/upload_pic_bg" />
+
+        <TextView
+            android:id="@+id/tv_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxWidth="100dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="3M Library system"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_profile_pic"
+            app:layout_constraintTop_toTopOf="@+id/iv_profile_pic" />
+
+        <TextView
+            android:id="@+id/tvJobName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:text="Information Technology"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Name" />
+
+        <TextView
+            android:id="@+id/tvtestname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:drawableLeft="@drawable/ic_profile_summary"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Test name"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvachievedmarks"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        <TextView
+            android:id="@+id/tvtesttime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:drawableLeft="@drawable/ic_clock"
+            android:drawablePadding="2dp"
+            android:text="Test time:00:30"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvtestname"
+            app:layout_constraintEnd_toStartOf="@+id/menu"
+            app:layout_constraintStart_toEndOf="@+id/tvtestname"
+            app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        <TextView
+            android:id="@+id/tvachievedmarks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+
+
+            android:maxLines="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="8dp"
+            android:text="Achieved marks"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvtestresultstatus"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tvtestname" />
+
+        <TextView
+            android:id="@+id/tvtestresultstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+
+            android:text="Passed"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvachievedmarks"
+            app:layout_constraintTop_toTopOf="@+id/tvachievedmarks" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/visibilitystatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:maxLength="15"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
+            app:layout_constraintStart_toEndOf="@+id/tv_Name"
+            app:layout_constraintTop_toTopOf="@+id/tv_Name">
+
+            <TextView
+                android:id="@+id/iv_deal_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="8"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Open"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/onboardingStatuscv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/clientname"
+                app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_menu_dots" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
