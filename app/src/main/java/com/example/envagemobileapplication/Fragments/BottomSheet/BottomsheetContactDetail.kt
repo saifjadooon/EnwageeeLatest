@@ -583,7 +583,7 @@ class BottomsheetContactDetail : BottomSheetDialogFragment() {
                                 var filename =
                                     response.body()?.data?.clientContactInfo?.contactDescription.toString()
                                 var baseurlnew =
-                                    "https://devgateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
+                                    "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
                                 try {
                                     loadJobDescriptionContent(baseurlnew)
                                 } catch (e: Exception) {

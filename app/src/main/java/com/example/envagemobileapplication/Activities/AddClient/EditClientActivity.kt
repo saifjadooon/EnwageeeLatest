@@ -156,7 +156,7 @@ class EditClientActivity : BaseActivity() {
                 var filename =
                     data.data?.clientInfo?.description.toString()
                 var baseurlnew =
-                    "https://devgateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
+                    "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
 
                 try {
                     loadJobDescriptionContent(baseurlnew)
@@ -387,7 +387,7 @@ class EditClientActivity : BaseActivity() {
                 var filename =
                     data.data?.clientInfo?.description.toString()
                 var baseurlnew =
-                    "https://devgateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
+                    "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
 
                 try {
                     loadJobDescriptionContent(baseurlnew)
