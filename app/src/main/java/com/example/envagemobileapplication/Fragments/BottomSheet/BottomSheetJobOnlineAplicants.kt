@@ -169,7 +169,7 @@ class BottomSheetJobOnlineAplicants : BottomSheetDialogFragment() {
                                 loader.hide()
                                 if (response.body() != null) {
                                     viewModel.hidebottomSheet()
-                                    loader.hide()
+
                                 }
                             }
 

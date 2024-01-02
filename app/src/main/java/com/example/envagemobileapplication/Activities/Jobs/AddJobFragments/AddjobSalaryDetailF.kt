@@ -341,7 +341,7 @@ class AddjobSalaryDetailF : Fragment() {
                         "frequency",
                         binding.spinnerFrequency.text.toString()
                     ),
-                    MultipartBody.Part.createFormData("ApplicationFormId", "1036"),
+                    MultipartBody.Part.createFormData("ApplicationFormId", "0"),
                     MultipartBody.Part.createFormData("ShowSalary", "false"),
                     MultipartBody.Part.createFormData("ShowNature", "false"),
                     MultipartBody.Part.createFormData("ShowClient", "false"),
@@ -350,7 +350,8 @@ class AddjobSalaryDetailF : Fragment() {
                     MultipartBody.Part.createFormData("ShowType", "false"),
                     MultipartBody.Part.createFormData("ShowSkills", "false"),
                     MultipartBody.Part.createFormData("ShowShift", "false"),
-                    MultipartBody.Part.createFormData("IsPublish", "false")
+                    MultipartBody.Part.createFormData("IsPublish", "false"),
+                    MultipartBody.Part.createFormData("jobPlatform", "")
                 )
             } else {
 

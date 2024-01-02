@@ -151,7 +151,7 @@
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/activity_recent_jobs (1).xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/activity_recent_jobs.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/activity_send_offer_letter.xml" value="0.1628901239846088" />
-        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/assessmentform_item.xml" value="0.1" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/assessmentform_item.xml" value="0.536" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/bottom_sheet_edit_job.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/bottomsheet_assignment_details.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/bsheet_job_candidate_kebab_menu.xml" value="0.2" />
@@ -165,12 +165,19 @@
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_bottom_sheet_send_assessment.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_candidate_assesments.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_candidate_summary.xml" value="0.1628901239846088" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_client_summary.xml" value="0.1" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_employee_list.xml" value="0.1628901239846088" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_job_salary_details.xml" value="0.7775510204081633" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_job_summary_candidate_offer_sent.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_jobs_summary.xml" value="0.4907010014306152" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_jobs_summary_candidate_online_applcants.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_offer_letter.xml" value="0.176" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/fragment_send_email.xml" value="0.264" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/job_candidate_iten.xml" value="0.4" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/jobs_item.xml" value="0.1628901239846088" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/offer_sent_item.xml" value="0.536" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/online_applicant_bottom_sheet.xml" value="0.1628901239846088" />
+        <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/online_applicants_item.xml" value="0.5314591700133868" />
         <entry key="..\:/Users/saif/AndroidStudioProjects/enwagepersonalcloned/EnwageeMobileApplication/app/src/main/res/layout/testingbottomsheet.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1628901239846088" />
         <entry key="..\:/Users/saif/AppData/Local/Android/Sdk/platforms/android-33/data/res/drawable/ratingbar_indicator_material.xml" value="0.202" />

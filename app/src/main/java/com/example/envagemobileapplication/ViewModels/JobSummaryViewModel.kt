@@ -11,9 +11,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.GetAssessmentFormsRM
 import com.example.envagemobileapplication.Models.RequestModels.ReconsiderCandidateRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.SendAssessmentRequestModel
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
+ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
+ import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobs
+ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.GetJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendAssessmentResponse.SendAssessmentResponse
 import com.ezshifa.aihealthcare.network.ApiUtils
 import kotlinx.coroutines.launch
@@ -22,6 +24,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class JobSummaryViewModel : ViewModel() {
+
+    val LDgetJobs: LiveData<GetJobsResponse>
+        get() = MLDGetJobs
+
+    private val MLDGetJobs = MutableLiveData<GetJobsResponse>()
 
     val LDgetJobHeaderSummary: LiveData<GetJobHeaderSummary>
         get() = MLDgetJobHeaderSummary
@@ -163,6 +170,43 @@ class JobSummaryViewModel : ViewModel() {
                         }
 
                         override fun onFailure(call: Call<GetJobHeaderSummary>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
+
+    fun getJobs(
+        context: Activity,
+        accessToken: String?,
+        sortDirection: SortDirectionJobs,
+        isfromJobBottomSheet: Boolean,
+
+
+        ) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getJobs(
+                    sortDirection,
+                    accessToken.toString(),
+                )
+                    .enqueue(object : Callback<GetJobsResponse> {
+                        override fun onResponse(
+                            call: Call<GetJobsResponse>,
+                            response: Response<GetJobsResponse>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDGetJobs.postValue(response.body())
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetJobsResponse>, t: Throwable) {
                             Log.i("exceptionddsfdsfds", t.toString())
 
                         }

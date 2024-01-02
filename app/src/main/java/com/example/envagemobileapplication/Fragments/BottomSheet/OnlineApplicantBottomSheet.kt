@@ -24,6 +24,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
+import com.example.envagemobileapplication.Utils.FileUtils
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.JobSummaryCandidateViewModel
 import com.example.envagemobileapplication.databinding.OnlineApplicantBottomSheetBinding
@@ -53,10 +54,13 @@ class OnlineApplicantBottomSheet : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = OnlineApplicantBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -321,13 +325,16 @@ class OnlineApplicantBottomSheet : BottomSheetDialogFragment() {
                 Log.i("fileurllatest", fileUrl)
                 /*  val fileUrl =
                       "https://devgateway.enwage.com/api/v1/AzureStorage/download?filename=Uploads/Applicants/1220/History%20of%20Pakistan%20India_e067126d-08b3-4886-9c16-9d82157b83da.pdf"*/
-                downloadFile(requireContext(), fileUrl)
+               // downloadFile(requireContext(), fileUrl)
+
+                val url = "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" // Replace with your file URL
+                val fileName = "samplefile.txt" // Replace with your desired file name
+                val ignoreCheck = false // Set to true if you want to ignore file existence check
+                FileUtils.downloadFile(url, encodedFileName, ignoreCheck)
             } catch (e: Exception) {
 
             }
-
         }
-
         binding.extraAttachments.setOnClickListener {
             try {
                 var extraDocument =
@@ -381,62 +388,6 @@ class OnlineApplicantBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    /* fun downloadFile(context: Context, fileUrl: String) {
-         // Extract the file name from the file URL
-         val fileName = Uri.parse(fileUrl).lastPathSegment ?: "file"
-
-         // Create a request for the DownloadManager
-         val request = DownloadManager.Request(Uri.parse(fileUrl))
-             .setTitle(fileName)
-             .setDescription("Downloading file")
-             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-
-         // Get the DownloadManager service
-         val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-         // Enqueue the download request
-         manager.enqueue(request)
-     }*/
-
-/*
-
-    fun downloadFile(context: Context, fileUrl: String) {
-        // Extract the file name from the file URL
-        val fileName = Uri.parse(fileUrl).lastPathSegment ?: "file"
-
-        // Create a request for the DownloadManager
-        val request = DownloadManager.Request(Uri.parse(fileUrl))
-            .setTitle(fileName)
-            .setDescription("Downloading file")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-
-        // Get the DownloadManager service
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        // Enqueue the download request
-        val downloadId = manager.enqueue(request)
-
-        // Optionally, you can listen for download completion
-        // and then handle the downloaded file accordingly
-        // (e.g., open the file using appropriate viewer)
-        // Uncomment the following lines if you want to listen for completion
-
-        val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val downloadedId = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                if (downloadedId == downloadId) {
-                    // Handle the downloaded file here
-                    handleDownloadedFile(context, fileName)
-                }
-            }
-        }
-        context.registerReceiver(receiver, filter)
-
-    }
-*/
 
     fun downloadFile(context: Context, fileUrl: String) {
         // Extract the file name from the file URL

@@ -266,22 +266,22 @@ class JobsSummaryFragment : Fragment() {
                 }
 
                 if (it.data.jobInfo.payGroupName != null) {
-                    binding.payGroup.setText("Pay Group:" + it.data.jobInfo.payGroupName.toString())
+                    binding.payGroup.setText("Pay Group: " + it.data.jobInfo.payGroupName.toString())
                 } else {
                     binding.payGroup.setText("Pay Group:Not Provided")
                 }
 
                 if (it.data.jobInfo.headcount != null) {
-                    binding.tvHeadCount.setText("Headcount:" + it.data.jobInfo.headcount.toString())
+                    binding.tvHeadCount.setText("Headcount: " + it.data.jobInfo.headcount.toString())
                 } else {
                     binding.tvHeadCount.setText("Headcount:Not Provided")
                 }
 
                 if (it.data.jobInfo.startDate != null) {
                     val formattedDate = formatDate(it.data.jobInfo.startDate)
-                    binding.tvStartDate.setText("Start Date:" + formattedDate)
+                    binding.tvStartDate.setText("Start Date: " + formattedDate)
                 } else {
-                    binding.tvStartDate.setText("Start Date:Not Provided")
+                    binding.tvStartDate.setText("Start Date: Not Provided")
                 }
 
                 if (it.data.jobInfo.workingDaysNo != null) {
@@ -299,7 +299,7 @@ class JobsSummaryFragment : Fragment() {
 
 
                 if (it.data.jobInfo.address1 != null && it.data.jobInfo.address2 != null) {
-                    binding.tvHomeAdress.setText(it.data.jobInfo.address1 + " " + it.data.jobInfo.address2)
+                    binding.tvHomeAdress.setText(it.data.jobInfo.address1 + ", " + it.data.jobInfo.address2)
                 } else if (it.data.jobInfo.address1 != null && it.data.jobInfo.address2 == null) {
                     binding.tvHomeAdress.setText(it.data.jobInfo.address1)
                 } else if (it.data.jobInfo.address1 == null && it.data.jobInfo.address2 != null) {
@@ -415,23 +415,29 @@ class JobsSummaryFragment : Fragment() {
 
     private fun clicklisteners() {
         binding.clientname.setOnLongClickListener {
-            val toast = Toast.makeText(
-                context,
-                global.jobHeaderSummary!!.data.jobInfo.clientName,
-                Toast.LENGTH_LONG
-            )
+            if (global.jobHeaderSummary!!.data.jobInfo.clientName!=null){
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.clientName,
+                    Toast.LENGTH_LONG
+                )
 
-            toast.show()
+                toast.show()
+            }
+
             true
         }
         binding.tvJobName.setOnLongClickListener {
-            val toast = Toast.makeText(
-                context,
-                global.jobHeaderSummary!!.data.jobInfo.positionName,
-                Toast.LENGTH_LONG
-            )
+            if (global.jobHeaderSummary!!.data.jobInfo.positionName!=null){
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.positionName,
+                    Toast.LENGTH_LONG
+                )
 
-            toast.show()
+                toast.show()
+            }
+
             true
         }
         binding.tvHomeAdress.setOnLongClickListener {
@@ -467,13 +473,16 @@ class JobsSummaryFragment : Fragment() {
         }
 
         binding.location.setOnLongClickListener {
-            val toast = Toast.makeText(
-                context,
-                global.jobHeaderSummary!!.data.jobInfo.location.toString(),
-                Toast.LENGTH_LONG
-            )
+            if (global.jobHeaderSummary!!.data.jobInfo.location!=null){
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.location.toString(),
+                    Toast.LENGTH_LONG
+                )
 
-            toast.show()
+                toast.show()
+            }
+
             true
         }
 
@@ -624,8 +633,5 @@ class JobsSummaryFragment : Fragment() {
                 // Handle errors here
             }
         }.start()
-
-
     }
-
 }

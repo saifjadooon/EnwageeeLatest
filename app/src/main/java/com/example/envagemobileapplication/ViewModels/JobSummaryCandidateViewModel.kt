@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateCandidate
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateDropCandidate
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionGetOnlineCandidate
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetCandiStatuskeyPipeline.GetCandiStatuskeyPipeline
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetDropJobCandidateRes.GetDropJobCandidateRes
@@ -33,6 +34,11 @@ class  JobSummaryCandidateViewModel : ViewModel() {
         get() = MLDgetOnlineCandidates
 
     private val MLDgetOnlineCandidates = MutableLiveData<OnlineApplicantsResponse>()
+
+    val LDgetOfferLetters: LiveData<GetAllOfferLetterResp>
+        get() = MLDgetOfferLetters
+
+    private val MLDgetOfferLetters = MutableLiveData<GetAllOfferLetterResp>()
 
     val LDgetJObCandidates: LiveData<GetJobCandidates>
         get() = MLDgetJObCandidates
@@ -114,6 +120,40 @@ class  JobSummaryCandidateViewModel : ViewModel() {
                         }
 
                         override fun onFailure(call: Call<OnlineApplicantsResponse>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
+
+    fun getallOfferLetters(
+        context: Activity,
+        accessToken: String?,
+        sortDirection: SortDirectionGetOnlineCandidate
+    ) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getAllOfferLetters(
+                    sortDirection,
+                    accessToken.toString(),
+                )
+                    .enqueue(object : Callback<GetAllOfferLetterResp> {
+                        override fun onResponse(
+                            call: Call<GetAllOfferLetterResp>,
+                            response: Response<GetAllOfferLetterResp>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDgetOfferLetters.postValue(response.body())
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetAllOfferLetterResp>, t: Throwable) {
                             Log.i("exceptionddsfdsfds", t.toString())
 
                         }

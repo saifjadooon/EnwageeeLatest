@@ -1356,7 +1356,11 @@ class EditClientActivity : BaseActivity() {
                                         compareValue,
                                         false
                                     ) // Set the text without triggering an item selection event
-                                    binding.etOwnerSpinner.setSelection(position) // Set the selection
+                                    try{ binding.etOwnerSpinner.setSelection(position)}
+                                    catch (e:Exception){
+
+                                    }
+                                   // Set the selection
                                 }
                             }
 
