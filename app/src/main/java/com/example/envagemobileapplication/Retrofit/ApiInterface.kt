@@ -15,6 +15,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.CandidateSummaryEducationRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.CandidateSummaryExperienceRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.GetCompanyOnboardingStatusResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ConvertCandidateResponse.ConvertCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
@@ -29,6 +30,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsAddJobList.GetClientsAddJobList
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.GetClients
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetCountrylistResponse.GetCountrylistResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetDropJobCandidateRes.GetDropJobCandidateRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetEmployeesRes.GetEmployeesRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.GetIndustryListResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobByJobIdResponse.GetJobByJobIdResponse
@@ -396,6 +398,13 @@ public interface ApiInterface {
     ): Call<GetJobCandidates>
 
 
+    @POST("api/v1/Job/drop-job-candidates")
+    fun getjobDroppedcandidatess(
+        @Body requestPayload: SortDirectionCandidateDropCandidate,
+        @Header("x-access-token") authorization: String
+    ): Call<GetDropJobCandidateRes>
+
+
     @GET("api/v1/CandidateJob/get-jobs/{candidateGUID}")
     fun GetCandidteJobBy(
         @Header("x-access-token") authorization: String,
@@ -595,6 +604,12 @@ public interface ApiInterface {
         @Header("x-access-token") authorization: String,
         @Body payload: SendAssessmentRequestModel,
     ): Call<SendAssessmentResponse>
+
+    @POST("/api/v1/Candidate/ressignJob")
+    fun reconsiderCandidate(
+        @Header("x-access-token") authorization: String,
+        @Body payload: ReconsiderCandidateRequestModel,
+    ): Call<ReConsiderCandidateResponse>
 
     @Multipart
     @POST("/api/v1/CandidateNotes/add-candidate-note")

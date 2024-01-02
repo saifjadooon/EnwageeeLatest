@@ -25,6 +25,9 @@ import kotlin.collections.ArrayList
 class Constants {
 
     companion object {
+        var CandidateJobSelectedStatus: String? = ""
+        var descriptionText: String? = ""
+        var reasonText: String? = ""
         var candidateIDNumber: Int? = 0
         var selectedJobslist: ArrayList<AssignJobRequestModel> = ArrayList()
         @RequiresApi(Build.VERSION_CODES.O)
@@ -88,6 +91,9 @@ class Constants {
         var StatusClickedJobId: Int? = 0
         var StatusClickedName: String? = ""
         var StatusclickedPosition: Int? = 0
+
+        var JobSelectedStatusName:String ? = "Status"
+
         var filterList: ArrayList<Int> = ArrayList()
         var onBoardingStatusList: ArrayList<Datum> = ArrayList()
         var jobStatusList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.Datum> =

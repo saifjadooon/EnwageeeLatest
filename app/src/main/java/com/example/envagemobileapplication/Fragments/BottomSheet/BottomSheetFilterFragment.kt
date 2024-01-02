@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.envagemobileapplication.Adapters.BottomSheetFilterAdapter
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.CustomSpanSizeLookup
-import com.example.envagemobileapplication.ViewModels.MainActivityViewModel
 import com.example.envagemobileapplication.databinding.FragmentBottomSheetFilterBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

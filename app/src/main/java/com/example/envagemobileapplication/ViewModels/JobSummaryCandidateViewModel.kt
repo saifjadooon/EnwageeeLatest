@@ -8,10 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateCandidate
+import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateDropCandidate
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionGetOnlineCandidate
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetCandiStatuskeyPipeline.GetCandiStatuskeyPipeline
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetDropJobCandidateRes.GetDropJobCandidateRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobCanidates.GetJobCandidates
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.OnlineApplicantsResponse
@@ -21,7 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class JobSummaryCandidateViewModel : ViewModel() {
+class  JobSummaryCandidateViewModel : ViewModel() {
 
 
     val LDgetCandidateStatusKeyPipeline: LiveData<GetCandiStatuskeyPipeline> get() = MLDgetCandidateStatusKeyPipeline
@@ -43,6 +45,14 @@ class JobSummaryCandidateViewModel : ViewModel() {
 
     private val MLDgetJObCandidates = MutableLiveData<GetJobCandidates>()
 
+
+    val LDgetJObDroppedCandidates: LiveData<GetDropJobCandidateRes>
+        get() = MLDgetJObDroppedCandidates
+
+    private val MLDgetJObDroppedCandidates = MutableLiveData<GetDropJobCandidateRes>()
+
+
+
     val LDgetallSkills: LiveData<GetAllSkillsResponse>
         get() = MLDgetallSkills
 
@@ -62,6 +72,11 @@ class JobSummaryCandidateViewModel : ViewModel() {
         get() = MLDshowJobCandidateKebabmenuBottomSheet
 
     private val MLDshowJobCandidateKebabmenuBottomSheet = MutableLiveData<String>()
+
+    val LDshowJobCandidateDropKebabmenuBottomSheet: LiveData<String>
+        get() = MLDshowJobCandidateDropKebabmenuBottomSheet
+
+    private val MLDshowJobCandidateDropKebabmenuBottomSheet = MutableLiveData<String>()
 
     val LDhideBottomSheet: LiveData<String>
         get() = MLDhideBottomSheet
@@ -155,6 +170,10 @@ class JobSummaryCandidateViewModel : ViewModel() {
 
     fun showJobCandidateKebabmenuBottomSheet(b: Boolean) {
         MLDshowJobCandidateKebabmenuBottomSheet.postValue(b.toString())
+    }
+
+    fun showJobCandidateDropKebabmenuBottomSheet(b: Boolean) {
+        MLDshowJobCandidateDropKebabmenuBottomSheet.postValue(b.toString())
     }
 
     fun showClientDetailBottomSheet(applicantId: Int) {
@@ -255,6 +274,41 @@ class JobSummaryCandidateViewModel : ViewModel() {
                         }
 
                         override fun onFailure(call: Call<GetJobCandidates>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
+
+
+    fun getJobDroppedCandidates(
+        context: Activity,
+        accessToken: String?,
+        sortDirection: SortDirectionCandidateDropCandidate
+    ) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getjobDroppedcandidatess(
+                    sortDirection,
+                    accessToken.toString(),
+                )
+                    .enqueue(object : Callback<GetDropJobCandidateRes> {
+                        override fun onResponse(
+                            call: Call<GetDropJobCandidateRes>,
+                            response: Response<GetDropJobCandidateRes>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDgetJObDroppedCandidates.postValue(response.body())
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetDropJobCandidateRes>, t: Throwable) {
                             Log.i("exceptionddsfdsfds", t.toString())
 
                         }

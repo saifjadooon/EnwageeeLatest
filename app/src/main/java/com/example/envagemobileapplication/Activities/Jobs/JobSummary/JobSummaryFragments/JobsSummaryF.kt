@@ -61,6 +61,7 @@ class JobsSummaryFragment : Fragment() {
         networkCalls()
         binding.ivShowmore.setOnClickListener {
             isExpanded = !isExpanded
+            isExpanded = !isExpanded
             updateRecyclerViewHeight()
         }
         return binding.root

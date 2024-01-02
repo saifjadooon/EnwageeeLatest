@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Activities.HiredDetails.HiredDetailsActivity
@@ -81,8 +80,10 @@ class CandidateJobStatusAdapter(
 
                 Constants.statusclickedColor = statusList[position].colorCode
                 Constants.StatusClickedName = statusList[position].statusName
+                Constants.JobSelectedStatusName = statusList[position].statusName
                 val previousSelectedPosition = selectedPosition
                 selectedPosition = holder.adapterPosition
+
 
                 if(statusList.get(selectedPosition).candidateStatusId == Constants.candidateJobHiredId ){
 //                    Toast.makeText(context, "id matched", Toast.LENGTH_SHORT).show()
