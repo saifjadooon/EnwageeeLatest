@@ -244,7 +244,8 @@ class AddJobsSharedViewModel : ViewModel() {
         showTypefinal: MultipartBody.Part,
         showSkillsfinal: MultipartBody.Part,
         showShiftfinal: MultipartBody.Part,
-        publishfinal: MultipartBody.Part
+        publishfinal: MultipartBody.Part,
+        jobPlatform: MultipartBody.Part
     ) {
 
         viewModelScope.launch {
@@ -306,7 +307,8 @@ class AddJobsSharedViewModel : ViewModel() {
                 showTypefinal,
                 showSkillsfinal,
                 showShiftfinal,
-                publishfinal
+                publishfinal,
+                jobPlatform
             )
                 .enqueue(object : Callback<AddJobResponse> {
                     override fun onResponse(

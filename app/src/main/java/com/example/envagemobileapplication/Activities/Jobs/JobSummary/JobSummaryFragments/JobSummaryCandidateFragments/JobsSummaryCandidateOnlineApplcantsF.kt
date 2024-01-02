@@ -28,7 +28,7 @@ import retrofit2.Response
 
 class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
     var global = com.example.envagemobileapplication.Utils.Global
-     private var totalonlineapplicants: Int? = 0
+    private var totalonlineapplicants: Int? = 0
     private var isfromswipeRefresh: Boolean = false
     lateinit var onlineApplicantsList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.Record>
     lateinit var adapter: OnlineApplicantsAdapter
@@ -55,13 +55,18 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (isAdded) {
             initViews()
             clicklisteners()
             observers()
             networkCalls()
         }
-
     }
 
     private fun networkCalls() {
@@ -121,8 +126,7 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
 
             if (global.isfirstTimeFragmentLoaded) {
 
-            }
-            else {
+            } else {
                 if (bottomSheetFragment.isAdded) {
                     return@observe
                 } else {
@@ -145,18 +149,23 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
         viewModel.LDhideBottomSheet.observe(requireActivity()) {
 
             if (it.equals("true")) {
-                bottomSheetFragment.dismiss()
-                val model = SortDirectionGetOnlineCandidate(
-                    applicantFilter = emptyList(),
-                    jobId = com.example.envagemobileapplication.Utils.Global.GlobalJobID!!,
-                    pageIndex = 1,
-                    pageSize = 25,
-                    searchText = "",
-                    sortBy = "CreatedDate",
-                    sortDirection = 1
-                )
-                loader.show()
-                viewModel.getOnlineApplicants(requireActivity(), token, model)
+                if (isAdded){
+                    try {
+                        bottomSheetFragment.dismiss()
+                        val model = SortDirectionGetOnlineCandidate(
+                            applicantFilter = emptyList(),
+                            jobId = com.example.envagemobileapplication.Utils.Global.GlobalJobID!!,
+                            pageIndex = 1,
+                            pageSize = 25,
+                            searchText = "",
+                            sortBy = "CreatedDate",
+                            sortDirection = 1
+                        )
+                        loader.show()
+                        viewModel.getOnlineApplicants(requireActivity(), token, model)
+                    }
+                    catch (e:Exception){}
+                }
             }
         }
 
@@ -193,8 +202,7 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
 
         viewModel.LDviewCandidateDetailBottomSheet.observe(requireActivity()) {
             if (global.isfirstTimeFragmentLoaded) {
-            }
-            else {
+            } else {
                 if (bottomSheetCandidateDetailFragment.isAdded) {
                     return@observe
                 } else {

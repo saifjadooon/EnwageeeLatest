@@ -131,12 +131,27 @@ class JobSalaryDetails : Fragment() {
                             }
 
 
-                            if (response.body()!!.data.billingDetails.overtimePayRate != null) {
+                            if (response.body()!!.data.billingDetails.overtimeMarkup != null) {
 
 
-                                binding.tvOtPayRate.setText(response.body()!!.data.billingDetails.overtimePayRate.toString())
+                                binding.tvOtPayRate.setText(response.body()!!.data.billingDetails.overtimeMarkup.toString())
                             } else {
                                 binding.tvOtPayRate.setText("Not Provided")
+                            }
+
+                            if (response.body()!!.data.billingDetails.doubletimeType != null) {
+
+
+                                binding.tvdtrule.setText(response.body()!!.data.billingDetails.doubletimeType.toString())
+                            } else {
+                                binding.tvdtrule.setText("Not Provided")
+                            }
+
+                            if (response.body()!!.data.billingDetails.doubletimeMarkup != null) {
+
+                                binding.tvdetMArkuppercentage.setText(response.body()!!.data.billingDetails.doubletimeMarkup.toString())
+                            } else {
+                                binding.tvdetMArkuppercentage.setText("Not Provided")
                             }
 
 

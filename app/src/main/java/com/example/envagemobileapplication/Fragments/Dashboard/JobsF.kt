@@ -108,6 +108,23 @@ class JobsF : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+   /*     var isfromJobBottomSheet = false
+        val model = SortDirectionJobs(
+            clientId = null,
+            jobFilters = emptyList(),
+            pageIndex = 1,
+            pageSize = 25,
+            searchText = "",
+            sortBy = "CreatedDate",
+            sortDirection = 1,
+            tileStatusId = -1
+        )
+        viewModel.getJobs(
+            requireActivity(),
+            tokenManager.getAccessToken(),
+            model,
+            isfromJobBottomSheet
+        )*/
         viewModel.getallJobStatuses(requireContext() as MainActivity, token)
     }
 
@@ -158,7 +175,6 @@ class JobsF : Fragment() {
         jobsList = Constants.JobsList
         tokenManager = TokenManager(requireContext())
         token = tokenManager.getAccessToken()!!
-
     }
 
     fun setUpJobsAdapter(
@@ -259,6 +275,7 @@ class JobsF : Fragment() {
         initViews()
         clickListeners()
         observers()
+
         super.onResume()
     }
 }

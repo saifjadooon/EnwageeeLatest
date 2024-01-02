@@ -18,6 +18,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ConvertCandidateResponse.ConvertCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentResp.GetAssesmentResp
@@ -339,7 +340,8 @@ public interface ApiInterface {
         @Part showType: MultipartBody.Part,
         @Part showSkills: MultipartBody.Part,
         @Part showShift: MultipartBody.Part,
-        @Part isPublish: MultipartBody.Part
+        @Part isPublish: MultipartBody.Part,
+        @Part jobPlatform: MultipartBody.Part
     ): Call<AddJobResponse>
 
 
@@ -348,6 +350,12 @@ public interface ApiInterface {
         @Body requestPayload: SortDirectionGetOnlineCandidate,
         @Header("x-access-token") authorization: String
     ): Call<OnlineApplicantsResponse>
+
+    @POST("api/v1/Candidate/get-all-candidate-offer-letter")
+    fun getAllOfferLetters(
+        @Body requestPayload: SortDirectionGetOnlineCandidate,
+        @Header("x-access-token") authorization: String
+    ): Call<GetAllOfferLetterResp>
 
 
     @POST("api/v1/Applicant/convert-candidate/{applicantId}")
