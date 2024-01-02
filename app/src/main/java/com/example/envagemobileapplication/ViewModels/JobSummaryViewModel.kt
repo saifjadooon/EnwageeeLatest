@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.GetAssessmentFormsRM
+import com.example.envagemobileapplication.Models.RequestModels.ReconsiderCandidateRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.SendAssessmentRequestModel
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendAssessmentResponse.SendAssessmentResponse
@@ -36,6 +38,12 @@ class JobSummaryViewModel : ViewModel() {
         get() = MLDsendAssessmentResponse
 
     private val MLDsendAssessmentResponse = MutableLiveData<SendAssessmentResponse>()
+
+
+    val LDreconsiderCandidateResponse: LiveData<ReConsiderCandidateResponse>
+        get() = MLDreconsiderCandidateResponseRe
+
+    private val MLDreconsiderCandidateResponseRe = MutableLiveData<ReConsiderCandidateResponse>()
 
     val LDcloseBottomSheetFlag: LiveData<Boolean>
         get() = MLDcloseBottomSheetFlag
@@ -95,6 +103,36 @@ class JobSummaryViewModel : ViewModel() {
                         }
 
                         override fun onFailure(call: Call<SendAssessmentResponse>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
+
+
+    fun reconsiderCandidate(fragment: Context, token: String, payload: ReconsiderCandidateRequestModel) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(fragment).reconsiderCandidate(
+                    token,
+                    payload!!
+                )
+                    .enqueue(object : Callback<ReConsiderCandidateResponse> {
+                        override fun onResponse(
+                            call: Call<ReConsiderCandidateResponse>,
+                            response: Response<ReConsiderCandidateResponse>
+                        ) {
+                            Log.d("responseBodwewey1",response.toString())
+                            if (response.body() != null) {
+                                MLDreconsiderCandidateResponseRe.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ReConsiderCandidateResponse>, t: Throwable) {
                             Log.i("exceptionddsfdsfds", t.toString())
 
                         }

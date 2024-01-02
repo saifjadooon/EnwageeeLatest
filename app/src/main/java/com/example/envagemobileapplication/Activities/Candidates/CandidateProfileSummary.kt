@@ -4,8 +4,6 @@ import BaseActivity
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

@@ -177,6 +177,8 @@ class BottomSheetSendAssessment : BottomSheetDialogFragment() {
     ) {
 
         try {
+            binding.search.isFocusable = false
+            binding.search.isFocusableInTouchMode = false
             binding!!.rvAssessments.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(
                 requireContext

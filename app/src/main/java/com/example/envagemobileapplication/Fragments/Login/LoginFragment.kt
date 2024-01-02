@@ -13,7 +13,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.envagemobileapplication.Activities.Assesments.AssesmentDetailActivity
 import com.example.envagemobileapplication.Activities.MainActivity
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R

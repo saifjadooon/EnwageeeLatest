@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.init
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.envagemobileapplication.Fragments.BottomSheet.BSCandidateJobStatusF
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetStatusFragment
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.CandidatesProfileSumViewModel
 import com.example.envagemobileapplication.databinding.ActivityCandidateJobStatusChangeBinding
-import com.squareup.picasso.Picasso
 
 class CandidateJobStatusChange : AppCompatActivity() {
 
@@ -55,11 +51,15 @@ class CandidateJobStatusChange : AppCompatActivity() {
         }
 
         binding.cvStatusChange.setOnClickListener {
-            if (bsCandidateJobStatusF.isAdded()) {
-                return@setOnClickListener
-            } else {
-                bsCandidateJobStatusF.show(supportFragmentManager, bsCandidateJobStatusF.tag)
+            if(Constants.CandidateJobSelectedStatus != "Drop"){
+                if (bsCandidateJobStatusF.isAdded()) {
+                    return@setOnClickListener
+                } else {
+                    bsCandidateJobStatusF.show(supportFragmentManager, bsCandidateJobStatusF.tag)
+
+                }
             }
+
         }
 
         viewModel.getJobDetailsById(
@@ -161,8 +161,6 @@ class CandidateJobStatusChange : AppCompatActivity() {
                     }
 
 
-
-
                     binding.tvMuPercentage.text = jobData.billingDetails.markup.toString() + "%"
                     binding.tvMinPayrate.text = "$" + jobData.billingDetails.minPayRate.toString()
                     binding.tvMinBillrate.text = "$" + jobData.billingDetails.minBillRate.toString()
@@ -184,6 +182,8 @@ class CandidateJobStatusChange : AppCompatActivity() {
                     binding.tvDtMultiplier.text = jobData.billingDetails.doubletimeMultiplier.toString() + "x"
                     binding.tvDtPayrate.text = "$" + jobData.billingDetails.doubletimePayRate.toString()
                     binding.tvDtBillrate.text = "$" + jobData.billingDetails.doubletimeBillRate.toString()
+                    binding.tvDtMarkupPercentage.text = "$" + jobData.billingDetails.doubletimeMarkup.toString()
+                    binding.tvOtMarkupPercentage.text = "$" + jobData.billingDetails.overtimeMarkup.toString()
 
                 } else {
                     Toast.makeText(this, "no data found", Toast.LENGTH_SHORT).show()
@@ -199,8 +199,8 @@ class CandidateJobStatusChange : AppCompatActivity() {
         loader = Loader(this)
         tokenManager = TokenManager(this)
         token = tokenManager.getAccessToken()!!
+        binding.lblStatus.text = Constants.CandidateJobSelectedStatus
 
     }
-
 
 }

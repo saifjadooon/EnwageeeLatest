@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/itemLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <ImageView
+            android:id="@+id/iv_cprofile_pic"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/upload_pic_bg" />
+
+        <TextView
+            android:id="@+id/tv_cName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="3M Library system"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_cprofile_pic"
+            app:layout_constraintTop_toTopOf="@+id/iv_cprofile_pic" />
+
+        <TextView
+            android:id="@+id/tv_contact_phone_cemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxWidth="160dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Email"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_cprofile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/tvCReason" />
+
+
+        <TextView
+            android:id="@+id/tvCReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:maxWidth="250dp"
+            android:maxLength="40"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="@string/reason"
+            android:textStyle="bold"
+            android:textColor="@color/BLACK"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_cprofile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/tvdJobType" />
+
+        <TextView
+            android:id="@+id/tv_contact_cphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:drawableLeft="@drawable/ic_owner_contact"
+            android:drawablePadding="4dp"
+            android:text="phone"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_contact_phone_cemail"
+            app:layout_constraintStart_toEndOf="@+id/tv_contact_phone_cemail"
+            app:layout_constraintTop_toTopOf="@+id/tv_contact_phone_cemail" />
+
+        <ImageView
+            android:id="@+id/iv_cmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_menu_dots" />
+
+        <TextView
+            android:id="@+id/tvdJobType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Product Designer"
+            android:visibility="gone"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
+            android:maxLength="20"
+            android:textColor="@color/BLACK"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/iv_cprofile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cName" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_contact_phone_cemail" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

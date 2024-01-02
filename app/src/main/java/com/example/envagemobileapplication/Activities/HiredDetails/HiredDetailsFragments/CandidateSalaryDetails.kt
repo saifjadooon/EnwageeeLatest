@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.envagemobileapplication.Activities.AddClient.ClientSummaryActivity
 import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 import com.example.envagemobileapplication.Models.RequestModels.UpdateCandidateStatusRequestModel
 import com.example.envagemobileapplication.Oauth.TokenManager

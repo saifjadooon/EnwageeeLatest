@@ -1,12 +1,9 @@
 package com.example.envagemobileapplication.Utils
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +11,6 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.lifecycle.viewModelScope
-import com.example.envagemobileapplication.Activities.Candidates.CandidateJobStatusChange
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
@@ -24,7 +19,6 @@ import com.example.envagemobileapplication.ViewModels.CandidatesProfileSumViewMo
 import com.example.envagemobileapplication.databinding.CustomDialogLayoutBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
 import jp.wasabeef.richeditor.RichEditor
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

@@ -698,19 +698,25 @@ class CandidateSummaryF : Fragment() {
     private fun openCamera() {
         val pictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file: File = getImageFile()
-        val uri: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            FileProvider.getUriForFile(
-                requireContext(),
-                BuildConfig.APPLICATION_ID + ".provider",
-                file
-            ) else Uri.fromFile(file)
-        pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        try {
+            val uri: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                FileProvider.getUriForFile(
+                    requireActivity(),
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    file
+                ) else Uri.fromFile(file)
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            openCameraActivityResultLauncher.launch(pictureIntent)
-        } else {
-            startActivityForResult(pictureIntent, CAMERA_REQUEST_CODE)
+            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                openCameraActivityResultLauncher.launch(pictureIntent)
+            } else {
+                startActivityForResult(pictureIntent, CAMERA_REQUEST_CODE)
+            }
+        }catch (e:Exception){
+            Log.d("sjdhjsdf",e.toString())
         }
+
     }
 
     fun createTempImageFile(imageByteArray: ByteArray): File {

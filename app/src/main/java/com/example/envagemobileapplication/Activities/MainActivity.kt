@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
+import com.example.envagemobileapplication.Activities.Employees.EmployeeF
 import com.example.envagemobileapplication.Activities.Login.LoginActivty
 import com.example.envagemobileapplication.Fragments.Dashboard.*
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidates
@@ -74,6 +75,541 @@ class MainActivity : BaseActivity() {
         clickListeners()
         observers()
     }
+
+//    private fun clickListeners() {
+//        binding.fab.setOnClickListener {
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvHome.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//            replaceFragment(HomeF(), bundle)
+//        }
+//        binding.bottomNavigationView.setOnItemReselectedListener {
+//            when (it.itemId) {
+//
+//                R.id.candidateFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+//
+//                    val model = SortDirectionCandidates(
+//                        candidateFilters = emptyList(),
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        searchText = "",
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        tileStatusId = -1
+//                    )
+//
+//                    loader.show()
+//                    viewModel.getCandidates(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model
+//                    )
+//                    true
+//                }
+//                R.id.clientFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+//                    var isfromCompnyStatus = false
+//                    loader.show()
+//                    val model = sortDirection(
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        searchText = "",
+//                        tileStatusId = -1
+//                    )
+//                    viewModel.getClients(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model,
+//                        isfromCompnyStatus
+//                    )
+//                    // replaceFragment(ClientsF())
+//
+//                    true
+//                }
+//                R.id.jobsFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.white))
+//                    loader.show()
+//                    var isfromJobBottomSheet = false
+//                    val model = SortDirectionJobs(
+//                        clientId = null,
+//                        jobFilters = emptyList(),
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        searchText = "",
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        tileStatusId = -1
+//                    )
+//                    viewModel.getJobs(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model,
+//                        isfromJobBottomSheet
+//                    )
+//                    //   replaceFragment(JobsF(), bundle)
+//
+//                    true
+//                }
+//                R.id.messagesFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.white))
+//                    replaceFragment(MessagesF(), bundle)
+//
+//                    true
+//                }
+//            }
+//        }
+//        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.candidateFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//                    val model = SortDirectionCandidates(
+//                        candidateFilters = emptyList(),
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        searchText = "",
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        tileStatusId = -1
+//                    )
+//                    loader.show()
+//                    viewModel.getCandidates(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model
+//                    )
+//                    true
+//                }
+//                R.id.clientFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+//
+//                    var isfromCompnyStatus = false
+//                    loader.show()
+//                    val model = sortDirection(
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        searchText = "",
+//                        tileStatusId = -1
+//                    )
+//                    viewModel.getClients(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model,
+//                        isfromCompnyStatus
+//                    )
+//                    // replaceFragment(ClientsF())
+//
+//                    true
+//                }
+//                R.id.jobsFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.white))
+//                    loader.show()
+//                    var isfromJobBottomSheet = false
+//
+//                    val model = SortDirectionJobs(
+//                        clientId = null,
+//                        jobFilters = emptyList(),
+//                        pageIndex = 1,
+//                        pageSize = 25,
+//                        searchText = "",
+//                        sortBy = "CreatedDate",
+//                        sortDirection = 1,
+//                        tileStatusId = -1
+//                    )
+//                    viewModel.getJobs(
+//                        this,
+//                        tokenManager.getAccessToken(),
+//                        model,
+//                        isfromJobBottomSheet
+//                    )
+//
+//                    true
+//                }
+//                R.id.messagesFragment -> {
+//                    binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(Color.WHITE)
+//                    binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//                    binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//
+//                    // val svgDrawable: PictureDrawable = loadSVGFromResource(R.drawable.ic_messages)
+//
+//// Set the initial color
+//                    //  binding.leftDrawerMenu.ivMessages.setImageDrawable(svgDrawable)
+//
+//// Change the color programmatically
+//                    binding.leftDrawerMenu.ivMessages.setColorFilter(Color.WHITE)
+//
+//                    binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//                    binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//                    binding.leftDrawerMenu.cvMessages.setBackgroundResource(R.drawable.btn_black_radius)
+//                    binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.white))
+//
+//                    replaceFragment(MessagesF(), bundle)
+//
+//                    true
+//                }
+//
+//            }
+//            true
+//        }
+//        binding.ivMenu.setOnClickListener {
+//
+//            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//            } else {
+//                binding.drawerLayout.openDrawer(Gravity.LEFT)
+//
+//            }
+//
+//        }
+//        binding.leftDrawerMenu.ivCloseDrawer.setOnClickListener {
+//
+//
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//        }
+//        binding.leftDrawerMenu.cvClient.setOnClickListener {
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+//            var isfromCompnyStatus = false
+//            loader.show()
+//            val model = sortDirection(
+//                pageIndex = 1,
+//                pageSize = 25,
+//                sortBy = "CreatedDate",
+//                sortDirection = 1,
+//                searchText = "",
+//                tileStatusId = -1
+//            )
+//
+//            viewModel.getClients(
+//                this,
+//                tokenManager.getAccessToken(),
+//                model,
+//                isfromCompnyStatus
+//            )
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//        }
+//        binding.leftDrawerMenu.cvCandidate.setOnClickListener {
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+//            val model = SortDirectionCandidates(
+//                candidateFilters = emptyList(),
+//                pageIndex = 1,
+//                pageSize = 25,
+//                searchText = "",
+//                sortBy = "CreatedDate",
+//                sortDirection = 1,
+//                tileStatusId = -1
+//            )
+//            loader.show()
+//            viewModel.getCandidates(
+//                this,
+//                tokenManager.getAccessToken(),
+//                model
+//            )
+//
+//            binding.bottomNavigationView.selectedItemId = R.id.candidateFragment
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//        }
+//        binding.leftDrawerMenu.cvJobs.setOnClickListener {
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//
+//            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvJobs.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.white))
+//            replaceFragment(JobsF(), bundle)
+//            binding.bottomNavigationView.selectedItemId = R.id.jobsFragment
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//
+//        }
+//        binding.leftDrawerMenu.cvMessages.setOnClickListener {
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+//
+//
+//            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//
+//            binding.leftDrawerMenu.cvMessages.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.white))
+//            replaceFragment(MessagesF(), bundle)
+//            binding.bottomNavigationView.selectedItemId = R.id.messagesFragment
+//
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//
+//        }
+//        binding.leftDrawerMenu.cvHome.setOnClickListener {
+//
+//            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvHome.setBackgroundResource(R.drawable.btn_black_radius)
+//            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+//            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+//            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+//
+//
+//            replaceFragment(HomeF(), bundle)
+//            binding.bottomNavigationView.selectedItemId = 0
+//            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+//
+//        }
+//        binding.leftDrawerMenu.ivLogout.setOnClickListener {
+//            logout()
+//
+//        }
+//        binding.leftDrawerMenu.tvUsername.setOnLongClickListener {
+//
+//            val toast = Toast.makeText(
+//                this@MainActivity,
+//                tokenManager.getuserFirstName() + " " + tokenManager.getuserLastName(),
+//                Toast.LENGTH_LONG
+//            )
+//
+//            toast.show()
+//
+//            true
+//        }
+//        binding.leftDrawerMenu.tvUserEmail.setOnLongClickListener {
+//
+//
+//            val toast = Toast.makeText(
+//                this@MainActivity,
+//                tokenManager.getUserEmail(),
+//                Toast.LENGTH_LONG
+//            )
+//
+//            toast.show()
+//
+//            true
+//        }
+//    }
 
     private fun clickListeners() {
         binding.fab.setOnClickListener {
@@ -443,6 +979,12 @@ class MainActivity : BaseActivity() {
 
             binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
             binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+
+            // for employees
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+
             var isfromCompnyStatus = false
             loader.show()
             val model = sortDirection(
@@ -463,6 +1005,7 @@ class MainActivity : BaseActivity() {
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
 
         }
+
         binding.leftDrawerMenu.cvCandidate.setOnClickListener {
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
@@ -480,6 +1023,13 @@ class MainActivity : BaseActivity() {
             binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
             binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+
+            // for employees
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+
+
             val model = SortDirectionCandidates(
                 candidateFilters = emptyList(),
                 pageIndex = 1,
@@ -489,6 +1039,7 @@ class MainActivity : BaseActivity() {
                 sortDirection = 1,
                 tileStatusId = -1
             )
+
             loader.show()
             viewModel.getCandidates(
                 this,
@@ -499,6 +1050,36 @@ class MainActivity : BaseActivity() {
             binding.bottomNavigationView.selectedItemId = R.id.candidateFragment
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
         }
+
+        binding.leftDrawerMenu.cvEmployee.setOnClickListener {
+            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvEmployee.setBackgroundResource(R.drawable.btn_black_radius)
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+
+
+//            startActivity(Intent(this@MainActivity,EmployeesListActivity::class.java))
+
+            replaceFragment(EmployeeF(), bundle)
+            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+
+        }
+
+
         binding.leftDrawerMenu.cvJobs.setOnClickListener {
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
@@ -512,7 +1093,6 @@ class MainActivity : BaseActivity() {
             binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
 
 
-
             binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
 
@@ -521,12 +1101,21 @@ class MainActivity : BaseActivity() {
 
             binding.leftDrawerMenu.cvJobs.setBackgroundResource(R.drawable.btn_black_radius)
             binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.white))
+
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+
+
             replaceFragment(JobsF(), bundle)
             binding.bottomNavigationView.selectedItemId = R.id.jobsFragment
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
 
 
+
         }
+
+
         binding.leftDrawerMenu.cvMessages.setOnClickListener {
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.white))
@@ -545,6 +1134,10 @@ class MainActivity : BaseActivity() {
 
             binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
 
             binding.leftDrawerMenu.cvMessages.setBackgroundResource(R.drawable.btn_black_radius)
             binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.white))
@@ -572,6 +1165,11 @@ class MainActivity : BaseActivity() {
             binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
             binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+
+            // for employees
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
 
 
             replaceFragment(HomeF(), bundle)

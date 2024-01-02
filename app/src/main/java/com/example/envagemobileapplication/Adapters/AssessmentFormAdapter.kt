@@ -1,15 +1,12 @@
 package com.example.envagemobileapplication.Adapters
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Models.RequestModels.SendAssessmentRequestModel
@@ -19,8 +16,6 @@ import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.JobSummaryViewModel
-import androidx.lifecycle.LifecycleOwner
-import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 
 
 class AssessmentFormAdapter(

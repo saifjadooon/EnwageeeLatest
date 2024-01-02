@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -58,6 +57,7 @@ class CandidateSummaryJobsAdapter(
 
         holder.job_item.setOnClickListener{
             Constants.jobId = dataList.get(position).jobId
+            Constants.CandidateJobSelectedStatus = dataList.get(position).status
             val intent = Intent(context, CandidateJobStatusChange::class.java)
             context.startActivity(intent)
         }

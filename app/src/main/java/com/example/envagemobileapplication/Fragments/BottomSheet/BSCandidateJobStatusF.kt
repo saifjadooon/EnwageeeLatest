@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.envagemobileapplication.Activities.Candidates.CandidateJobStatusChange
 import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 import com.example.envagemobileapplication.Adapters.CandidateJobStatusAdapter
 import com.example.envagemobileapplication.Models.RequestModels.UpdateJobStatusPayload
@@ -21,7 +20,6 @@ import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.ViewModels.CandidatesProfileSumViewModel
-import com.example.envagemobileapplication.ViewModels.JobSummaryViewModel
 import com.example.envagemobileapplication.databinding.FragmentBottomSheetBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

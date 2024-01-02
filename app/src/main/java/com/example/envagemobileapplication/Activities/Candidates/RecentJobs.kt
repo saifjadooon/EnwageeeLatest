@@ -2,13 +2,10 @@ package com.example.envagemobileapplication.Activities.Candidates
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.envagemobileapplication.Adapters.CandidateSummaryJobsAdapter
 import com.example.envagemobileapplication.Adapters.RecentJobsAdapter
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.Constants

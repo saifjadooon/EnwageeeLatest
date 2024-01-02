@@ -39,6 +39,10 @@
         android:theme="@style/Theme.EnvageMobileApplication"
         tools:replace="android:theme"
         tools:targetApi="31">
+
+        <activity
+            android:name=".Activities.Jobs.JobSummary.JobSummaryFragments.JobSummaryCandidateFragments.JobSummaryActivities.CandiDropReasonActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.Assesments.AssesmentDetailActivity"
             android:exported="false" />
@@ -77,6 +81,7 @@
             android:name=".Activities.HiredDetails.HiredDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait">
+
 
             <!--
             <intent-filter>
@@ -204,6 +209,16 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             tools:replace="android:authorities" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.squareup.picasso.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>
