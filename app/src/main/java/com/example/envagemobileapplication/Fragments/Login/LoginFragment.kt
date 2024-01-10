@@ -62,17 +62,17 @@ class LoginFragment : Fragment() {
         binding.buttonNext.setOnClickListener {
             /* val username = "jamesMicheal"
             val password = "Login@786"*/
-            /*    val username = binding.etUsername.text.toString().trimEnd()
-                val password = binding.etPassword.text.toString().trimEnd()*/
+//                val username = binding.etUsername.text.toString().trimEnd()
+//                val password = binding.etPassword.text.toString().trimEnd()
 
-            /*   val username = "upshiftuser"
-               val password = "123qweASD&"*/
+               val username = "raja@mailinator.com"
+               val password = "Login@786"
 /*
             val username = "upshiftuser"
             val password = "Test@Zxc756"*/
 
-            val username = "raja@mailinator.com"
-            val password = "Login@786"
+//            val username = ""
+//            val password = ""
 
             if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
                 if (username.isNullOrEmpty()) {

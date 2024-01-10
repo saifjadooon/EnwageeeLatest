@@ -65,7 +65,7 @@ class CandidateJobStatusAdapter(
         } catch (e: Exception) {
         }
 
-        if (position == selectedPosition || Constants.StatusClickedName == statusList[position].statusName) {
+        if (position == selectedPosition || Constants.CandidateJobSelectedStatus == statusList[position].statusName) {
             holder.cc_mainn.setBackgroundResource(R.drawable.onboarding_status_bg)
             holder.status_checkbox.isChecked = true
         } else {
@@ -87,7 +87,13 @@ class CandidateJobStatusAdapter(
 
                 if(statusList.get(selectedPosition).candidateStatusId == Constants.candidateJobHiredId ){
 //                    Toast.makeText(context, "id matched", Toast.LENGTH_SHORT).show()
-                    context.startActivity(Intent(context, HiredDetailsActivity::class.java))
+//                    (context as Activity).finish()
+                    try {
+                        context.startActivity(Intent(context, HiredDetailsActivity::class.java))
+                    }catch (e:Exception){
+                       Log.d("sfhsvshv",e.toString())
+                    }
+
                 }else if(statusList.get(selectedPosition).candidateStatusId == Constants.candidateJobDropedId ){
                     customDialog.show()
                 }
@@ -144,9 +150,7 @@ class CandidateJobStatusAdapter(
                         if (response.body() != null) {
 
                             try {
-
                                 (context as Activity).finish()
-
                             } catch (e: Exception) {
 
                             }

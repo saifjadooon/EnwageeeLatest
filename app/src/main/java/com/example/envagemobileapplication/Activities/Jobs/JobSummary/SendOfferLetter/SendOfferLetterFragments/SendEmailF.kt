@@ -108,6 +108,8 @@ class SendEmailF : Fragment() {
         networkCalls()
         setUpRtf()
         initviews()
+        firstname = global.fn.toString() + ""
+        lastname = global.ln.toString() + ""
         return binding.root
     }
 
@@ -276,15 +278,7 @@ class SendEmailF : Fragment() {
 
             } catch (e: Exception) {
             }
-            try {
-                firstname = global.firstnameforofferletter.toString()
-            } catch (e: Exception) {
-            }
-            try {
-                lastname = global.lastnameforofferletter.toString()
 
-            } catch (e: Exception) {
-            }
 
             offerletterlink = "offer letter link"
             clientFacebook = "www.facebook.com"

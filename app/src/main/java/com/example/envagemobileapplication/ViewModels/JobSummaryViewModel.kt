@@ -52,10 +52,13 @@ class JobSummaryViewModel : ViewModel() {
 
     private val MLDreconsiderCandidateResponseRe = MutableLiveData<ReConsiderCandidateResponse>()
 
-    val LDcloseBottomSheetFlag: LiveData<Boolean>
-        get() = MLDcloseBottomSheetFlag
 
-    private val MLDcloseBottomSheetFlag = MutableLiveData<Boolean>()
+    val LDdissmissKebabMenu: LiveData<String>
+        get() = MLDdissmissKebabMenu
+
+    private val MLDdissmissKebabMenu = MutableLiveData<String>()
+
+
 
 
     //=======>>>>>>>>>>><<<<<<<<<<<<<<<<<////
@@ -215,6 +218,10 @@ class JobSummaryViewModel : ViewModel() {
                 Log.i("exceptionddsfdsfds", ex.toString())
             }
         }
+    }
+
+    fun dismissCandidateKebab(b: Boolean) {
+        MLDdissmissKebabMenu.postValue(b.toString())
     }
 
 }

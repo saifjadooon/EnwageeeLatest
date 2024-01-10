@@ -1,20 +1,22 @@
 package com.example.envagemobileapplication.Activities.Candidates
 
+import BaseActivity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.envagemobileapplication.Fragments.BottomSheet.BSCandidateJobStatusF
 import com.example.envagemobileapplication.Oauth.TokenManager
+import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.CandidatesProfileSumViewModel
 import com.example.envagemobileapplication.databinding.ActivityCandidateJobStatusChangeBinding
+import com.squareup.picasso.Picasso
 
-class CandidateJobStatusChange : AppCompatActivity() {
+class CandidateJobStatusChange : BaseActivity() {
 
 
     var bsCandidateJobStatusF: BSCandidateJobStatusF = BSCandidateJobStatusF()
@@ -51,15 +53,14 @@ class CandidateJobStatusChange : AppCompatActivity() {
         }
 
         binding.cvStatusChange.setOnClickListener {
-            if(Constants.CandidateJobSelectedStatus != "Drop"){
+
+            if(Constants.CandidateJobSelectedStatusId != Constants.candidateJobDropedId && Constants.CandidateJobSelectedStatusId != Constants.candidateJobHiredId ){
                 if (bsCandidateJobStatusF.isAdded()) {
                     return@setOnClickListener
                 } else {
                     bsCandidateJobStatusF.show(supportFragmentManager, bsCandidateJobStatusF.tag)
-
                 }
             }
-
         }
 
         viewModel.getJobDetailsById(
@@ -125,15 +126,48 @@ class CandidateJobStatusChange : AppCompatActivity() {
 
 
             try {
+
+
+
                 if (it.data != null) {
 
                     val jobData = it.data
+
+
+                    binding.tvClientName.setOnLongClickListener {
+
+                        Toast.makeText(this, jobData.clientName, Toast.LENGTH_SHORT).show()
+
+                        true
+                    }
+
+                    binding.tvJobNature.setOnLongClickListener {
+
+                        Toast.makeText(this, jobData.jobNature.toString(), Toast.LENGTH_SHORT).show()
+
+                        true
+                    }
+
+                    binding.tvPositionName.setOnLongClickListener {
+
+                        Toast.makeText(this, jobData.positionName.toString(), Toast.LENGTH_SHORT).show()
+
+                        true
+                    }
+
+                    binding.tvJobType.setOnLongClickListener {
+
+                        Toast.makeText(this, jobData.jobType.toString(), Toast.LENGTH_SHORT).show()
+
+                        true
+                    }
+
+
                     if (jobData.clientProfilePicture != "") {
-                        Glide.with(this)
-                            .load(jobData.clientProfilePicture)
-                            .circleCrop()
-                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                            .into(binding.ivJobProfile)
+
+                        Picasso.get().load(jobData.clientProfilePicture)
+                            .placeholder(R.drawable.upload_pic_bg)
+                            .transform(CircleTransformation()).into(binding.ivJobProfile)
                     }
 
                     if (jobData.positionName != null) {
@@ -161,6 +195,24 @@ class CandidateJobStatusChange : AppCompatActivity() {
                     }
 
 
+                    var otRule = jobData.billingDetails.overtimeType.toString()
+                    var dtRule = jobData.billingDetails.doubletimeType.toString()
+
+
+                    if(otRule == "Paid Not Billed" || otRule == "None"){
+                        binding.tvOtMarkupPercentage.text = "-"
+                    }else{
+                        binding.tvOtMarkupPercentage.text = "$" + jobData.billingDetails.overtimeMarkup.toString()
+                    }
+
+                    if(dtRule == "Paid Not Billed" || dtRule == "None"){
+                        binding.tvDtMarkupPercentage.text = "-"
+                    }else{
+                        binding.tvDtMarkupPercentage.text = "$" + jobData.billingDetails.overtimeMarkup.toString()
+                    }
+
+
+
                     binding.tvMuPercentage.text = jobData.billingDetails.markup.toString() + "%"
                     binding.tvMinPayrate.text = "$" + jobData.billingDetails.minPayRate.toString()
                     binding.tvMinBillrate.text = "$" + jobData.billingDetails.minBillRate.toString()
@@ -175,15 +227,34 @@ class CandidateJobStatusChange : AppCompatActivity() {
 
                     // For OT
                     binding.tvOtRule.text = jobData.billingDetails.overtimeType
+                    binding.tvDtRule.text = jobData.billingDetails.doubletimeType
+
                     binding.tvotMinPayrate.text = "$" + jobData.billingDetails.minPayRate.toString()
-                    binding.tvOtMultiplier.text = jobData.billingDetails.overtimeMultiplier.toString() + "x"
-                    binding.tvOtPayrate.text = "$" + jobData.billingDetails.overtimePayRate.toString()
-                    binding.tvOtBillrate.text = "$" + jobData.billingDetails.overtimeBillRate.toString()
-                    binding.tvDtMultiplier.text = jobData.billingDetails.doubletimeMultiplier.toString() + "x"
-                    binding.tvDtPayrate.text = "$" + jobData.billingDetails.doubletimePayRate.toString()
-                    binding.tvDtBillrate.text = "$" + jobData.billingDetails.doubletimeBillRate.toString()
-                    binding.tvDtMarkupPercentage.text = "$" + jobData.billingDetails.doubletimeMarkup.toString()
-                    binding.tvOtMarkupPercentage.text = "$" + jobData.billingDetails.overtimeMarkup.toString()
+
+                    if(otRule == "None"){
+                        binding.tvOtMultiplier.text = "-"
+                        binding.tvOtPayrate.text = "-"
+                        binding.tvOtBillrate.text = "-"
+                    }else{
+                        binding.tvOtMultiplier.text = jobData.billingDetails.overtimeMultiplier.toString() + "x"
+                        binding.tvOtPayrate.text = "$" + jobData.billingDetails.overtimePayRate.toString()
+                        binding.tvOtBillrate.text = "$" + jobData.billingDetails.overtimeBillRate.toString()
+                    }
+
+
+                    if(dtRule == "None"){
+                        binding.tvDtMultiplier.text = "-"
+                        binding.tvDtPayrate.text = "-"
+                        binding.tvDtBillrate.text = "-"
+                    }else{
+                        binding.tvDtMultiplier.text = jobData.billingDetails.doubletimeMultiplier.toString() + "x"
+                        binding.tvDtPayrate.text = "$" + jobData.billingDetails.doubletimePayRate.toString()
+                        binding.tvDtBillrate.text = "$" + jobData.billingDetails.doubletimeBillRate.toString()
+                    }
+
+
+//                    binding.tvDtMarkupPercentage.text = "$" + jobData.billingDetails.doubletimeMarkup.toString()
+
 
                 } else {
                     Toast.makeText(this, "no data found", Toast.LENGTH_SHORT).show()

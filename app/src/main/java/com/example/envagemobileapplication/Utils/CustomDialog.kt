@@ -68,21 +68,22 @@ class CustomDialog(context: Context, viewModel: CandidatesProfileSumViewModel) :
 
 
         binding.btnCancel.setOnClickListener {
-            Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show()
+           dismiss()
         }
 
         binding.btnSave.setOnClickListener {
-            if (descriptiontextforbackpress?.length ?: 0 > 0) {
-                dropStatusApi()
-            } else {
-                Toast.makeText(context, " Description can not be empty", Toast.LENGTH_SHORT).show()
-            }
+            dropStatusApi()
+//            if (descriptiontextforbackpress?.length ?: 0 > 0) {
+//
+//            } else {
+//                Toast.makeText(context, " Description can not be empty", Toast.LENGTH_SHORT).show()
+//            }
         }
         binding.etClientDescription!!.setOnTextChangeListener { text ->
 
             descriptiontextforbackpress = text
             if (text.contains("<")) {
-                descriptiontext = text
+                descriptiontext = "<p>" + text + "</p>"
             } else {
                 descriptiontext = "<p>" + text + "</p>"
             }

@@ -153,12 +153,13 @@ class BottomSheetSendAssessment : BottomSheetDialogFragment() {
         viewModel.LDsendAssessmentResponse?.observe(viewLifecycleOwner) { response ->
             try {
 
-
                 if (response?.data != null) {
-                    Toast.makeText(context, response.data.message.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "Assessment form sent successfully.", Toast.LENGTH_SHORT)
                         .show()
-                    (context as Activity).finish()
                     dismiss()
+
+                    viewModel.dismissCandidateKebab(true)
+
                 } else {
                     loader.hide()
                     Toast.makeText(context, "No data found", Toast.LENGTH_SHORT).show()

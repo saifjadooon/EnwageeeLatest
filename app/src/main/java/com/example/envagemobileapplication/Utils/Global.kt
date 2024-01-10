@@ -25,6 +25,7 @@ public class Global {
 
     companion object {
 
+        var isBackFromCandidateSummary: Boolean = false
         var assesmentStatus: String = ""
         var clientAssesmentFormid: Int? = 0
         var composeMessagePhoneNumber: String? = ""

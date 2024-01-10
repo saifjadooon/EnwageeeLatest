@@ -158,6 +158,16 @@ public interface ApiInterface {
     ): Call<UpdateProfileResultResponse>
 
 
+    @Multipart
+    @POST("/api/v1/Candidate/update-candidate-profile-image")
+    fun UpdateCandidateProfilepic(
+        @Header("x-access-token") authorization: String,
+        @Part("candidateGUID") candidateGUID: String,
+        @Part profileImage: MultipartBody.Part
+    ): Call<UpdateProfileResultResponse>
+
+
+
     @GET("/api/v1/ClientProfile/get-client-header-summary/{clientId}")
     fun GetClientHeaderSummary(
         @Header("x-access-token") authorization: String,

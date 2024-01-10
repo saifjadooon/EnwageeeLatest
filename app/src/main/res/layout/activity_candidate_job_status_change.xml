@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:maxLines="1"
-                        android:text="Markup Percentage Details:"
+                        android:text="Markup Percentage:"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -399,7 +399,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_cardSecond"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -460,6 +460,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:maxLines="1"
+                        android:visibility="gone"
                         android:text="Min. Pay Rate:"
                         android:textColor="@color/black"
                         android:textSize="13sp"
@@ -472,6 +473,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="$10"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@+id/lblot_min_payrate"
@@ -557,7 +559,35 @@
                         app:layout_constraintTop_toTopOf="@+id/lbl_ot_billrate" />
 
 
+<!--                    Dt Rule -->
+
+
                     <!--        Target Pay Rate  OT  -->
+
+                    <TextView
+                        android:id="@+id/lblDtRule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="DT Rule:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_markup_percentage" />
+
+
+                    <TextView
+                        android:id="@+id/tvDtRule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/lblDtRule"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lblDtRule" />
 
                     <TextView
                         android:id="@+id/lbl_dt_multiplier"
@@ -569,7 +599,7 @@
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_billrate" />
+                        app:layout_constraintTop_toBottomOf="@+id/lblDtRule" />
 
                     <TextView
                         android:id="@+id/tv_dt_multiplier"
@@ -639,6 +669,7 @@
 
 <!--                    oT_markup_percentage-->
 
+
                     <TextView
                         android:id="@+id/lbl_ot_markup_percentage"
                         android:layout_width="wrap_content"
@@ -649,16 +680,15 @@
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lbl_dt_billrate" />
-
+                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_billrate" />
 
                     <TextView
-                        android:id="@+id/tv_ot_markup_percentage"
+                        android:id="@+id/tvOtMarkupPercentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:maxLines="1"
-                        android:text="$68"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@+id/lbl_ot_markup_percentage"
@@ -678,21 +708,20 @@
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_markup_percentage" />
+                        app:layout_constraintTop_toBottomOf="@+id/lbl_dt_billrate" />
 
 
                     <TextView
                         android:id="@+id/tv_dt_markup_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
                         android:maxLines="1"
                         android:text="$65"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@+id/lbl_dt_markup_percentage"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_markup_percentage" />
+                        app:layout_constraintTop_toTopOf="@+id/lbl_dt_markup_percentage" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

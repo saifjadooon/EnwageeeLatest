@@ -146,6 +146,8 @@ class EmployeeF : Fragment() {
 
 
         binding.swipeRefreshLayoutforemp.setOnRefreshListener {
+            isfrompagginmation = false
+
             val model = SortDirectionEmployees(
                 employeeFilters = emptyList(),
                 pageIndex = 1,
@@ -221,9 +223,9 @@ class EmployeeF : Fragment() {
 
             if (it.data != null) {
 
-                if (isfrompagginmation == true && currentPage > 1) {
-                    Log.d("paginationcase", "yess")
-                    isfrompagginmation = false
+                if (isfrompagginmation == true ) {
+
+//                    isfrompagginmation = false
                     loader.hide()
                     for (i in 0 until it.data.records.size) {
                         employeeList.add(it.data.records.get(i))
@@ -233,13 +235,14 @@ class EmployeeF : Fragment() {
                     adapter.notifyDataSetChanged()
                 }
 
+                else {
 
-                if (isfrompagginmation == false && currentPage == 1) {
+
+                    employeeList.clear()
+
                     for (i in 0 until it.data.records.size) {
                         employeeList.add(it.data.records.get(i))
                     }
-
-                    Log.d("paginationcase", "1st")
 
                     try {
                         if (employeeList.size > 0) {
@@ -248,14 +251,11 @@ class EmployeeF : Fragment() {
                                 requireContext()
                             )
 
-
                         } else {
                             Toast.makeText(context, "employees not found", Toast.LENGTH_SHORT)
                                 .show()
                         }
-                    } catch (e: Exception) {
-
-                    }
+                    } catch (e: Exception) { }
                 }
 
             }

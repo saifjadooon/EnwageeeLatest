@@ -1,6 +1,7 @@
 package com.example.envagemobileapplication.Fragments.BottomSheet
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 import com.example.envagemobileapplication.Models.RequestModels.ReconsiderCandidateRequestModel
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
@@ -72,8 +74,10 @@ class BottomsheetJobCandidatesDropOptions : BottomSheetDialogFragment() {
                 if (response?.data != null) {
                     Toast.makeText(context, response.data.message.toString(), Toast.LENGTH_SHORT)
                         .show()
-                    (context as Activity).finish()
+                    val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
+                    startActivity(intent)
                     dismiss()
+                    (context as Activity).finish()
                 } else {
 
                     Toast.makeText(context, "No data found", Toast.LENGTH_SHORT).show()

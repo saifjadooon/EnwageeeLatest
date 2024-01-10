@@ -26,6 +26,7 @@ class Constants {
 
     companion object {
         var CandidateJobSelectedStatus: String? = ""
+        var CandidateJobSelectedStatusId: Int? = 0
         var descriptionText: String? = ""
         var reasonText: String? = ""
         var candidateIDNumber: Int? = 0
@@ -63,6 +64,8 @@ class Constants {
 
         var candidateInterviewdId: Int? = 0
         var candidateJobStatusList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateJobStatusRes.Datum> =
+            ArrayList()
+        var candidateAlreadyAssignedJobsList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.Datum> =
             ArrayList()
         var candidateJobHiredId: Int = 0
         var jobId: Int = 0

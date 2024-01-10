@@ -36,7 +36,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/client_description"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -55,7 +55,7 @@
         <jp.wasabeef.richeditor.RichEditor
             android:id="@+id/et_client_description"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:maxLength="500"
             android:layout_margin="5dp"

@@ -19,6 +19,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants
+import com.example.envagemobileapplication.Utils.Global
 import com.squareup.picasso.Picasso
 
 
@@ -48,6 +49,7 @@ class CandidateAdapter(
 
 
             try {
+                Global.isBackFromCandidateSummary = true
                 context.startActivity(Intent(context, CandidateProfileSummary::class.java))
             }catch (e:Exception){
                 Log.d("issuePResist",e.toString())

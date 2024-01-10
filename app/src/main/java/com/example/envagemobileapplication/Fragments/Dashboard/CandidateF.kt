@@ -50,6 +50,14 @@ class CandidateF : Fragment() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        initViews()
+        clickListeners()
+        observers()
+    }
+
     private fun observers() {
         viewModel.LDgetCandidates.observe(requireActivity()) {
             loader.hide()
@@ -113,7 +121,6 @@ class CandidateF : Fragment() {
             candidateList,
             requireContext()
         )
-
 
     }
 

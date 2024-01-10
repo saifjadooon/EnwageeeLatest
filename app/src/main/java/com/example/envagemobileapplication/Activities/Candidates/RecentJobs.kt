@@ -1,10 +1,15 @@
 package com.example.envagemobileapplication.Activities.Candidates
 
+import BaseActivity
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.envagemobileapplication.Adapters.RecentJobsAdapter
 import com.example.envagemobileapplication.Oauth.TokenManager
@@ -13,7 +18,7 @@ import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.CandidatesProfileSumViewModel
 import com.example.envagemobileapplication.databinding.ActivityRecentJobsBinding
 
-class RecentJobs : AppCompatActivity() {
+class RecentJobs : BaseActivity() {
 
     lateinit var recentJobsAdapter: RecentJobsAdapter
     lateinit var binding: ActivityRecentJobsBinding
@@ -38,15 +43,24 @@ class RecentJobs : AppCompatActivity() {
 
     private fun clickListeners() {
         binding.tvDone.setOnClickListener{
+//            Toast.makeText(baseContext, "", Toast.LENGTH_SHORT).show()
             viewModel.assignRecentJobs(
                 this,
                 token,
                 Constants.selectedJobslist
             )
+            
         }
 
         binding.btnCross.setOnClickListener{
-            finish()
+
+            if(Constants.selectedJobslist.size > 0){
+                showConfirmationDialog()
+            }else {
+                Constants.selectedJobslist.clear()
+                finish()
+            }
+
         }
 
 
@@ -59,7 +73,11 @@ class RecentJobs : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
 
                 search = newText.orEmpty()
-                if (search.length >= 3) {
+
+
+                Log.d("trimlen",search.trim().length.toString())
+
+                if (search.trim().length >= 3) {
                     searchCheck = true
                     performSearch(search)
                 } else if (search.isEmpty()) {
@@ -71,6 +89,29 @@ class RecentJobs : AppCompatActivity() {
                 return true
             }
         })
+    }
+
+    private fun showConfirmationDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("Confirmation")
+        alertDialogBuilder.setMessage("Are you sure you want to go back?")
+
+        // Set the Yes button action
+        alertDialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+            // User clicked Yes
+                Constants.selectedJobslist.clear()
+                finish()
+
+        })
+
+        // Set the No button action
+        alertDialogBuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+            dialog.dismiss()
+        })
+
+        // Create and show the dialog
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
     private fun performSearch(search: String) {
@@ -93,10 +134,10 @@ class RecentJobs : AppCompatActivity() {
             loader.hide()
             if (it.data != null) {
                 Constants.selectedJobslist.clear()
-                Toast.makeText(applicationContext, "Candidate updated successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Job added successfully", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it?.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -113,14 +154,27 @@ class RecentJobs : AppCompatActivity() {
                     (it.data?.let { arraylist.addAll(it) })
 
                     if(arraylist.size >0 ){
+                        binding.tvNoDataRecentJobs.isVisible = false
+                        binding.rvRecentJobs.isVisible = true
                         setupJobsAdapter(arraylist)
+                    }else{
+                        binding.rvRecentJobs.isVisible = false
+                        binding.tvNoDataRecentJobs.isVisible = true
                     }
                 }else{
 
                     var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetRecentJobsRes.Datum> = ArrayList()
                     arraylist.clear()
                     (it.data?.let { arraylist.addAll(it) })
-                    setupJobsAdapter(arraylist)
+
+                    if(arraylist.size >0 ){
+                        binding.tvNoDataRecentJobs.isVisible = false
+                        binding.rvRecentJobs.isVisible = true
+                        setupJobsAdapter(arraylist)
+                    }else{
+                        binding.rvRecentJobs.isVisible = false
+                        binding.tvNoDataRecentJobs.isVisible = true
+                    }
 
                 }
 

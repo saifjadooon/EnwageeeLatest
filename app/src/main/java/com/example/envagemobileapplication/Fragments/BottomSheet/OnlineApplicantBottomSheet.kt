@@ -341,7 +341,7 @@ class OnlineApplicantBottomSheet : BottomSheetDialogFragment() {
                     global.onlineApplicantDetails!!.records.get(position).extraDocument
                 val encodedFileName = URLEncoder.encode(extraDocument.toString(), "UTF-8")
                 val fileUrl =
-                    "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename= $encodedFileName"
+                    "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=$encodedFileName"
 
                 Log.i("fileurllatest", fileUrl)
                 /*  val fileUrl =
@@ -390,46 +390,52 @@ class OnlineApplicantBottomSheet : BottomSheetDialogFragment() {
 
 
     fun downloadFile(context: Context, fileUrl: String) {
-        // Extract the file name from the file URL
-        var fileName = Uri.parse(fileUrl).lastPathSegment ?: "file"
+        try {
 
-        // Ensure that the fileName contains the correct file extension
-        if (!fileName.contains(".")) {
-            fileName += ".pdf"  // Adjust this based on the file type
-        }
+            // Extract the file name from the file URL
+            var fileName = Uri.parse(fileUrl).lastPathSegment ?: "file"
 
-        // Append a timestamp to make the filename unique
-        val uniqueFileName = "${fileName}_${System.currentTimeMillis()}"
+            var uniqueFileName = "${fileName}_${System.currentTimeMillis()}"
 
-        // Create a request for the DownloadManager
-        val request = DownloadManager.Request(Uri.parse(fileUrl))
-            .setTitle(uniqueFileName)
-            .setDescription("Downloading file")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uniqueFileName)
-
-        // Get the DownloadManager service
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        // Enqueue the download request
-        val downloadId = manager.enqueue(request)
-
-        // Optionally, you can listen for download completion
-        // and then handle the downloaded file accordingly
-        // (e.g., open the file using the appropriate viewer)
-        // Uncomment the following lines if you want to listen for completion
-
-        val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val downloadedId = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                if (downloadedId == downloadId) {
-                    // Handle the downloaded file here
-                    handleDownloadedFile(context, uniqueFileName)
+            Log.i("uniquefilename", uniqueFileName)
+            if (!uniqueFileName.contains(".")) {
+                if (fileUrl.contains(".pdf")){
+                    uniqueFileName += ".pdf"
+                }else if (fileUrl.contains(".docx")){
+                    uniqueFileName += ".docx"
+                }
+                else {
+                    uniqueFileName += ".docx"
                 }
             }
+
+            // Create a request for the DownloadManager
+            val request = DownloadManager.Request(Uri.parse(fileUrl))
+                .setTitle(uniqueFileName)
+                .setDescription("Downloading file")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uniqueFileName)
+
+            val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+            val downloadId = manager.enqueue(request)
+
+            /*  val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+              val receiver = object : BroadcastReceiver() {
+                  override fun onReceive(context: Context?, intent: Intent?) {
+                      val downloadedId = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                      if (downloadedId == downloadId) {
+                          // Handle the downloaded file here
+                       //   handleDownloadedFile(context, uniqueFileName)
+                      }
+                  }
+              }
+              context.registerReceiver(receiver, filter)*/
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Handle any exceptions or log messages
+            // ...
         }
-        context.registerReceiver(receiver, filter)
     }
 
     private fun handleDownloadedFile(context: Context?, fileName: String) {

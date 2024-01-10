@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.envagemobileapplication.Activities.Jobs.JobSummary.ComposeMessage.ComposeMessageActivity
 import com.example.envagemobileapplication.Activities.Jobs.JobSummary.SendOfferLetter.SendOfferLetterActivity
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.ViewModels.JobSummaryViewModel
 import com.example.envagemobileapplication.databinding.BsheetJobCandidateKebabMenuBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -18,7 +21,7 @@ class BottomsheetJobCandidatesKebabMenu : BottomSheetDialogFragment() {
     var global = com.example.envagemobileapplication.Utils.Global
     lateinit var binding: BsheetJobCandidateKebabMenuBinding
     var bottomSheetSendAssessmentF: BottomSheetSendAssessment = BottomSheetSendAssessment()
-
+    val viewModel: JobSummaryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,11 @@ class BottomsheetJobCandidatesKebabMenu : BottomSheetDialogFragment() {
     ): View? {
 
         binding = BsheetJobCandidateKebabMenuBinding.inflate(inflater, container, false)
+
+//        viewModel.LDdissmissKebabMenu.observe(this) {
+//            Toast.makeText(context, "LDdissmissKebabMenu called", Toast.LENGTH_SHORT).show()
+//            dismiss()
+//        }
 
         if (global.showofferLetter) {
             binding.sendOfferLetter.visibility = View.VISIBLE

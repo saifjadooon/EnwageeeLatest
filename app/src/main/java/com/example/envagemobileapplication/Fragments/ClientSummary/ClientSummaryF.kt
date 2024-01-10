@@ -600,7 +600,7 @@ class ClientSummaryF : Fragment() {
                                     var filename =
                                         response.body()?.data?.clientInfo?.description.toString()
                                     var baseurlnew =
-                                        "https://devgateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
+                                        "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
 
                                     try {
 

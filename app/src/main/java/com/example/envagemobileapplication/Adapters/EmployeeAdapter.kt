@@ -2,6 +2,7 @@ package com.example.envagemobileapplication.Adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.R
@@ -37,23 +39,23 @@ class EmployeeAdapter(
         try {
 
             holder.tv_emp_name.setOnLongClickListener {
-                Toast.makeText(context, dataList.get(position).firstName +" "+dataList.get(position).lastName , Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, dataList.get(position)?.firstName +" "+dataList.get(position)?.lastName , Toast.LENGTH_SHORT).show()
                 true
             }
 
             holder.tv_emp_email.setOnLongClickListener {
-                if(dataList.get(position).email.length >0){
-                    Toast.makeText(context, dataList.get(position).email , Toast.LENGTH_SHORT).show()
-                }else{
-                    Toast.makeText(context, "Not Provided", Toast.LENGTH_SHORT).show()
-                }
+//                if(dataList.get(position)?.email.toString().length >0){
+                    Toast.makeText(context, dataList.get(position)?.email.toString() , Toast.LENGTH_SHORT).show()
+//                }else{
+//                    Toast.makeText(context, "Not Provided", Toast.LENGTH_SHORT).show()
+//                }
 
                 true
             }
 
             holder.tv_emp_address1.setOnLongClickListener {
-                if(dataList.get(position).addressLine1.length >0){
-                    Toast.makeText(context, dataList.get(position).addressLine1+" "+dataList.get(position).addressLine2 , Toast.LENGTH_SHORT).show()
+                if(dataList.get(position)?.addressLine1.toString().length >0){
+                    Toast.makeText(context, dataList.get(position)?.addressLine1+" "+dataList.get(position)?.addressLine2 , Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(context, "Not Provided", Toast.LENGTH_SHORT).show()
                 }
@@ -62,8 +64,8 @@ class EmployeeAdapter(
             }
 
             holder.tv_emp_address.setOnLongClickListener {
-                if(dataList.get(position).country.toString().length >0){
-                    Toast.makeText(context, dataList.get(position).country.toString() , Toast.LENGTH_SHORT).show()
+                if(dataList.get(position)?.country.toString().length >0){
+                    Toast.makeText(context, dataList.get(position)?.country.toString() , Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(context, "Not Provided", Toast.LENGTH_SHORT).show()
                 }
@@ -88,7 +90,7 @@ class EmployeeAdapter(
             }
 
             if(dataList.get(position).addressLine1!= ""  && dataList.get(position).addressLine2!= ""  ){
-                holder.tv_emp_address1.text = dataList.get(position).addressLine1 +" "+ dataList.get(position).addressLine2
+                holder.tv_emp_address1.text = dataList.get(position).addressLine1 +" , "+ dataList.get(position).addressLine2
             } else if(dataList.get(position).addressLine1 != "" && dataList.get(position).addressLine2 == "" ){
                 holder.tv_emp_address1.text = dataList.get(position).addressLine1
             }else if(dataList.get(position).addressLine1 == "" && dataList.get(position).addressLine2 != "" ) {
@@ -105,31 +107,55 @@ class EmployeeAdapter(
                 if(dataList.get(position).gender.equals("Male")){
                     val maleIcon = R.drawable.ic_male
                     holder.iv_gender.setImageResource(maleIcon)
-                }else{
-
+                } else if(dataList.get(position).gender.equals("Female")){
                     val femaleIcon = R.drawable.ic_female
                     holder.iv_gender.setImageResource(femaleIcon)
+                }else{
+                    holder.iv_gender.isVisible = false
                 }
 
             }
 
-            if (!
-                dataList.get(position).profileImage.isNullOrEmpty()
-            ) {
+            var profileImageLink = dataList.get(position).profileImage
 
-                Picasso.get().load(dataList.get(position).profileImage)
+
+            if (profileImageLink != "") {
+                Picasso.get().load(profileImageLink)
                     .placeholder(R.drawable.upload_pic_bg)
-                    .transform(CircleTransformation()).into(holder.emp_profile_pic)
-
+                    .transform(CircleTransformation()).into(holder.emp_profile_pic);
+            } else {
+                Picasso.get().load(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.emp_profile_pic);
             }
+
+
+
+//            if (!
+//                dataList.get(position).profileImage.isNullOrEmpty()
+//            ) {
+//
+//
+//
+//                Log.d("profileImageLink","the link at posisition "+dataList.get(position).toString()+"is =>"+profileImageLink)
+//
+//
+//                Picasso.get().load(profileImageLink)
+//                    .placeholder(R.drawable.upload_pic_bg)
+//                    .transform(CircleTransformation()).into(holder.emp_profile_pic)
+//            }else{
+//                Log.d("profileImageLink1","no data at "+dataList.get(position).toString()+"is =>"+profileImageLink)
+//            }
 
 
         }catch (e:Exception){
             Log.d("employeeException",e.toString())
         }
 
+    }
 
-
+    override fun getItemId(position: Int): Long {
+        // Return a unique identifier for each item
+        return position.toLong()
     }
 
 
@@ -145,7 +171,7 @@ class EmployeeAdapter(
         var tv_emp_address: TextView = itemView.findViewById(R.id.tv_emp_address)
         var tv_emp_address1: TextView = itemView.findViewById(R.id.tv_emp_address1)
         var emp_profile_pic: ImageView = itemView.findViewById(R.id.emp_profile_pic)
-          var iv_gender: ImageView = itemView.findViewById(R.id.iv_gender)
+        var iv_gender: ImageView = itemView.findViewById(R.id.iv_gender)
 
 
     }

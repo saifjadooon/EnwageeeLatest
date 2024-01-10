@@ -639,6 +639,7 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
                     binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.white))
@@ -651,6 +652,9 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.cvCandidate.setBackgroundResource(R.drawable.btn_black_radius)
+
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
                     val model = SortDirectionCandidates(
                         candidateFilters = emptyList(),
@@ -675,9 +679,13 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
                     binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
@@ -716,6 +724,7 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
@@ -723,7 +732,8 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
 
-
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
                     binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
@@ -760,12 +770,16 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
 
                     binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
 
                     binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
@@ -1052,6 +1066,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.leftDrawerMenu.cvEmployee.setOnClickListener {
+
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
@@ -1366,6 +1381,27 @@ class MainActivity : BaseActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
+
+
+        if(global.isBackFromCandidateSummary){
+            global.isBackFromCandidateSummary = false
+            val model = SortDirectionCandidates(
+                candidateFilters = emptyList(),
+                pageIndex = 1,
+                pageSize = 25,
+                searchText = "",
+                sortBy = "CreatedDate",
+                sortDirection = 1,
+                tileStatusId = -1
+            )
+
+            loader.show()
+            viewModel.getCandidates(
+                this,
+                tokenManager.getAccessToken(),
+                model
+            )
+        }
 
 /*
 

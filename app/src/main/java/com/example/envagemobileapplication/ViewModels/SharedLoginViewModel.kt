@@ -170,8 +170,8 @@ class SharedLoginViewModel : ViewModel() {
                             val tokenResponse = response.body()
                             val accessToken = tokenResponse?.accessToken
                             val refreshToken = tokenResponse?.refreshToken
-                            var username = username
-                            var password = password
+//                            var username = username
+//                            var password = password
                             Constants.token = accessToken
                             tokenManager.saveAccessToken(accessToken.toString())
                             tokenManager.saveRefreshToken(refreshToken.toString())

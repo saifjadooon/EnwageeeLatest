@@ -340,7 +340,7 @@ class JobSummaryCandidateDropCandidateF : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             isfromswipeRefresh = true
-            val model = SortDirectionCandidateCandidate(
+            val model = SortDirectionCandidateDropCandidate(
                 candidateFilters = emptyList(),
                 jobGUID = Global.jobGuid!!,
                 pageIndex = 1,
@@ -351,7 +351,7 @@ class JobSummaryCandidateDropCandidateF : Fragment() {
                 tileStatusID = -1
             )
             loader.show()
-            viewModel.getJobCandidates(requireActivity(), token, model)
+            viewModel.getJobDroppedCandidates(requireActivity(), token, model)
 
 
             viewModel.getCandidateStausKeyPipeline(

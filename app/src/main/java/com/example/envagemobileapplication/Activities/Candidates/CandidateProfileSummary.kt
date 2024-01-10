@@ -1,7 +1,9 @@
 package com.example.envagemobileapplication.Activities.Candidates
 
 import BaseActivity
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -139,6 +141,14 @@ class CandidateProfileSummary : BaseActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            val fragment =  supportFragmentManager.findFragmentById(R.id.candidate_host_fragment)
+            fragment?.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
@@ -180,5 +190,6 @@ class CandidateProfileSummary : BaseActivity() {
         alertDialog.show()
 
     }
+
 
 }

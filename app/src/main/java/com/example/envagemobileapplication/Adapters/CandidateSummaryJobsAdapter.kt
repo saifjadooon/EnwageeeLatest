@@ -58,6 +58,7 @@ class CandidateSummaryJobsAdapter(
         holder.job_item.setOnClickListener{
             Constants.jobId = dataList.get(position).jobId
             Constants.CandidateJobSelectedStatus = dataList.get(position).status
+            Constants.CandidateJobSelectedStatusId = dataList.get(position).statusId
             val intent = Intent(context, CandidateJobStatusChange::class.java)
             context.startActivity(intent)
         }

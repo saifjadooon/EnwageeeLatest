@@ -59,8 +59,8 @@ class JobsSummaryFragment : Fragment() {
         initviews()
         observers()
         networkCalls()
+
         binding.ivShowmore.setOnClickListener {
-            isExpanded = !isExpanded
             isExpanded = !isExpanded
             updateRecyclerViewHeight()
         }
@@ -521,6 +521,8 @@ class JobsSummaryFragment : Fragment() {
         }
     }
 
+
+
     private fun updateRecyclerViewHeight() {
         val newHeight = if (isExpanded) {
 
@@ -536,19 +538,6 @@ class JobsSummaryFragment : Fragment() {
         binding.rvBillingInformation.layoutParams.height = newHeight
         binding.rvBillingInformation.requestLayout()
     }
-/*
-    fun formatDate(inputDate: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-        val outputFormat = SimpleDateFormat("MM-dd-yyyy")
-
-        try {
-            val date = inputFormat.parse(inputDate)
-            return outputFormat.format(date)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return "" // Handle parsing error here
-        }
-    }*/
 
     fun formatDate(inputDate: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
@@ -565,7 +554,7 @@ class JobsSummaryFragment : Fragment() {
 
     fun loadJobDescriptionContent(url: String) {
 
-        //val htmlTextView = HtmlTextView(requireContext())
+
         Thread {
             try {
                 val urlConnection = URL(url).openConnection() as HttpURLConnection

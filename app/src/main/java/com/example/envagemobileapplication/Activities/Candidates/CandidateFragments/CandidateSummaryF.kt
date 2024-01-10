@@ -17,6 +17,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
@@ -44,6 +45,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.CandidateSummaryExperienceRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.CandidateJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.CandidateSummarySkillsRes
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateProfileResultResponse.UpdateProfileResultResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
@@ -55,7 +57,9 @@ import com.ezshifa.aihealthcare.network.ApiUtils
 import com.squareup.picasso.BuildConfig
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
-
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 
 import retrofit2.Call
@@ -76,6 +80,7 @@ class CandidateSummaryF : Fragment() {
 
     lateinit var longEmail:String
     lateinit var longAddress:String
+    lateinit var bodyofpf: MultipartBody.Part
 
     val viewModel: CandidatesProfileSumViewModel by activityViewModels()
 
@@ -517,6 +522,8 @@ class CandidateSummaryF : Fragment() {
                             var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.Datum> = ArrayList()
                             response?.body()?.data?.let { arraylist.addAll(it) }
 
+                            Constants.candidateAlreadyAssignedJobsList = arraylist
+
                             if(arraylist.size >0){
                                 binding.tvNoJobs.visibility = View.GONE
                                 setupJobsAdapter(arraylist)
@@ -568,6 +575,9 @@ class CandidateSummaryF : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        Toast.makeText(context, "it is called", Toast.LENGTH_SHORT).show()
+
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
@@ -597,23 +607,24 @@ class CandidateSummaryF : Fragment() {
                             .placeholder(R.drawable.upload_pic_bg)
                             .transform(CircleTransformation()).into(binding.ivCandidateProfile)
 
-//                        Picasso.get().load(selectedImageUri).into(binding.ivCandidateProfile)
-//                        val requestBody =
-//                            imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-//                        bodyofpf =
-//                            MultipartBody.Part.createFormData(
-//                                "profileImage",
-//                                imageFile.name,
-//                                requestBody
-//                            )
-//
-//                        UpdateProfilePic(bodyofpf)
-                    }
+                        Picasso.get().load(selectedImageUri).into(binding.ivCandidateProfile)
+                        val requestBody =
+                            imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                        bodyofpf =
+                            MultipartBody.Part.createFormData(
+                                "profileImage",
+                                imageFile.name,
+                                requestBody
+                            )
 
+                        UpdateProfilePic(bodyofpf)
+                    }
 
                 }
 
                 CAMERA_REQUEST_CODE -> {
+
+                    Toast.makeText(context, "its clicked", Toast.LENGTH_SHORT).show()
 
                     val uri = Uri.parse(currentPhotoPath)
                     CropImage.activity(uri)
@@ -625,15 +636,15 @@ class CandidateSummaryF : Fragment() {
                     imagefilforapi = imageFile!!
                     Picasso.get().load(uri).into(binding.ivCandidateProfile)
                     binding.cvCameragallery.visibility = View.GONE
-//                    val requestBody =
-//                        imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-//                    bodyofpf =
-//                        MultipartBody.Part.createFormData(
-//                            "profileImage",
-//                            imageFile.name,
-//                            requestBody
-//
-//                    UpdateProfilePic(bodyofpf)
+                    val requestBody =
+                        imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    bodyofpf =
+                        MultipartBody.Part.createFormData(
+                            "profileImage",
+                            imageFile.name,
+                            requestBody)
+
+                    UpdateProfilePic(bodyofpf)
 
                 }
 
@@ -653,35 +664,29 @@ class CandidateSummaryF : Fragment() {
 
                         val imagePath = File(file)
 
-
                         imagefilforapi = imagePath
                         binding.cvCameragallery.visibility = View.GONE
 
-//                        val requestBody =
-//                            imagefilforapi
-//                                .asRequestBody("multipart/form-data".toMediaTypeOrNull())
-//                        bodyofpf =
-//                            MultipartBody.Part.createFormData(
-//                                "profileImage",
-//                                imagefilforapi.name,
-//                                requestBody
-//                            )
+                        val requestBody =
+                            imagefilforapi
+                                .asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                        bodyofpf =
+                            MultipartBody.Part.createFormData(
+                                "profileImage",
+                                imagefilforapi.name,
+                                requestBody
+                            )
 
-
-//                        val delayMillis = 3000L // Delay between transitions in milliseconds
-//                        val handler = Handler()
-//                        handler.postDelayed({
-//                            UpdateProfilePic(bodyofpf)
-//                        }, delayMillis)
-
+                        val delayMillis = 3000L // Delay between transitions in milliseconds
+                        val handler = Handler()
+                        handler.postDelayed({
+                            UpdateProfilePic(bodyofpf)
+                        }, delayMillis)
 
                     } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                         result.error.printStackTrace()
                     }
-
                 }
-
-
             }
         }
     }
@@ -773,6 +778,7 @@ class CandidateSummaryF : Fragment() {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             try {
+
                 val uri = Uri.parse(currentPhotoPath)
                 val resultUri = uri
                 val file = resultUri.path
@@ -805,15 +811,15 @@ class CandidateSummaryF : Fragment() {
 
                     imagefilforapi = tempImageFile
 
-//                    val requestBody =
-//                        imagefilforapi.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-//                    bodyofpf = MultipartBody.Part.createFormData(
-//                        "profileImage",
-//                        imagefilforapi.name,
-//                        requestBody
-//                    )
-//
-//                    UpdateProfilePic(bodyofpf)
+                    val requestBody =
+                        imagefilforapi.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    bodyofpf = MultipartBody.Part.createFormData(
+                        "profileImage",
+                        imagefilforapi.name,
+                        requestBody
+                    )
+
+                    UpdateProfilePic(bodyofpf)
 
                 } else {
                     Toast.makeText(
@@ -821,8 +827,7 @@ class CandidateSummaryF : Fragment() {
                         "Please upload an image in defined limit (5 MB).",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // The image size exceeds 3MB, handle this as per your requirements (e.g., show an error message)
-                    // You can add a Toast or Snackbar to inform the user about the size limit.
+
                 }
             } catch (e: Exception) {
                 // Handle any exceptions that may occur
@@ -830,6 +835,62 @@ class CandidateSummaryF : Fragment() {
         }
     }
 
+    private fun UpdateProfilePic(bodyofpf: MultipartBody.Part) {
+        loader.show()
+
+        if (imagefilforapi != null) {
+            var tokenmanager: TokenManager = TokenManager(requireContext())
+            var token = tokenmanager.getAccessToken()
+            var candidateId = Constants.candidateId
+
+            try {
+
+
+                ApiUtils.getAPIService(requireContext()).UpdateCandidateProfilepic(
+                    token.toString(), candidateId!!, bodyofpf
+                )
+                    .enqueue(object : Callback<UpdateProfileResultResponse> {
+                        override fun onResponse(
+                            call: Call<UpdateProfileResultResponse>,
+                            response: Response<UpdateProfileResultResponse>
+                        ) {
+                            if (response.body() != null) {
+
+                                loader.hide()
+                                getCandidateHeaderSummary()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Profile Image updated successfully",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<UpdateProfileResultResponse>,
+                            t: Throwable
+                        ) {
+                            loader.hide()
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                loader.hide()
+                Toast.makeText(requireContext(), ex.toString(), Toast.LENGTH_LONG).show()
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        } else {
+            loader.hide()
+            Toast.makeText(requireContext(), "imageofpf is null", Toast.LENGTH_LONG).show()
+        }
+        /*   var name = "testtttxffdsfdsfdsfdsffdst"
+           var websiteurl = "www.url.com"
+           var description = stringToBinary("testing userrr")*/
+
+
+    }
     private fun getImageFile(): File {
         val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
         val storageDir: File = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {

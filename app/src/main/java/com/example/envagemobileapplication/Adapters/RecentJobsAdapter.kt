@@ -17,7 +17,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.envagemobileapplication.Models.RequestModels.AssignJobRequestModel
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants
+import com.squareup.picasso.Picasso
 
 class RecentJobsAdapter(
     private val context: Context,
@@ -27,115 +29,159 @@ class RecentJobsAdapter(
     RecyclerView.Adapter<RecentJobsAdapter.MyViewHolder>() {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_candidatesummary_recent_job, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_candidatesummary_recent_job, parent, false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        onlineList.getOrNull(position)?.let { currentItem ->
 
-        holder.tvJobName.setOnLongClickListener {
-            onlineList.getOrNull(position)?.let {
-                if (!it.positionName.isNullOrBlank()) {
-                    Toast.makeText(context, it.positionName, Toast.LENGTH_SHORT).show()
+
+            val alreadyExistsJobList = Constants.candidateAlreadyAssignedJobsList
+            val existedJobIds = alreadyExistsJobList.map { it.jobId }.toTypedArray()
+
+        holder.cb_job_item.isChecked = existedJobIds.contains(currentItem.jobId)
+        holder.cb_job_item.isEnabled = !existedJobIds.contains(currentItem.jobId)
+
+            holder.tvJobName.setOnLongClickListener {
+                onlineList.getOrNull(position)?.let {
+                    if (!it.positionName.isNullOrBlank()) {
+                        Toast.makeText(context, it.positionName, Toast.LENGTH_SHORT).show()
+                    }
                 }
+                true
             }
-            true
-        }
 
-        holder.tvJobLocation.setOnLongClickListener {
-            onlineList.getOrNull(position)?.let {
-                if (!it.location.isNullOrBlank()) {
-                    Toast.makeText(context, it.location.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-            true
-        }
-
-        holder.cb_job_item.setOnCheckedChangeListener { _, isChecked ->
-            onlineList.getOrNull(position)?.let { currentItem ->
-
-                if (isChecked) {
-                    // If CheckBox is checked, add the item to the selected list
-                    Constants.selectedJobslist.add(
-                        AssignJobRequestModel(
-                            0,
-                            currentItem.companyId,
-                            0,
-                            currentItem.jobId,
-                            currentItem.positionName.orEmpty(),
-                            currentItem.jobStatusId,
-                            currentItem.jobStatus.orEmpty(),
-                            currentItem.colorCode.orEmpty(),
-                            currentItem.clientId,
-                            currentItem.clientProfilePicture.orEmpty(),
-                            currentItem.clientName.orEmpty(),
-                            currentItem.jobType.orEmpty(),
-                            currentItem.country.orEmpty(),
-                            null,
-                            null,
-                            null,
-                            null,
-                            currentItem.jobNature.orEmpty(),
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            currentItem.isDeleted,
-                            currentItem.offerSent,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            currentItem.jobGuid.orEmpty(),
-                            Constants.candidateId.toString(),
-                            true
+            holder.tvJobType.setOnLongClickListener {
+                onlineList.getOrNull(position)?.let {
+                    if (!it.jobType.isNullOrBlank()) {
+                        Toast.makeText(
+                            context,
+                            it.jobType + " " + it.jobNature,
+                            Toast.LENGTH_SHORT
                         )
-                    )
-                } else {
-                    // If CheckBox is unchecked, remove the item from the selected list
-                    Constants.selectedJobslist.removeIf { it.jobId == currentItem.jobId }
+                            .show()
+                    }
                 }
+                true
+            }
 
-                // Do something with the updated selectedList...
+            holder.tvJobLocation.setOnLongClickListener {
+                onlineList.getOrNull(position)?.let {
+                    if (!it.location.isNullOrBlank()) {
+                        Toast.makeText(context, it.location.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                true
+            }
 
+            holder.cb_job_item.setOnCheckedChangeListener { _, isChecked ->
+                onlineList.getOrNull(position)?.let { currentItem ->
+
+                    if (isChecked) {
+                        // If CheckBox is checked, add the item to the selected list
+                        Constants.selectedJobslist.add(
+                            AssignJobRequestModel(
+                                0,
+                                currentItem.companyId,
+                                0,
+                                currentItem.jobId,
+                                currentItem.positionName.orEmpty(),
+                                currentItem.jobStatusId,
+                                currentItem.jobStatus.orEmpty(),
+                                currentItem.colorCode.orEmpty(),
+                                currentItem.clientId,
+                                currentItem.clientProfilePicture.orEmpty(),
+                                currentItem.clientName.orEmpty(),
+                                currentItem.jobType.orEmpty(),
+                                currentItem.country.orEmpty(),
+                                null,
+                                null,
+                                null,
+                                null,
+                                currentItem.jobNature.orEmpty(),
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                currentItem.isDeleted,
+                                currentItem.offerSent,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                currentItem.jobGuid.orEmpty(),
+                                Constants.candidateId.toString(),
+                                true
+                            )
+                        )
+                    } else {
+                        // If CheckBox is unchecked, remove the item from the selected list
+                        Constants.selectedJobslist.removeIf { it.jobId == currentItem.jobId }
+                    }
+
+                    // Do something with the updated selectedList...
+
+                }
             }
         }
 
-        try {
-            onlineList.getOrNull(position)?.let { currentItem ->
-                holder.tvJobName.text = currentItem.positionName ?: "Not Provided"
 
-                holder.tvJobType.text =
-                    "${currentItem.clientName.orEmpty()} - ${currentItem.jobType.orEmpty()}"
+                try {
+                    onlineList.getOrNull(position)?.let { currentItem ->
+                        holder.tvJobName.text = currentItem.positionName ?: "Not Provided"
 
-                holder.tvJobStatus.text = currentItem.status ?: "Not Provided"
+                        holder.tvJobType.text =
+                            "${currentItem.jobType.orEmpty()} - ${currentItem.jobNature.orEmpty()}"
 
-                holder.tvJobLocation.text =
-                    "${currentItem.location.orEmpty()}, ${currentItem.country.orEmpty()}"
+                        holder.tvJobStatus.text = currentItem.jobStatus ?: "Not Provided"
 
-                if (currentItem.clientProfilePicture.isNotBlank()) {
-                    Glide.with(context)
-                        .load(currentItem.clientProfilePicture)
-                        .circleCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(holder.ivCandidateJobProfile)
+
+//                holder.tvJobLocation.text = "${currentItem.location.orEmpty()}, ${currentItem.country.orEmpty()}"
+
+                        if (currentItem.location == "") {
+                            currentItem.location = null
+                        }
+
+                        if (currentItem.country == "") {
+                            currentItem.country = null
+                        }
+
+                        if (currentItem.location != null && currentItem.country != null) {
+                            holder.tvJobLocation.text =
+                                currentItem.location + ", " + currentItem.country
+                        } else if (currentItem.location != null && currentItem.country == null) {
+                            holder.tvJobLocation.text = currentItem.location
+                        } else if (currentItem.location == null && currentItem.country != null) {
+                            holder.tvJobLocation.text = currentItem.country
+                        } else {
+                            holder.tvJobLocation.text = "Not Provided"
+                        }
+
+                        if (currentItem.clientProfilePicture.isNotBlank()) {
+                            Picasso.get().load(currentItem.clientProfilePicture)
+                                .placeholder(R.drawable.upload_pic_bg)
+                                .transform(CircleTransformation())
+                                .into(holder.ivCandidateJobProfile)
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.d("CandidateJobsExce", e.toString())
                 }
             }
-        } catch (e: Exception) {
-            Log.d("CandidateJobsExce", e.toString())
-        }
-    }
+
 
     override fun getItemCount(): Int {
         return onlineList.size
