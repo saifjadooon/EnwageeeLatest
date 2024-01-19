@@ -11,11 +11,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.envagemobileapplication.Activities.MainActivity
-import com.example.envagemobileapplication.Fragments.ClientSummary.ClientSummaryF
-import com.example.envagemobileapplication.Fragments.ClientSummary.ClientSummaryJobsF
-import com.example.envagemobileapplication.Fragments.Dashboard.ClientsF
-import com.example.envagemobileapplication.Fragments.Dashboard.JobsF
+import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
+import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryF
+import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryJobsF
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.ClientsF
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.JobsF
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidates
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionEmployees
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobs

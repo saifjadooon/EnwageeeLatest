@@ -24,6 +24,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HiredDetailsActivity : BaseActivity() {
+    var selectedFragmentTag: String? = null
+    var isFragmentAdded = false
+    var selectedFragment: Fragment? = null
     var global = com.example.envagemobileapplication.Utils.Global
     private var selectedItem: View? = null
     lateinit var binding: ActivityHiredDetailsBinding
@@ -176,7 +179,7 @@ class HiredDetailsActivity : BaseActivity() {
 
             textView.text = itemText
 
-            itemView.setOnClickListener(object : View.OnClickListener {
+           /* itemView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View) {
                     // Reset the background of the previously selected item
                     selectedItem?.setBackgroundResource(R.drawable.btn_white_radius)
@@ -198,13 +201,46 @@ class HiredDetailsActivity : BaseActivity() {
                         replaceFragment(CandidateSalaryDetails())
                     }
                 }
+            })*/
+
+
+            itemView.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    // Reset the background of the previously selected item
+                    selectedItem?.setBackgroundResource(R.drawable.btn_white_radius)
+                    itemView.setBackgroundResource(R.drawable.ic_bg_underline)
+                    selectedItem = itemView
+
+                    val clickedText = itemText
+                    val left = itemView.left
+                    binding.horizontalScrollView.scrollTo(left, 0)
+                    itemView.requestFocus()
+
+                    if (selectedFragmentTag == null) {
+                        // First time, replace the fragment
+                        if (clickedText == "Job Salary Detail") {
+                            replaceFragment(JobSalaryDetails(), "JobSalaryDetails")
+                        } else if (clickedText == "Salary Details") {
+                            replaceFragment(CandidateSalaryDetails(), "CandidateSalaryDetails")
+                        }
+                    } else {
+                        // Subsequent times, show/hide the fragments
+                        if (clickedText == "Job Salary Detail") {
+                            showFragment("JobSalaryDetails")
+                            hideFragment("CandidateSalaryDetails")
+                        } else if (clickedText == "Salary Details") {
+                            showFragment("CandidateSalaryDetails")
+                            hideFragment("JobSalaryDetails")
+                        }
+                    }
+                }
             })
 
             binding.linearlist.addView(itemView)
         }
     }
 
-    fun replaceFragment(fragment: Fragment) {
+   /* fun replaceFragment(fragment: Fragment) {
         try {
             val fragmentManager: FragmentManager = supportFragmentManager
             val transaction: FragmentTransaction = fragmentManager.beginTransaction()
@@ -214,5 +250,34 @@ class HiredDetailsActivity : BaseActivity() {
         } catch (e: Exception) {
         }
 
+    }*/
+
+    private fun replaceFragment(fragment: Fragment, tag: String) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_hired_summary, fragment, tag)
+        transaction.addToBackStack(null)
+        transaction.commit()
+        selectedFragmentTag = tag
+    }
+
+    private fun showFragment(tag: String) {
+        val fragmentToShow = supportFragmentManager.findFragmentByTag(tag)
+        if (fragmentToShow != null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.show(fragmentToShow)
+            transaction.addToBackStack(null)
+            transaction.commit()
+            selectedFragmentTag = tag
+        }
+    }
+
+    private fun hideFragment(tag: String) {
+        val fragmentToHide = supportFragmentManager.findFragmentByTag(tag)
+        if (fragmentToHide != null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.hide(fragmentToHide)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 }

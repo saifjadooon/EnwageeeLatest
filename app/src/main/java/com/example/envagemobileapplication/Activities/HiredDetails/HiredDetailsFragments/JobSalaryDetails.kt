@@ -36,15 +36,11 @@ class JobSalaryDetails : Fragment() {
             networkCalls()
         }
 
-
         return binding.root
-
     }
 
     private fun networkCalls() {
         getjobCandidates()
-
-
     }
 
     private fun getjobbyJobId() {
@@ -63,71 +59,86 @@ class JobSalaryDetails : Fragment() {
                         if (response.body() != null) {
                             global.getjobbyjoid = response.body()!!
 
-
                             if (response.body()!!.data.billingDetails.markup != null) {
-                                binding.tvMarkupPercentage.setText(response.body()!!.data.billingDetails.markup.toString())
+                                try {
+                                    binding.tvMarkupPercentage.setText(response.body()!!.data.billingDetails.markup.toString())
+                                } catch (e: Exception) {
+
+                                }
+
                             } else {
-                                binding.tvMarkupPercentage.setText("Not Provided")
+                                binding.tvMarkupPercentage.setText("-")
                             }
                             if (response.body()!!.data.billingDetails.minPayRate != null) {
-                                binding.tvMinPayRate.setText(response.body()!!.data.billingDetails.minPayRate.toString())
-                                binding.tvOTDTMinpayRate.setText(response.body()!!.data.billingDetails.minPayRate.toString())
-                            } else {
+                                binding.tvMinPayRate.setText(
+                                    response.body()!!.data.billingDetails.minPayRate.toFloat()
+                                        .toString()
+                                )
 
-                                binding.tvOTDTMinpayRate.setText("Not Provided")
-                                binding.tvMinPayRate.setText("Not Provided")
+                            } else {
+                                binding.tvMinPayRate.setText("-")
+                            }
+
+                            if (response.body()!!.data.billingDetails.overtimePayRate != null) {
+                                binding.tvOTDTMinpayRate.setText(response.body()!!.data.billingDetails.overtimePayRate.toString())
+                            } else {
+                                binding.tvOTDTMinpayRate.setText("-")
                             }
                             if (response.body()!!.data.billingDetails.minBillRate != null) {
                                 binding.tvMinBillRate.setText(response.body()!!.data.billingDetails.minBillRate.toString())
                             } else {
-                                binding.tvMinBillRate.setText("Not Provided")
+                                binding.tvMinBillRate.setText("-")
                             }
                             if (response.body()!!.data.billingDetails.maxPayRate != null) {
                                 binding.tvMaxPayRate.setText(response.body()!!.data.billingDetails.maxPayRate.toString())
                             } else {
-                                binding.tvMaxPayRate.setText("Not Provided")
+                                binding.tvMaxPayRate.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.maxBillRate != null) {
                                 binding.tvMaxBillRate.setText(response.body()!!.data.billingDetails.maxBillRate.toString())
                             } else {
-                                binding.tvMaxBillRate.setText("Not Provided")
+                                binding.tvMaxBillRate.setText("-")
                             }
 
 
                             if (response.body()!!.data.billingDetails.targetPayRate != null) {
                                 binding.tvTargetPayRate.setText(response.body()!!.data.billingDetails.targetPayRate.toString())
                             } else {
-                                binding.tvTargetPayRate.setText("Not Provided")
+                                binding.tvTargetPayRate.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.targetBillRate != null) {
 
                                 binding.tvTargetBillRate.setText(response.body()!!.data.billingDetails.targetBillRate.toString())
                             } else {
-                                binding.tvTargetBillRate.setText("Not Provided")
+                                binding.tvTargetBillRate.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.frequency != null) {
 
                                 binding.tvFrequecny.setText(response.body()!!.data.billingDetails.frequency.toString())
                             } else {
-                                binding.tvFrequecny.setText("Not Provided")
+                                binding.tvFrequecny.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.overtimeType != null) {
 
                                 binding.tvOTRule.setText(response.body()!!.data.billingDetails.overtimeType.toString())
                             } else {
-                                binding.tvOTRule.setText("Not Provided")
+                                binding.tvOTRule.setText("-")
                             }
 
 
                             if (response.body()!!.data.billingDetails.overtimeMultiplier != null) {
+                                if (response.body()!!.data.billingDetails.overtimeType.equals("None")) {
+                                    binding.tvOtMultiplier.setText("-")
+                                } else {
+                                    binding.tvOtMultiplier.setText(response.body()!!.data.billingDetails.overtimeMultiplier.toString())
+                                }
 
-                                binding.tvOtMultiplier.setText(response.body()!!.data.billingDetails.overtimeMultiplier.toString())
                             } else {
-                                binding.tvOtMultiplier.setText("Not Provided")
+                                binding.tvOtMultiplier.setText("-")
                             }
 
 
@@ -136,7 +147,7 @@ class JobSalaryDetails : Fragment() {
 
                                 binding.tvOtPayRate.setText(response.body()!!.data.billingDetails.overtimeMarkup.toString())
                             } else {
-                                binding.tvOtPayRate.setText("Not Provided")
+                                binding.tvOtPayRate.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.doubletimeType != null) {
@@ -144,35 +155,40 @@ class JobSalaryDetails : Fragment() {
 
                                 binding.tvdtrule.setText(response.body()!!.data.billingDetails.doubletimeType.toString())
                             } else {
-                                binding.tvdtrule.setText("Not Provided")
+                                binding.tvdtrule.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.doubletimeMarkup != null) {
 
                                 binding.tvdetMArkuppercentage.setText(response.body()!!.data.billingDetails.doubletimeMarkup.toString())
                             } else {
-                                binding.tvdetMArkuppercentage.setText("Not Provided")
+                                binding.tvdetMArkuppercentage.setText("-")
                             }
 
 
                             if (response.body()!!.data.billingDetails.overtimeBillRate != null) {
                                 binding.tvoTBillRate.setText(response.body()!!.data.billingDetails.overtimeBillRate.toString())
                             } else {
-                                binding.tvoTBillRate.setText("Not Provided")
+                                binding.tvoTBillRate.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.doubletimeMultiplier != null) {
-                                binding.tvDtMultiplier.setText(response.body()!!.data.billingDetails.doubletimeMultiplier.toString())
+                                if (response.body()!!.data.billingDetails.doubletimeType.equals("None")) {
+                                    binding.tvDtMultiplier.setText("-")
+                                } else {
+                                    binding.tvDtMultiplier.setText(response.body()!!.data.billingDetails.doubletimeMultiplier.toString())
+
+                                }
 
                             } else {
-                                binding.tvDtMultiplier.setText("Not Provided")
+                                binding.tvDtMultiplier.setText("-")
                             }
 
                             if (response.body()!!.data.billingDetails.doubletimePayRate != null) {
                                 binding.tvDtPayRate.setText(response.body()!!.data.billingDetails.doubletimePayRate.toString())
 
                             } else {
-                                binding.tvDtPayRate.setText("Not Provided")
+                                binding.tvDtPayRate.setText("-")
                             }
 
 
@@ -181,7 +197,7 @@ class JobSalaryDetails : Fragment() {
 
 
                             } else {
-                                binding.tvDTBillRate.setText("Not Provided")
+                                binding.tvDTBillRate.setText("-")
                             }
                         }
                     }

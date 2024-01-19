@@ -160,7 +160,7 @@ class AddjobJobDetailF : Fragment() {
         } catch (e: Exception) {
         }
 
-        //  updateVisibility()
+
     }
 
     private fun networkCalls() {

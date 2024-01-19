@@ -13,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.envagemobileapplication.Activities.AddClient.ClientSummaryActivity
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetStatusFragment
+import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryActivity
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetStatusFragment
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.R

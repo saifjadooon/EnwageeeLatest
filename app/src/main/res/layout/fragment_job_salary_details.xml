@@ -298,16 +298,16 @@
                 <TextView
                     android:id="@+id/textViessw2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="16dp"
                     android:layout_marginStart="10dp"
                     android:text="DT. Markup Percentage:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textViddew49"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tvOtPayRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textVddiew" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVddiew50" />
 
                 <TextView
                     android:id="@+id/tvdtrule"
@@ -331,11 +331,11 @@
                     android:text="DT Rule:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textViessw2"
+                    app:layout_constraintBottom_toTopOf="@+id/textVediew48"
                     app:layout_constraintEnd_toStartOf="@+id/tvDTBillRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textVddiew46" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViessw44" />
 
                 <TextView
                     android:id="@+id/textView17dsd"
@@ -357,7 +357,7 @@
                     android:text="OT Rule:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textVizsew36"
+                    app:layout_constraintBottom_toTopOf="@+id/textVillew42"
                     app:layout_constraintEnd_toStartOf="@+id/tvOTRule"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -382,14 +382,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Min. Pay Rate:"
+                    android:text="OT. Pay Rate:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textVillew42"
+                    app:layout_constraintBottom_toTopOf="@+id/textVddiew46"
                     app:layout_constraintEnd_toStartOf="@+id/tvOTDTMinpayRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView1238" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVillew42" />
 
                 <TextView
                     android:id="@+id/tvOTDTMinpayRate"
@@ -413,11 +413,11 @@
                     android:text="OT Multiplier:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textViessw44"
+                    app:layout_constraintBottom_toTopOf="@+id/textVizsew36"
                     app:layout_constraintEnd_toStartOf="@+id/tvOtMultiplier"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textVizsew36" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView1238" />
 
                 <TextView
                     android:id="@+id/tvOtMultiplier"
@@ -441,11 +441,11 @@
                     android:text="OT. Markup Percentage:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textVddiew46"
+                    app:layout_constraintBottom_toTopOf="@+id/textVddiew"
                     app:layout_constraintEnd_toStartOf="@+id/tvOtPayRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textVillew42" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVddiew46" />
 
                 <TextView
                     android:id="@+id/tvOtPayRate"
@@ -469,11 +469,11 @@
                     android:text="OT. Bill Rate:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textVddiew"
+                    app:layout_constraintBottom_toTopOf="@+id/textViessw44"
                     app:layout_constraintEnd_toStartOf="@+id/tvDTBillRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViessw44" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVizsew36" />
 
                 <TextView
                     android:id="@+id/tvoTBillRate"
@@ -497,11 +497,11 @@
                     android:text="DT Multiplier:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViddew49"
                     app:layout_constraintEnd_toStartOf="@+id/tvOtMultiplier"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textVddiew50" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVddiew" />
 
                 <TextView
                     android:id="@+id/textViddew49"
@@ -515,7 +515,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/tvDtPayRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViessw2" />
+                    app:layout_constraintTop_toBottomOf="@+id/textVediew48" />
 
                 <TextView
                     android:id="@+id/textVddiew50"
@@ -525,7 +525,7 @@
                     android:text="DT. Bill Rate:"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textVediew48"
+                    app:layout_constraintBottom_toTopOf="@+id/textViessw2"
                     app:layout_constraintEnd_toStartOf="@+id/tvDTBillRate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"

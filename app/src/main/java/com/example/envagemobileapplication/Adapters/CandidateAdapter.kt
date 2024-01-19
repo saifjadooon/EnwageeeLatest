@@ -41,16 +41,17 @@ class CandidateAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.itemLayout.setOnClickListener{
+        holder.itemLayout.setOnClickListener {
             Constants.candidateId = dataList.get(position).guid
             Constants.candidateIDNumber = dataList.get(position).candidateId
-            Constants.candidateName = dataList.get(position).firstName + " "+dataList.get(position).lastName
+            Constants.candidateName =
+                dataList.get(position).firstName + " " + dataList.get(position).lastName
 
 
             try {
                 context.startActivity(Intent(context, CandidateProfileSummary::class.java))
-            }catch (e:Exception){
-                Log.d("issuePResist",e.toString())
+            } catch (e: Exception) {
+                Log.d("issuePResist", e.toString())
             }
 
         }
@@ -103,12 +104,15 @@ class CandidateAdapter(
             )
         }
 
-        if (!
-            dataList.get(position).profileImage.isNullOrEmpty()
-        ) {
-            Picasso.get().load(dataList.get(position).profileImage)
-                .placeholder(R.drawable.upload_pic_bg)
-                .transform(CircleTransformation()).into(holder.iv_profile_pic)
+        if (dataList.get(position).profileImage != null || dataList.get(position).profileImage != "") {
+            try {
+                Picasso.get().load(dataList.get(position).profileImage)
+                    .placeholder(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic)
+            }catch (e:Exception){
+
+            }
+
 
         } else {
         }
@@ -138,7 +142,7 @@ class CandidateAdapter(
         var iv_deal_status: TextView = itemView.findViewById(R.id.iv_deal_status)
         var tv_dropdown: ImageView = itemView.findViewById(R.id.tv_dropdown)
         var iv_profile_pic: ImageView = itemView.findViewById(R.id.iv_profile_pic)
-         var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
+        var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
 
 
     }

@@ -110,9 +110,12 @@ class OnlineApplicantsAdapter(
         }
 
         holder.kebabMenu.setOnClickListener {
-            global.isfirstTimeFragmentLoaded = false
-            var applicantId = onlineApplicantsDataList.get(position).applicantId
-            viewmodel.showBottomSheet(applicantId)
+            try {
+                global.isfirstTimeFragmentLoaded = false
+                var applicantId = onlineApplicantsDataList.get(position).applicantId
+                viewmodel.showBottomSheet(applicantId)
+            }catch (e:Exception){}
+
         }
 
         holder.itemLayout.setOnClickListener {
@@ -120,7 +123,13 @@ class OnlineApplicantsAdapter(
             loader.show()
 
             var applicantID = onlineApplicantsDataList.get(position).applicantId
-            getAllSkills(context, token, applicantID, position)
+            try {
+                getAllSkills(context, token, applicantID, position)
+
+            }
+            catch (e:Exception){
+                Log.i("sdsaddgdf",e.toString())
+            }
         }
 
     }

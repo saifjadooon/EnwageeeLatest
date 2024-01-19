@@ -2,11 +2,13 @@ package com.example.envagemobileapplication.Utils
 
 import android.R
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.widget.ProgressBar
+
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobAdressDetailsReqModel
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobBasicDetailRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobDetailsReqModel
@@ -20,11 +22,19 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.Data
 import okhttp3.MultipartBody
+import java.text.SimpleDateFormat
 
 public class Global {
 
     companion object {
 
+
+        var editreqjobSkills: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequestSkills.Datum> ?= null
+        var jobReqbyJobid: com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequestResp.Data? = null
+        var isfromEditJobRequisition: Boolean = false
+        var jobReqStatusesList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequsitionStatusResp.Datum>? = null
+        var jobRequisitonPosition: Int = 0
+        var isbackfromjobsummary: Boolean = false
         var assesmentStatus: String = ""
         var clientAssesmentFormid: Int? = 0
         var composeMessagePhoneNumber: String? = ""
@@ -94,12 +104,54 @@ public class Global {
             )
         }
 
+        fun formatDate(inputDate: String): String {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val outputFormat = SimpleDateFormat("MM/dd/yyyy")
+
+            try {
+                val date = inputFormat.parse(inputDate)
+                return outputFormat.format(date)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return "" // Handle parsing error here
+            }
+        }
         fun hideProgressDialog() {
             if (progressDialog!!.isShowing) {
                 progressDialog!!.hide()
             }
         }
+
+          fun showDialog(context:Context,activity :Activity) {
+            val alertDialogBuilder = AlertDialog.Builder(context)
+
+            // Set the dialog title and message
+            alertDialogBuilder.setTitle("Discard Changes")
+            alertDialogBuilder.setMessage("Are you sure you want to discard changes?")
+
+            // Add positive button and its click listener
+            alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                // Handle the OK button click (if needed)
+                dialog.dismiss()
+                activity.finish()
+            }
+
+            // Add negative button and its click listener (optional)
+            alertDialogBuilder.setNegativeButton("No") { dialog, which ->
+                // Handle the Cancel button click (if needed)
+                dialog.dismiss() // Dismiss the dialog
+            }
+
+            // Create and show the alert dialog
+            val alertDialog: AlertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+
+        }
     }
+
+
+
+
 
 
 }

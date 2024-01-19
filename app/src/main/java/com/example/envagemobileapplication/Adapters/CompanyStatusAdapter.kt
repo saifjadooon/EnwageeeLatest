@@ -14,8 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Activities.AddClient.ClientSummaryActivity
-import com.example.envagemobileapplication.Fragments.ClientSummary.ClientSummaryF
+import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryActivity
+import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryF
 import com.example.envagemobileapplication.Models.RequestModels.UpdateStatusPayload
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateStatusResponse.UpdateStatusResponse

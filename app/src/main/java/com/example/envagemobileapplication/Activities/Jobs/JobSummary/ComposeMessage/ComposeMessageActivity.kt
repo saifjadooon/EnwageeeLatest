@@ -34,6 +34,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 
 class ComposeMessageActivity : BaseActivity() {
+
     private var twilioResp: Data? = null
     private var replacecontent: String = ""
     private var clientHeaderSummaryResp: ClientHeaderSummaryResponse? = null
@@ -234,7 +235,6 @@ class ComposeMessageActivity : BaseActivity() {
         }
         binding.ivcCross.setOnClickListener { showDialog() }
         binding.ivCancel.setOnClickListener { showDialog() }
-
         binding.TISelectTemplate.setOnTouchListener(View.OnTouchListener { v, event ->
             if (binding.spinnerSelectTemplate.isPopupShowing) {
                 binding.spinnerSelectTemplate.dismissDropDown()
@@ -251,7 +251,6 @@ class ComposeMessageActivity : BaseActivity() {
             }
             false
         })
-
         binding.spinnerSelectTemplate.setOnItemClickListener { _, _, position, _ ->
             var selectedText = binding.spinnerSelectTemplate.text.toString()
             binding.TISelectTemplate.error = null
@@ -283,6 +282,7 @@ class ComposeMessageActivity : BaseActivity() {
                 }
             }
         }
+
     }
 
     private fun initviews() {

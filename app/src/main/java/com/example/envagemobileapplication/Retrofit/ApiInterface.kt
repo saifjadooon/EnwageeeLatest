@@ -6,10 +6,12 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddClientDescRsp.AddClientDescriptionResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddClientResponse.AddClientResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddJobResponse.AddJobResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ApprovedjobRespModel.ApprovedjobRespModel
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AssignJobResponse.AssignJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateJobStatusRes.CandidateJobStatusRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.CandidateJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.CandidateSummarySkillsRes
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CheckpayrateResp.CheckpayrateResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteHeadrSmaryRsp.CandidateHeaderSummaryResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteJobRsp.CandidateJobGetJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.CandidateSummaryEducationRes
@@ -19,6 +21,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ConvertCandidateResponse.ConvertCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.EditJobReqResponse.EditJobReqResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
@@ -36,6 +39,8 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobByJobIdResponse.GetJobByJobIdResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobCanidates.GetJobCandidates
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequestResp.GetJobRequestResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.GetJobRequests
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.GetJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.GetJobsStatusesResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetOfferLetterTemplates.GetOfferLetterTemplates
@@ -45,6 +50,9 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetWcResponse.WcCodeResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GnrateOFerLeterRsp.GenerateOFferLetterResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GtLogdinUserDetailsRsp.GetLoggedinUserDetails
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobReqUpdateStatusResp.JobReqUpdateStatusResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequestSkills.JobRequestSkills
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequsitionStatusResp.JobRequsitionStatusResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobSkillsResponse.JobSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.MessageTemplatesRes.MessageTemplatesRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.OnlineApplicantsResponse
@@ -58,6 +66,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ZipCodeResponse.ZipCodeResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getEmailTemplateResponse.GetEmailTemplateResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobSkills.GetJobSkills
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobStatusResponse.GetJobStatusResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getTwilioConfig.GetTwilioConfig
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getdbUsersResponse.GetdbUsersResponse
@@ -111,6 +120,31 @@ public interface ApiInterface {
         @Body requestPayload: SortDirectionClientContacts,
         @Header("x-access-token") authorization: String
     ): Call<GetClientContactsResponse>
+
+
+   @POST("api/v1/JobRequest/update-status")
+    fun updateJobReqStatus(
+        @Body requestPayload: JobReqUpdateModel,
+        @Header("x-access-token") authorization: String
+    ): Call<JobReqUpdateStatusResp>
+
+    @POST("api/v1/JobRequest/update-approved-status")
+    fun updateJobReqApprovedStatus(
+        @Body requestPayload: JobReqApprovedReqModel,
+        @Header("x-access-token") authorization: String
+    ): Call<ApprovedjobRespModel>
+
+    @POST("api/v1/JobRequest/billing-status")
+    fun checkPayRate(
+        @Body requestPayload: JobReqUpdateModel,
+        @Header("x-access-token") authorization: String
+    ): Call<CheckpayrateResp>
+
+    @POST("api/v1/JobRequest/job-requests")
+    fun getJobRequests(
+        @Body requestPayload: SortDirectionJobRequisition,
+        @Header("x-access-token") authorization: String
+    ): Call<GetJobRequests>
 
 
     @GET("api/v1/CompanyOnBoardingStatus/get-company-onboarding-status-list")
@@ -259,6 +293,19 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String
     ): Call<GetIndustryListResponse>
 
+    @GET("api/v1/JobRequest/get-job-request-skills/{jobRequestId}")
+    fun getjobskills(
+        @Header("Authorization") authorization: String,
+        @Path("jobRequestId") jobid: String
+    ): Call<GetJobSkills>
+
+
+    @GET("api/v1/JobRequestStatus/get-all")
+    fun getJobRequsitionStatuses(
+        @Header("Authorization") authorization: String,
+    ): Call<JobRequsitionStatusResp>
+
+
 
     //    @GET("api/v1/Job/get-Client-list-by-name/a")
     @GET("api/v1/Job/get-Client-list-by-name/{searchName}")
@@ -280,6 +327,8 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String,
         @Path("searchName") searchname: String
     ): Call<JobSkillsResponse>
+
+
 
 
     @Multipart
@@ -345,6 +394,57 @@ public interface ApiInterface {
         @Part isPublish: MultipartBody.Part,
         @Part jobPlatform: MultipartBody.Part
     ): Call<AddJobResponse>
+
+
+    @Multipart
+    @POST("api/v1/JobRequest/update-job-request")
+    fun EditJobReq(
+        @Header("x-access-token") authorization: String,
+        @Part description: MultipartBody.Part,
+        @Part positionName: MultipartBody.Part,
+        @Part payrollPayGroupId: MultipartBody.Part,
+        @Part industryId: MultipartBody.Part,
+        @Part jobNature: MultipartBody.Part,
+        @Part address1: MultipartBody.Part,
+        @Part address2: MultipartBody.Part,
+        @Part country: MultipartBody.Part,
+        @Part zipcode: MultipartBody.Part,
+        @Part city: MultipartBody.Part,
+        @Part state: MultipartBody.Part,
+        @Part location: MultipartBody.Part,
+        @Part headcount: MultipartBody.Part,
+        @Part jobType: MultipartBody.Part,
+        @Part startDate: MultipartBody.Part,
+        @Part endDate: MultipartBody.Part,
+        @Part currency: MultipartBody.Part,
+        @Part minimumSalary: MultipartBody.Part,
+        @Part maximumSalary: MultipartBody.Part,
+        @Part jobFrequency: MultipartBody.Part,
+        @Part workingDaysNo: MultipartBody.Part,
+        @Part estimatedHours: MultipartBody.Part,
+        @Part workingDays: MultipartBody.Part,
+        @Part jobSkills: MultipartBody.Part,
+        @Part markup: MultipartBody.Part,
+        @Part minPayRate: MultipartBody.Part,
+        @Part minBillRate: MultipartBody.Part,
+        @Part maxPayRate: MultipartBody.Part,
+        @Part maxBillRate: MultipartBody.Part,
+        @Part targetPayRate: MultipartBody.Part,
+        @Part targetBillRate: MultipartBody.Part,
+        @Part overTimeMultiplier: MultipartBody.Part,
+        @Part overTimeType: MultipartBody.Part,
+        @Part overTimeMarkup: MultipartBody.Part,
+        @Part overTimePayRate: MultipartBody.Part,
+        @Part overTimeBillRate: MultipartBody.Part,
+        @Part doubleTimeMultiplier: MultipartBody.Part,
+        @Part doubleTimeType: MultipartBody.Part,
+        @Part doubleTimeMarkup: MultipartBody.Part,
+        @Part doubleTimePayRate: MultipartBody.Part,
+        @Part doubleTimeBillRate: MultipartBody.Part,
+        @Part frequency: MultipartBody.Part,
+        @Part jobRequestId: MultipartBody.Part,
+
+    ): Call<EditJobReqResponse>
 
 
     @POST("api/v1/Applicant/get-all")
@@ -621,5 +721,17 @@ public interface ApiInterface {
         @Part jobId: MultipartBody.Part,
         @Part reason: MultipartBody.Part
     ): Call<DropCandidateResponse>
+
+    @GET("api/v1/JobRequest/get-job-request-by-id/{jobRequestId}")
+    fun GetJobRequestbyid(
+        @Header("x-access-token") authorization: String,
+        @Path("jobRequestId") clientId: Int
+    ): Call<GetJobRequestResp>
+
+    @GET("api/v1/JobRequest/get-job-request-skills/{jobRequestId}")
+    fun GetJobRequestSkillsbyjobid(
+        @Header("x-access-token") authorization: String,
+        @Path("jobRequestId") clientId: Int
+    ): Call<JobRequestSkills>
 
 }

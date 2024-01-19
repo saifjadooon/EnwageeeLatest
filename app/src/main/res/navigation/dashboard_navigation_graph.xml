@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/candidateF"
-        android:name="com.example.envagemobileapplication.Fragments.Dashboard.CandidateF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.CandidateF"
         android:label="fragment_candidate"
         tools:layout="@layout/fragment_candidate">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/clientsF"
-        android:name="com.example.envagemobileapplication.Fragments.Dashboard.ClientsF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.ClientsF"
         android:label="fragment_clients"
         tools:layout="@layout/fragment_clients">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeF"
-        android:name="com.example.envagemobileapplication.Fragments.Dashboard.HomeF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.HomeF"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/jobsF"
-        android:name="com.example.envagemobileapplication.Fragments.Dashboard.JobsF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.JobsF"
         android:label="fragment_jobs"
         tools:layout="@layout/fragment_jobs">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/messagesF"
-        android:name="com.example.envagemobileapplication.Fragments.Dashboard.MessagesF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.MessagesF"
         android:label="fragment_messages"
         tools:layout="@layout/fragment_messages" />
 

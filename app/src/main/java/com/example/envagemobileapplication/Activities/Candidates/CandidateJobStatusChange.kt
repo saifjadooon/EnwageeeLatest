@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.envagemobileapplication.Fragments.BottomSheet.BSCandidateJobStatusF
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BSCandidateJobStatusF
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader

@@ -1,16 +1,22 @@
 package com.example.envagemobileapplication.ViewModels
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionClientContacts
+import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobRequisition
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobs
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientContactsResponse.GetClientContactsResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.GetIndustryListResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.GetJobRequests
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.GetJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.GetJobsStatusesResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequsitionStatusResp.JobRequsitionStatusResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobSkills.GetJobSkills
 import com.ezshifa.aihealthcare.network.ApiUtils
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -24,6 +30,12 @@ class ClientSummaryViewModel : ViewModel() {
 
     private val MLDGetContacts = MutableLiveData<GetClientContactsResponse>()
 
+
+    val LDgetJobReqs: LiveData<GetJobRequests>
+        get() = MLDJobReqs
+
+    private val MLDJobReqs = MutableLiveData<GetJobRequests>()
+
     val LDgetJobs: LiveData<GetJobsResponse>
         get() = MLDGetJobs
 
@@ -34,6 +46,23 @@ class ClientSummaryViewModel : ViewModel() {
 
     private val MLDgetJobStatusResponse =
         MutableLiveData<GetJobsStatusesResponse>()
+
+    val LDgetIndustry: LiveData<GetIndustryListResponse>
+        get() = MLDgetIndustry
+    private val MLDgetIndustry = MutableLiveData<GetIndustryListResponse>()
+
+
+    val LDgetJobSkills: LiveData<GetJobSkills>
+        get() = MLDgetJobSkills
+    private val MLDgetJobSkills = MutableLiveData<GetJobSkills>()
+
+    val LDgetJobRequsitionStatusResp: LiveData<JobRequsitionStatusResp>
+        get() = MLDgetJobRequsitionStatusResp
+    private val MLDgetJobRequsitionStatusResp = MutableLiveData<JobRequsitionStatusResp>()
+
+    val LDcloseChangeStatusBs: LiveData<String>
+        get() = MLDcloseChangeStatusBs
+    private val MLDcloseChangeStatusBs = MutableLiveData<String>()
 
     //--------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<///
 
@@ -112,6 +141,44 @@ class ClientSummaryViewModel : ViewModel() {
         }
     }
 
+    fun getJobRequests(
+        context: Activity,
+        accessToken: String?,
+        sortDirection: SortDirectionJobRequisition,
+
+
+        ) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getJobRequests(
+                    sortDirection,
+                    accessToken.toString(),
+                )
+                    .enqueue(object : Callback<GetJobRequests> {
+                        override fun onResponse(
+                            call: Call<GetJobRequests>,
+                            response: Response<GetJobRequests>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDJobReqs.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<GetJobRequests>,
+                            t: Throwable
+                        ) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
+
 
     fun getallJobStatuses(
         context: Activity,
@@ -150,6 +217,98 @@ class ClientSummaryViewModel : ViewModel() {
 
     fun searchDataApi() {
         TODO("Not yet implemented")
+    }
+
+    fun getindustry(context: Context, token: String) {
+
+
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getIndustry(
+                    token
+                )
+                    .enqueue(object : Callback<GetIndustryListResponse> {
+                        override fun onResponse(
+                            call: Call<GetIndustryListResponse>,
+                            response: Response<GetIndustryListResponse>
+                        ) {
+                            if (response.body() != null) {
+                                MLDgetIndustry.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetIndustryListResponse>, t: Throwable) {
+                            Log.i("exc", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+
+    }
+
+    fun getjobskills(context: Context, token: String, jobrequestid: Int) {
+
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getjobskills(
+                    token, jobrequestid.toString()
+                )
+                    .enqueue(object : Callback<GetJobSkills> {
+                        override fun onResponse(
+                            call: Call<GetJobSkills>,
+                            response: Response<GetJobSkills>
+                        ) {
+                            if (response.body() != null) {
+                                MLDgetJobSkills.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetJobSkills>, t: Throwable) {
+                            Log.i("exc", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+
+    }
+
+    fun getjobReqStatuses(context: Context, token: String, jobrequestid: Int) {
+
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getJobRequsitionStatuses(
+                    token
+                )
+                    .enqueue(object : Callback<JobRequsitionStatusResp> {
+                        override fun onResponse(
+                            call: Call<JobRequsitionStatusResp>,
+                            response: Response<JobRequsitionStatusResp>
+                        ) {
+                            if (response.body() != null) {
+                                MLDgetJobRequsitionStatusResp.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<JobRequsitionStatusResp>, t: Throwable) {
+                            Log.i("exc", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+
+    }
+
+    fun closeChangeStatusBottomsheet(statusname: String) {
+        MLDcloseChangeStatusBs.postValue(statusname)
     }
 
 }

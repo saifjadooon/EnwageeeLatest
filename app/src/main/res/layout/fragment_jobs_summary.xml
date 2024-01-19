@@ -514,15 +514,16 @@
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBillingInformation"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
 
             <org.sufficientlysecure.htmltextview.HtmlTextView
                 android:id="@+id/tv_description"
@@ -541,14 +542,23 @@
                 android:id="@+id/webView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:background="@drawable/searchbg"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
+            <ImageView
+                android:id="@+id/showmoredescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/rvBillingInformation"
+                app:layout_constraintStart_toStartOf="@+id/rvBillingInformation"
+                app:layout_constraintTop_toBottomOf="@+id/webView"
+                app:srcCompat="@drawable/ic_showmore" />
             <TextView
                 android:id="@+id/tv_nodescription"
                 android:layout_width="0dp"

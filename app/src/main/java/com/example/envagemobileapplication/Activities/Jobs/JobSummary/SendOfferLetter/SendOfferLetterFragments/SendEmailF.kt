@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,6 +44,9 @@ import java.net.URL
 import java.text.SimpleDateFormat
 
 class SendEmailF : Fragment() {
+    private var cc: String = ""
+    private var bcc: String = ""
+    val emailRegex = Regex("^([a-zA-Z0-9_\\.-]+)@([a-zA-Z0-9\\.-]+)\\.([a-zA-Z]{2,})$")
     lateinit var emailtemplate: MultipartBody.Part
     var descriptiontext: String = ""
     lateinit var globalresp: MutableList<Datum>
@@ -108,6 +112,8 @@ class SendEmailF : Fragment() {
         networkCalls()
         setUpRtf()
         initviews()
+        firstname = global.fn.toString() + ""
+        lastname = global.ln.toString() + ""
         return binding.root
     }
 
@@ -116,6 +122,8 @@ class SendEmailF : Fragment() {
         loader.show()
         var jobguid = global.jobHeaderSummary!!.data.jobInfo.guid!!
         viewModel.getjobbyJobid(requireContext(), tokenManager.getAccessToken(), jobguid)
+
+
     }
 
     private fun observers() {
@@ -276,15 +284,7 @@ class SendEmailF : Fragment() {
 
             } catch (e: Exception) {
             }
-            try {
-                firstname = global.firstnameforofferletter.toString()
-            } catch (e: Exception) {
-            }
-            try {
-                lastname = global.lastnameforofferletter.toString()
 
-            } catch (e: Exception) {
-            }
 
             offerletterlink = "offer letter link"
             clientFacebook = "www.facebook.com"
@@ -351,11 +351,97 @@ class SendEmailF : Fragment() {
 
         }
 
+        binding.etDescriptionSendEEmail!!.setOnTextChangeListener { text ->
+
+            if (text.contains("<")) {
+                descriptiontext = text
+            } else {
+                descriptiontext = "<p>" + text + "</p>"
+            }
+
+        }
+
         binding.btnSendEmail.setOnClickListener {
 
             sendEmail(requireContext(), tokenManager.getAccessToken())
         }
 
+        binding.etCC.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+                val validatedEmail: String? = validateEmail(editable.toString(), binding.etCC)
+
+                if (validatedEmail != null) {
+                    // Use the validated email
+                    cc = validatedEmail
+
+                } else {
+                    cc = ""
+                    // Handle the case where the email is invalid
+                }
+            }
+        })
+
+        binding.etBCC.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+                val validatedEmail: String? = validateEmail(editable.toString(), binding.etBCC)
+
+                if (validatedEmail != null) {
+                    // Use the validated email
+                    bcc = validatedEmail
+
+                } else {
+                    bcc = ""
+                    // Handle the case where the email is invalid
+                }
+            }
+        })
+
+
+    }
+
+
+    private fun validateEmail(email: String, etBCC: EditText): String? {
+        return if (!emailRegex.matches(email)) {
+            etBCC.error = "Invalid email address"
+            null
+        } else {
+            etBCC.error = null
+            email
+        }
     }
 
     private fun sendEmail(context: Context, accessToken: String?) {
@@ -398,9 +484,9 @@ class SendEmailF : Fragment() {
                 var to =
                     MultipartBody.Part.createFormData("to", binding.tvEmailTo.text.toString())
                 var cc =
-                    MultipartBody.Part.createFormData("cc", binding.etCC.text.toString() + "")
+                    MultipartBody.Part.createFormData("cc", cc + "")
                 var bcc =
-                    MultipartBody.Part.createFormData("bcc", binding.etBCC.text.toString() + "")
+                    MultipartBody.Part.createFormData("bcc", bcc + "")
                 var subject =
                     MultipartBody.Part.createFormData(
                         "subject",
@@ -430,19 +516,16 @@ class SendEmailF : Fragment() {
                         "guid",
                         guiddd
                     )
-                var clientlogo = MultipartBody.Part.createFormData("ClientLogo", "false")
-                var clientname = MultipartBody.Part.createFormData("ClientName", "false")
-                var clientaddress = MultipartBody.Part.createFormData("ClientAddress", "false")
-                var clientwebsite = MultipartBody.Part.createFormData("ClientWebsite", "false")
-                var clientfacebook =
-                    MultipartBody.Part.createFormData("ClientFacebook", "false")
-                var clientinstagram =
-                    MultipartBody.Part.createFormData("ClientInstagram", "false")
-                var clientlinkedin =
-                    MultipartBody.Part.createFormData("ClientLinkedin", "false")
-                var clientwitter = MultipartBody.Part.createFormData("ClientTwitter", "false")
-                var poweredby = MultipartBody.Part.createFormData("PoweredBy", "false")
-                var clientpoc = MultipartBody.Part.createFormData("ClientPoc", "false")
+                var clientlogo = MultipartBody.Part.createFormData("ClientLogo", "true")
+                var clientname = MultipartBody.Part.createFormData("ClientName", "true")
+                var clientaddress = MultipartBody.Part.createFormData("ClientAddress", "true")
+                var clientwebsite = MultipartBody.Part.createFormData("ClientWebsite", "true")
+                var clientfacebook = MultipartBody.Part.createFormData("ClientFacebook", "true")
+                var clientinstagram = MultipartBody.Part.createFormData("ClientInstagram", "true")
+                var clientlinkedin = MultipartBody.Part.createFormData("ClientLinkedin", "true")
+                var clientwitter = MultipartBody.Part.createFormData("ClientTwitter", "true")
+                var poweredby = MultipartBody.Part.createFormData("PoweredBy", "true")
+                var clientpoc = MultipartBody.Part.createFormData("ClientPoc", "true")
 
                 loader.show()
 
@@ -677,34 +760,85 @@ class SendEmailF : Fragment() {
         var replacedContent = htmlContent
             .replace("[First Name]", if (firstname.isNotEmpty()) firstname else "[First Name]")
             .replace("[Last Name]", if (lastname.isNotEmpty()) lastname else "[Last Name]")
-            .replace("[Joining Date]", if (joiningdate.isNotEmpty()) joiningdate else "[Joining Date]")
+            .replace(
+                "[Joining Date]",
+                if (joiningdate.isNotEmpty()) joiningdate else "[Joining Date]"
+            )
             .replace("[Salary]", if (salary.isNotEmpty()) salary else "[Salary]")
-            .replace("[Offer Letter Link]", if (offerletterlink.isNotEmpty()) offerletterlink else "[Offer Letter Link]")
+            .replace(
+                "[Offer Letter Link]",
+                if (offerletterlink.isNotEmpty()) offerletterlink else "[Offer Letter Link]"
+            )
             .replace("[Client Name]", if (clientname.isNotEmpty()) clientname else "[Client Name]")
-            .replace("[Client Industry]", if (clientindustry.isNotEmpty()) clientindustry else "[Client Industry]")
-            .replace("[Client Website]", if (clientwebsite.isNotEmpty()) clientwebsite else "[Client Website]")
-            .replace("[Client Address]", if (clientAddress.isNotEmpty()) clientAddress else "[Client Address]")
-            .replace("[Client Location]", if (clientLocation.isNotEmpty()) clientLocation else "[Client Location]")
-            .replace("[Client Country]", if (clientCountry.isNotEmpty()) clientCountry else "[Client Country]")
+            .replace(
+                "[Client Industry]",
+                if (clientindustry.isNotEmpty()) clientindustry else "[Client Industry]"
+            )
+            .replace(
+                "[Client Website]",
+                if (clientwebsite.isNotEmpty()) clientwebsite else "[Client Website]"
+            )
+            .replace(
+                "[Client Address]",
+                if (clientAddress.isNotEmpty()) clientAddress else "[Client Address]"
+            )
+            .replace(
+                "[Client Location]",
+                if (clientLocation.isNotEmpty()) clientLocation else "[Client Location]"
+            )
+            .replace(
+                "[Client Country]",
+                if (clientCountry.isNotEmpty()) clientCountry else "[Client Country]"
+            )
             .replace("[Client City]", if (clientCity.isNotEmpty()) clientCity else "[Client City]")
-            .replace("[Client State]", if (clientState.isNotEmpty()) clientState else "[Client State]")
-            .replace("[Client Zip Code]", if (clientZipCode.isNotEmpty()) clientZipCode else "[Client Zip Code]")
-            .replace("[Client Phone Number]", if (clientPhoneNumber.isNotEmpty()) clientPhoneNumber else "[Client Phone Number]")
+            .replace(
+                "[Client State]",
+                if (clientState.isNotEmpty()) clientState else "[Client State]"
+            )
+            .replace(
+                "[Client Zip Code]",
+                if (clientZipCode.isNotEmpty()) clientZipCode else "[Client Zip Code]"
+            )
+            .replace(
+                "[Client Phone Number]",
+                if (clientPhoneNumber.isNotEmpty()) clientPhoneNumber else "[Client Phone Number]"
+            )
             .replace("[Sender Name]", if (senderName.isNotEmpty()) senderName else "[Sender Name]")
-            .replace("[Sender Designation]", if (senderDesignation.isNotEmpty()) senderDesignation else "[Sender Designation]")
-            .replace("[Job Position Name]", if (positionname.isNotEmpty()) positionname else "[Job Position Name]")
+            .replace(
+                "[Sender Designation]",
+                if (senderDesignation.isNotEmpty()) senderDesignation else "[Sender Designation]"
+            )
+            .replace(
+                "[Job Position Name]",
+                if (positionname.isNotEmpty()) positionname else "[Job Position Name]"
+            )
             .replace("[Job Industry]", if (jobIndustry.isNotEmpty()) jobIndustry else "")
             .replace("[Job Type]", if (jobType.isNotEmpty()) jobType else "[Job Type]")
             .replace("[Job Nature]", if (jobNature.isNotEmpty()) jobNature else "[Job Nature]")
-            .replace("[Job Frequency]", if (jobFrequency.isNotEmpty()) jobFrequency else "[Job Frequency]")
-            .replace("[Job Weekdays]", if (jobweekDays.isNotEmpty()) jobweekDays else "[Job Weekdays]")
-            .replace("[Job Estimated Hours]", if (jobestimatedhours.isNotEmpty()) jobestimatedhours else "[Job Estimated Hours]")
+            .replace(
+                "[Job Frequency]",
+                if (jobFrequency.isNotEmpty()) jobFrequency else "[Job Frequency]"
+            )
+            .replace(
+                "[Job Weekdays]",
+                if (jobweekDays.isNotEmpty()) jobweekDays else "[Job Weekdays]"
+            )
+            .replace(
+                "[Job Estimated Hours]",
+                if (jobestimatedhours.isNotEmpty()) jobestimatedhours else "[Job Estimated Hours]"
+            )
             .replace("[Job Address]", if (jobaddress.isNotEmpty()) jobaddress else "[Job Address]")
             .replace("[Job Country]", if (jobCountry.isNotEmpty()) jobCountry else "[Job Country]")
             .replace("[Job City]", if (jobcity.isNotEmpty()) jobcity else "[Job City]")
             .replace("[Job State]", if (jobstate.isNotEmpty()) jobstate else "[Job State]")
-            .replace("[Job Zip Code]", if (jobzipcode.isNotEmpty()) jobzipcode else "[Job Zip Code]")
-            .replace("[Job Location]", if (joblocation.isNotEmpty()) joblocation else "[Job Location]")
+            .replace(
+                "[Job Zip Code]",
+                if (jobzipcode.isNotEmpty()) jobzipcode else "[Job Zip Code]"
+            )
+            .replace(
+                "[Job Location]",
+                if (joblocation.isNotEmpty()) joblocation else "[Job Location]"
+            )
 
         replacedContent = replacedContent.replace(
             "[Client Facebook]",
@@ -764,7 +898,6 @@ class SendEmailF : Fragment() {
         val density = resources.displayMetrics.density
         return (dp * density + 0.2f).toInt()
     }
-
 
 
     private fun getClientHeaderSummary() {
@@ -828,13 +961,11 @@ class SendEmailF : Fragment() {
                         t: Throwable
                     ) {
                         Log.i("exceptions", t.toString())
-
                     }
                 })
         } catch (ex: java.lang.Exception) {
             Toast.makeText(requireContext(), ex.toString(), Toast.LENGTH_LONG).show()
         }
-
     }
 
     fun formatHintWithRedAsterisk(hint: String): CharSequence {

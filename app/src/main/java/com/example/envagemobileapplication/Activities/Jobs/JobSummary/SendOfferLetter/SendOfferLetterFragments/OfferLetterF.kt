@@ -235,8 +235,6 @@ class OfferLetterF : Fragment() {
         datePickerHelper = DatePickerHelper(requireContext())
         setUpRtf()
 
-
-
         try {
             if (senderName != null) {
                 senderName =
@@ -305,8 +303,6 @@ class OfferLetterF : Fragment() {
         } catch (e: Exception) {
         }
 
-
-        // setUpRtf()
     }
 
     private fun clicklisteners() {

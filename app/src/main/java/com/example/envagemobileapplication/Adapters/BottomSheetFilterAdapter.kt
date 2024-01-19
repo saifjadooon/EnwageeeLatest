@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Fragments.Dashboard.ClientsF
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.ClientsF
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants

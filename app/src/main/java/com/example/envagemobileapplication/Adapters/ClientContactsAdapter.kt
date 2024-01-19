@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomsheetContactDetail
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomsheetContactDetail
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants

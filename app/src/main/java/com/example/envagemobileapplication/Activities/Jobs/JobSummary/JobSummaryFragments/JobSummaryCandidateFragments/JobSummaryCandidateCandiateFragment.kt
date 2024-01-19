@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Adapters.JobCandidateAdapter
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomsheetJobCandidatesKebabMenu
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomsheetJobCandidatesKebabMenu
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateCandidate
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobCanidates.GetJobCandidates
 import com.example.envagemobileapplication.Oauth.TokenManager
@@ -180,9 +180,7 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
                 if (!isLoading && lastVisibleItemPosition == totalItemCount - 1) {
                     // Load more data here
                     currentPage++
-                    if (totalItemCount < totalcandidates!!) {
-                        loadMoreData(currentPage)
-                    }
+                    loadMoreData(currentPage)
 
                 }
 
@@ -190,6 +188,7 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
         })
 
         binding.swipeRefreshLayout.setOnRefreshListener {
+            currentPage=1
             isfromswipeRefresh = true
             val model = SortDirectionCandidateCandidate(
                 candidateFilters = emptyList(),

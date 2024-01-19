@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <TextView
+            android:id="@+id/tv_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxWidth="100dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="Product Designer"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:text="Creator:Lori Bryson"
+
+android:drawableLeft="@drawable/ic_owner_name"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Name" />
+
+        <TextView
+            android:id="@+id/tvMinPayRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableLeft="@drawable/ic_dollar"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Min.Pay Rate:10.00 USD"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tvCreator" />
+
+        <TextView
+            android:id="@+id/tvMaxPayRate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableLeft="@drawable/ic_dollar"
+            android:drawablePadding="3dp"
+            android:text="Max.Pay Rate:10.00 USD"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvMinPayRate"
+            app:layout_constraintTop_toBottomOf="@+id/tvCreator" />
+
+        <TextView
+            android:id="@+id/tvTargetPayRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:drawableLeft="@drawable/ic_dollar"            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Target Pay Rate:30.00 USD"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvFrequency"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tvMinPayRate" />
+
+        <TextView
+            android:id="@+id/tvFrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableLeft="@drawable/ic_frequency"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="Frequency:Weekly"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvTargetPayRate"
+            app:layout_constraintTop_toBottomOf="@+id/tvMinPayRate" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:maxLength="15"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
+            app:layout_constraintStart_toEndOf="@+id/tv_Name"
+            app:layout_constraintTop_toTopOf="@+id/tv_Name">
+
+            <TextView
+                android:id="@+id/tvJobstatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="8"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Full Time"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/onboardingStatuscv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/clientname"
+                app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLength="15"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toTopOf="@+id/tv_Name">
+
+            <TextView
+                android:id="@+id/tvonsite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="8"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Onsite"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/onboardingStatuscv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/clientname"
+                app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLength="15"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
+            app:layout_constraintStart_toEndOf="@+id/cardView3"
+            app:layout_constraintTop_toTopOf="@+id/tv_Name">
+
+            <TextView
+                android:id="@+id/tvapproved"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="8"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Approved"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toStartOf="@+id/onboardingStatuscv"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/clientname"
+                app:layout_constraintTop_toBottomOf="@+id/tvJobName" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRequestedat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/ic_owner_name"
+            android:ellipsize="end"
+            android:maxWidth="180dp"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:text="Requested at:12-02-2023"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvCreator"
+            app:layout_constraintTop_toTopOf="@+id/tvCreator" />
+
+        <ImageView
+            android:id="@+id/kebabmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_menu_dots" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

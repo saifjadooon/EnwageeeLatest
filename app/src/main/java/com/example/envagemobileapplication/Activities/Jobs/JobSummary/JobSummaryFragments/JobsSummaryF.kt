@@ -9,6 +9,8 @@ import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
@@ -33,7 +35,6 @@ import java.text.SimpleDateFormat
 
 class JobsSummaryFragment : Fragment() {
     data class KeyValueData(val key: String, val value: String)
-
     private var weekdaysList: List<String> = ArrayList()
     private var isExpanded = false
     val viewModel: JobSummaryViewModel by activityViewModels()
@@ -59,10 +60,15 @@ class JobsSummaryFragment : Fragment() {
         initviews()
         observers()
         networkCalls()
+
         binding.ivShowmore.setOnClickListener {
             isExpanded = !isExpanded
-            isExpanded = !isExpanded
             updateRecyclerViewHeight()
+        }
+
+        binding.showmoredescription.setOnClickListener {
+            isExpanded = !isExpanded
+            updateDescriptionfieldViewHeight()
         }
         return binding.root
 
@@ -243,7 +249,7 @@ class JobsSummaryFragment : Fragment() {
                 if (it.data.jobInfo.industryName != null) {
                     binding.tvIndustry.setText(it.data.jobInfo.industryName.toString())
                 } else {
-                    binding.tvIndustry.setText("Not Provided")
+                    binding.tvIndustry.setText("-")
                 }
 
                 if (it.data.jobStatus.statusName != null) {
@@ -295,9 +301,6 @@ class JobsSummaryFragment : Fragment() {
                     binding.tvTotalDays.setText("Days:Not Provided")
                 }
 
-
-
-
                 if (it.data.jobInfo.address1 != null && it.data.jobInfo.address2 != null) {
                     binding.tvHomeAdress.setText(it.data.jobInfo.address1 + ", " + it.data.jobInfo.address2)
                 } else if (it.data.jobInfo.address1 != null && it.data.jobInfo.address2 == null) {
@@ -344,7 +347,10 @@ class JobsSummaryFragment : Fragment() {
                     ).into(binding.ivProfilePic)
                 }
 
-                if (!it.data?.jobInfo?.jopbDescription.isNullOrEmpty()) {
+                if (it.data?.jobInfo?.jopbDescription != null) {
+                    binding.webView.visibility = View.VISIBLE
+                    binding.showmoredescription.visibility = View.VISIBLE
+                    binding.tvNodescription.visibility = View.INVISIBLE
                     var filename = it.data?.jobInfo?.jopbDescription
                     var baseurlnew =
                         "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
@@ -355,7 +361,9 @@ class JobsSummaryFragment : Fragment() {
                     }
 
                 } else {
-                    binding.tvDescription.text = "No Description to Show"
+                    binding.webView.visibility = View.INVISIBLE
+                    binding.showmoredescription.visibility = View.INVISIBLE
+                    binding.tvNodescription.visibility = View.VISIBLE
                 }
 
 
@@ -363,7 +371,6 @@ class JobsSummaryFragment : Fragment() {
             }
         }
     }
-
 
     private fun parseBackgroundColor(tvJobstatus: TextView, hexColorCode: String) {
         val currentTextColor = Color.parseColor(hexColorCode)
@@ -415,7 +422,7 @@ class JobsSummaryFragment : Fragment() {
 
     private fun clicklisteners() {
         binding.clientname.setOnLongClickListener {
-            if (global.jobHeaderSummary!!.data.jobInfo.clientName!=null){
+            if (global.jobHeaderSummary!!.data.jobInfo.clientName != null) {
                 val toast = Toast.makeText(
                     context,
                     global.jobHeaderSummary!!.data.jobInfo.clientName,
@@ -427,11 +434,64 @@ class JobsSummaryFragment : Fragment() {
 
             true
         }
+        binding.postalcode.setOnLongClickListener {
+            if (global.jobHeaderSummary!!.data.jobInfo.zipcode != null) {
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.zipcode.toString(),
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+            true
+        }
+        binding.city.setOnLongClickListener {
+            if (global.jobHeaderSummary!!.data.jobInfo.state != null) {
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.state.toString(),
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+            true
+        }
+        binding.country.setOnLongClickListener {
+            if (global.jobHeaderSummary!!.data.jobInfo.city != null) {
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.city.toString(),
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+            true
+        }
         binding.tvJobName.setOnLongClickListener {
-            if (global.jobHeaderSummary!!.data.jobInfo.positionName!=null){
+            if (global.jobHeaderSummary!!.data.jobInfo.positionName != null) {
                 val toast = Toast.makeText(
                     context,
                     global.jobHeaderSummary!!.data.jobInfo.positionName,
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+            true
+        }
+        binding.tvIndustry.setOnLongClickListener {
+
+            if (global.jobHeaderSummary!!.data.jobInfo.industryName != null) {
+                val toast = Toast.makeText(
+                    context,
+                    global.jobHeaderSummary!!.data.jobInfo.industryName.toString(),
                     Toast.LENGTH_LONG
                 )
 
@@ -444,10 +504,9 @@ class JobsSummaryFragment : Fragment() {
             if (global.jobHeaderSummary!!.data.jobInfo.address1 != null && global.jobHeaderSummary!!.data.jobInfo.address2 != null) {
                 val toast = Toast.makeText(
                     context,
-                    global.jobHeaderSummary!!.data.jobInfo.address1 + " " + global.jobHeaderSummary!!.data.jobInfo.address2,
+                    global.jobHeaderSummary!!.data.jobInfo.address1 + ", " + global.jobHeaderSummary!!.data.jobInfo.address2,
                     Toast.LENGTH_LONG
                 )
-
                 toast.show()
 
             } else if (global.jobHeaderSummary!!.data.jobInfo.address1 != null && global.jobHeaderSummary!!.data.jobInfo.address2 == null) {
@@ -471,9 +530,8 @@ class JobsSummaryFragment : Fragment() {
 
             true
         }
-
         binding.location.setOnLongClickListener {
-            if (global.jobHeaderSummary!!.data.jobInfo.location!=null){
+            if (global.jobHeaderSummary!!.data.jobInfo.location != null) {
                 val toast = Toast.makeText(
                     context,
                     global.jobHeaderSummary!!.data.jobInfo.location.toString(),
@@ -485,7 +543,6 @@ class JobsSummaryFragment : Fragment() {
 
             true
         }
-
     }
 
     private fun setupBillingDetailAdapter(billdata: ArrayList<KeyValueData>) {
@@ -493,24 +550,47 @@ class JobsSummaryFragment : Fragment() {
         try {
             binding.rvBillingInformation.setHasFixedSize(true)
 
-            adapter = BillingDetailJobSummaryAdapter(
-                requireContext(),
-                billdata
-            )
+            val adapter = BillingDetailJobSummaryAdapter(requireContext(), billdata)
 
-
-            binding.rvBillingInformation.layoutManager = LinearLayoutManager(
+// Create a LinearLayoutManager and set its canScrollVertically property to false
+            val layoutManager = object : LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.VERTICAL,
                 false
-            )
+            ) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
 
+            binding.rvBillingInformation.layoutManager = layoutManager
             binding.rvBillingInformation.adapter = adapter
+
+            /*       binding.rvBillingInformation.setHasFixedSize(true)
+
+                   adapter = BillingDetailJobSummaryAdapter(
+                       requireContext(),
+                       billdata
+                   )
+
+
+                   binding.rvBillingInformation.layoutManager = LinearLayoutManager(
+                       requireContext(),
+                       LinearLayoutManager.VERTICAL,
+                       false
+
+                   )
+                   val layoutManager = object : LinearLayoutManager(requireContext()) {
+                       override fun canScrollVertically(): Boolean {
+                           return false
+                       }
+                   }
+
+                   binding.rvBillingInformation.adapter = adapter*/
         } catch (e: Exception) {
         }
 
     }
-
 
     private fun setupHorizontalScrollView(weekdaysList: List<String>) {
         for (itemText in weekdaysList) {
@@ -536,19 +616,26 @@ class JobsSummaryFragment : Fragment() {
         binding.rvBillingInformation.layoutParams.height = newHeight
         binding.rvBillingInformation.requestLayout()
     }
-/*
-    fun formatDate(inputDate: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-        val outputFormat = SimpleDateFormat("MM-dd-yyyy")
 
-        try {
-            val date = inputFormat.parse(inputDate)
-            return outputFormat.format(date)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return "" // Handle parsing error here
+    private fun updateDescriptionfieldViewHeight() {
+        val newHeight: Int
+        val newLayoutParams: ViewGroup.LayoutParams
+
+        if (isExpanded) {
+            binding.showmoredescription.setImageDrawable(requireContext().getDrawable(com.example.envagemobileapplication.R.drawable.ic_showless))
+            // Set a larger height when "show more" is clicked
+            newHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+        } else {
+            binding.showmoredescription.setImageDrawable(requireContext().getDrawable(com.example.envagemobileapplication.R.drawable.ic_showmore))
+            // Set the original height when "show less" is clicked
+            newHeight = resources.getDimensionPixelSize(R.dimen.original_height_webview)
         }
-    }*/
+
+        newLayoutParams = binding.webView.layoutParams
+        newLayoutParams.height = newHeight
+        binding.webView.layoutParams = newLayoutParams
+        binding.webView.requestLayout()
+    }
 
     fun formatDate(inputDate: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
@@ -564,8 +651,6 @@ class JobsSummaryFragment : Fragment() {
     }
 
     fun loadJobDescriptionContent(url: String) {
-
-        //val htmlTextView = HtmlTextView(requireContext())
         Thread {
             try {
                 val urlConnection = URL(url).openConnection() as HttpURLConnection
@@ -582,44 +667,39 @@ class JobsSummaryFragment : Fragment() {
 
                 val htmlContent = response.toString()
 
-
                 requireActivity().runOnUiThread {
+                    binding.webView.settings.javaScriptEnabled = true
+                    binding.webView.webViewClient = object : WebViewClient() {
+                        override fun shouldOverrideUrlLoading(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): Boolean {
+                            // Intercept URL clicks, making them unclickable
+                            return true
+                        }
+                    }
+
+                    binding.webView.loadDataWithBaseURL(
+                        null,
+                        htmlContent,
+                        "text/html",
+                        "UTF-8",
+                        null
+                    )
+
                     val spannedText: Spanned =
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            binding.webView.settings.javaScriptEnabled =
-                                true // Enable JavaScript if needed
-                            binding.webView.webViewClient = WebViewClient()
-
-                            binding.webView.loadDataWithBaseURL(
-                                null,
-                                htmlContent,
-                                "text/html",
-                                "UTF-8",
-                                null
-                            )
                             Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_LEGACY)
                         } else {
-                            binding.webView.settings.javaScriptEnabled =
-                                true // Enable JavaScript if needed
-                            binding.webView.webViewClient = WebViewClient()
-
-                            binding.webView.loadDataWithBaseURL(
-                                null,
-                                htmlContent,
-                                "text/html",
-                                "UTF-8",
-                                null
-                            )
                             Html.fromHtml(htmlContent)
                         }
+
                     val description: String = spannedText.toString()
 
                     if (description.isNullOrEmpty()) {
-
                         binding.tvNodescription.visibility = View.VISIBLE
                         binding.webView.visibility = View.INVISIBLE
                     } else {
-
                         binding.tvDescription.text = spannedText
                     }
                 }
@@ -627,11 +707,11 @@ class JobsSummaryFragment : Fragment() {
                 inputStream.close()
                 urlConnection.disconnect()
 
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 // Handle errors here
             }
         }.start()
     }
+
 }

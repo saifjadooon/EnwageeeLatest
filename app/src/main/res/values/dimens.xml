@@ -13,6 +13,7 @@
 
     <dimen name="expanded_height">700dp</dimen>
     <dimen name="original_height">200dp</dimen>
+    <dimen name="original_height_webview">100dp</dimen>
     <dimen name="top_margin">20dp</dimen>
     <dimen name="bottom_margin">10dp</dimen>
     <dimen name="divider_height">1dp</dimen>

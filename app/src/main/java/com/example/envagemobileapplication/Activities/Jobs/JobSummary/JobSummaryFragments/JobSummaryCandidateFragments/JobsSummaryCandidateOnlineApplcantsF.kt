@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Adapters.OnlineApplicantsAdapter
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetJobOnlineAplicants
-import com.example.envagemobileapplication.Fragments.BottomSheet.OnlineApplicantBottomSheet
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetJobOnlineAplicants
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.OnlineApplicantBottomSheet
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionGetOnlineCandidate
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.OnlineApplicantsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.Record
@@ -123,7 +123,6 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
         }
 
         viewModel.LDviewBottomSheet.observe(requireActivity()) {
-
             if (global.isfirstTimeFragmentLoaded) {
 
             } else {
@@ -132,7 +131,6 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
                 } else {
                     try {
                         var applicantid = it.toString()
-
                         com.example.envagemobileapplication.Utils.Global.applicantid = applicantid
                         bottomSheetFragment.show(
                             requireActivity().supportFragmentManager,
@@ -250,6 +248,7 @@ class JobsSummaryCandidateOnlineApplcantsF : Fragment() {
 
     private fun clicklisteners() {
         binding.swipeRefreshLayout.setOnRefreshListener {
+            currentPage=1
             isfromswipeRefresh = true
             /*1802*/
             val model = SortDirectionGetOnlineCandidate(

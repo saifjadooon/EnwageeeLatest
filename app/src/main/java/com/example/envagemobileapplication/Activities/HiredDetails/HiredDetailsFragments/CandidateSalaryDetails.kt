@@ -14,15 +14,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 import com.example.envagemobileapplication.Models.RequestModels.UpdateCandidateStatusRequestModel
 import com.example.envagemobileapplication.Oauth.TokenManager
+import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.HireCandidateViewModel
 import com.example.envagemobileapplication.databinding.FragmentCandidateSalaryDetailsBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.round
 
 
@@ -62,36 +65,55 @@ class CandidateSalaryDetails : Fragment() {
             loader.hide()
             if (it.data != null) {
 
-                try {
-                    Toast.makeText(
-                        requireContext(),
-                        "Candidate status updated Successfully",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-                    val delayMillis = 1000L // Delay between transitions in milliseconds
-                    val handler = Handler()
-                    handler.postDelayed({
-                        val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
-                        requireActivity().finish()
-                        startActivity(intent)
-                    }, delayMillis)
+                if(it.data.message!="HeadCount Error"){
+                    try {
+                        Toast.makeText(
+                            requireContext(),
+                            "Candidate status updated Successfully",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        val delayMillis = 1000L // Delay between transitions in milliseconds
+                        val handler = Handler()
+                        handler.postDelayed({
+                            val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
+                            requireActivity().finish()
+                            startActivity(intent)
+                        }, delayMillis)
 
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Candidate status updated Successfully",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-                    val delayMillis = 1000L // Delay between transitions in milliseconds
-                    val handler = Handler()
-                    handler.postDelayed({
-                        val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
-                        requireActivity().finish()
-                        startActivity(intent)
-                    }, delayMillis)
+                    }
+                    catch (e: Exception) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Candidate status updated Successfully",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        val delayMillis = 1000L // Delay between transitions in milliseconds
+                        val handler = Handler()
+                        handler.postDelayed({
+                            val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
+                            requireActivity().finish()
+                            startActivity(intent)
+                        }, delayMillis)
+                    }
                 }
+
+                else {
+                    val rootView = binding.root
+                    val message = "You are not allowed to create an employee more than the headcount"
+                    val duration = Snackbar.LENGTH_SHORT
+
+                    val snackbar = Snackbar.make(rootView, message, duration)
+                    snackbar.setActionTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
+                    )
+                    snackbar.show()
+                }
+
             }
         }
     }
@@ -176,10 +198,10 @@ class CandidateSalaryDetails : Fragment() {
                         var markup = global.getjobbyjoid.data.billingDetails.markup
                         var billrate = calculateBillRate(markup.toDouble(), payrate.toDouble())
                         binding.etbillrate.setText(billrate.toString())
-                        var otPayrate = payrate.toInt() * overtimeMultiplier
+                       /* var otPayrate = payrate.toInt() * overtimeMultiplier
                         binding.etovertimePayrate.setText(otPayrate.toString())
                         var dtPayrate = payrate.toInt() * doubletimeMultiplier
-                        binding.etdoubletimePayrate.setText(dtPayrate.toString())
+                        binding.etdoubletimePayrate.setText(dtPayrate.toString())*/
 
                     } else {
                         binding.etbillrate.setText("")
@@ -214,6 +236,9 @@ class CandidateSalaryDetails : Fragment() {
                         otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
                         binding.etovertimeBillRate.setText(otBillRate.toString())
                     }
+                    else {
+                        binding.etovertimeBillRate.setText("")
+                    }
                 } catch (e: Exception) {
 
                 }
@@ -244,6 +269,10 @@ class CandidateSalaryDetails : Fragment() {
                         dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
                         binding.etdoubletimeBillRate.setText(dtBillRate.toString())
                     }
+
+                    else {
+                        binding.etdoubletimeBillRate.setText("")
+                    }
                 } catch (e: Exception) {
 
                 }
@@ -267,12 +296,12 @@ class CandidateSalaryDetails : Fragment() {
 
             binding.etovertimePayrate.setText(otPayrate.toString())
 
-            try {
+          /*  try {
                 otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
 
                 binding.etovertimeBillRate.setText(otBillRate.toString())
             } catch (e: Exception) {
-            }
+            }*/
 
 
         }
@@ -292,13 +321,13 @@ class CandidateSalaryDetails : Fragment() {
 
             binding.etovertimePayrate.setText(otPayrate.toString())
 
-            try {
+          /*  try {
                 otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
 
                 binding.etovertimeBillRate.setText(otBillRate.toString())
             } catch (e: Exception) {
 
-            }
+            }*/
 
 
         }
@@ -319,8 +348,8 @@ class CandidateSalaryDetails : Fragment() {
             binding.etdoubletimePayrate.setText(dtPayrate.toString())
 
             try {
-                dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+               /* dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
+                binding.etdoubletimeBillRate.setText(dtBillRate.toString())*/
             } catch (e: Exception) {
             }
 
@@ -342,8 +371,8 @@ class CandidateSalaryDetails : Fragment() {
             binding.etdoubletimePayrate.setText(dtPayrate.toString())
 
             try {
-                dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+               /* dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
+                binding.etdoubletimeBillRate.setText(dtBillRate.toString())*/
             } catch (e: Exception) {
 
             }

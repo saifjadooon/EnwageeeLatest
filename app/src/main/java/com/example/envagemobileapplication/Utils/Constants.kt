@@ -9,7 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
-import com.example.envagemobileapplication.Activities.MainActivity
+import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
 import com.example.envagemobileapplication.Models.RequestModels.AssignJobRequestModel
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
@@ -21,10 +21,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.Data
 
 class Constants {
 
     companion object {
+        var jobReqData:  Data?= null
         var CandidateJobSelectedStatus: String? = ""
         var descriptionText: String? = ""
         var reasonText: String? = ""

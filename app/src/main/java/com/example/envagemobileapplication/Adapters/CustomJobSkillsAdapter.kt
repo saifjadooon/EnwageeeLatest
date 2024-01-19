@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.TextView
 import com.example.envagemobileapplication.Models.RequestModels.SkillsRequestModels
-
 import com.example.envagemobileapplication.R
 
 class CustomJobSkillsAdapter(
@@ -32,24 +31,32 @@ class CustomJobSkillsAdapter(
 
     private fun getCustomView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: inflater.inflate(R.layout.spinner_item_weekday, parent, false)
-
         val checkbox: CheckBox = view.findViewById(R.id.checkbox)
         val weekdayText: TextView = view.findViewById(R.id.weekdayText)
-
         val weekday = getItem(position)!!
-
-        // Set the checkbox state without triggering the listener
         checkbox.setOnCheckedChangeListener(null)
         checkbox.isChecked = weekday.isSelected
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (userInteracted) {
                 weekday.isSelected = isChecked
-                // Notify the listener only if the change is due to user interaction
                 onItemSelectedListener(getSelectedWeekdays())
             }
         }
 
         weekdayText.text = weekday.name
+        var global = com.example.envagemobileapplication.Utils.Global
+
+        for (i in 0 until global.editreqjobSkills!!.size) {
+
+            if (weekdayText.text == global.editreqjobSkills!!.get(i).name) {
+
+                checkbox.isChecked = true
+                weekday.isSelected = true
+                onItemSelectedListener(getSelectedWeekdays())
+                //  checkbox.isChecked = weekday.isSelected
+            }
+        }
+
 
         return view
     }

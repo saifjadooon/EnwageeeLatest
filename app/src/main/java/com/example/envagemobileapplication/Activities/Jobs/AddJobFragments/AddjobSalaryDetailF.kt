@@ -362,10 +362,10 @@ class AddjobSalaryDetailF : Fragment() {
                     binding.TImarkupPercentage.error = "Markup Percentage is Required."
                 }
                 if (maxPAyRatee.isNullOrEmpty()) {
-                    binding.TImaxPayrate.error = "Max. Pay Rate  is Required."
+                    binding.TImaxPayrate.error = "Max. Pay Rate is Required."
                 }
                 if (minPayRate.isNullOrEmpty()) {
-                    binding.TIminPayrate.error = "Min. Pay Rate  is Required."
+                    binding.TIminPayrate.error = "Min. Pay Rate is Required."
                 }
                 if (targetPayrate.isNullOrEmpty()) {
                     binding.TItargetPayrate.error = "Target Pay Rate is Required."

@@ -1,7 +1,6 @@
 package com.example.envagemobileapplication.Adapters
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -13,9 +12,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Activities.Assesments.AssesmentDetailActivity
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetEditJob
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomsheetViewAssesment
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomsheetViewAssesment
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentResp.Record
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation

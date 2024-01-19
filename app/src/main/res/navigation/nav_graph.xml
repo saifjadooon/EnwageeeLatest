@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.envagemobileapplication.Activities.AddClient.FirstFragment"
+        android:name="com.example.envagemobileapplication.Activities.Client.AddClient.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.envagemobileapplication.Activities.AddClient.SecondFragment"
+        android:name="com.example.envagemobileapplication.Activities.Client.AddClient.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

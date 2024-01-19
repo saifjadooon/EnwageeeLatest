@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import com.example.envagemobileapplication.Activities.Jobs.AddJob.AddJobActivity
 import com.example.envagemobileapplication.Adapters.customadapter
-import com.example.envagemobileapplication.Fragments.BottomSheet.BSheetAddjobClientList
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BSheetAddjobClientList
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobBasicDetailRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.PaygroupRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.getCustomTemplateRequestModel

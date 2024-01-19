@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e0e93bcb6389ef45e994a4bb39e13c6b/transformed/jetified-keyboardvisibilityevent-3.0.0-RC1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e0e93bcb6389ef45e994a4bb39e13c6b/transformed/jetified-keyboardvisibilityevent-3.0.0-RC1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e0e93bcb6389ef45e994a4bb39e13c6b/transformed/jetified-keyboardvisibilityevent-3.0.0-RC1/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -13,10 +13,12 @@ import com.example.envagemobileapplication.Models.RequestModels.PaygroupRequestM
 import com.example.envagemobileapplication.Models.RequestModels.getCustomTemplateRequestModel
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddJobResponse.AddJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.EditJobReqResponse.EditJobReqResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.GetIndustryListResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.PayGroupResponse.PayGroupResponse
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.databinding.FragmentAddjobSalaryDetailBinding
+import com.example.envagemobileapplication.databinding.FragmentSalaryDetailBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -87,6 +89,10 @@ class AddJobsSharedViewModel : ViewModel() {
     val LDAddJob: LiveData<AddJobResponse>
         get() = MLDAddJob
     private val MLDAddJob = MutableLiveData<AddJobResponse>()
+
+    val LDEditJobReq: LiveData<EditJobReqResponse>
+        get() = MLDEditJobReq
+    private val MLDEditJobReq = MutableLiveData<EditJobReqResponse>()
 
 ///=======>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<===============================\\\
 
@@ -341,6 +347,142 @@ class AddJobsSharedViewModel : ViewModel() {
                     }
 
                     override fun onFailure(call: Call<AddJobResponse>, t: Throwable) {
+
+                        Log.i("exceptionddsfdsfds", t.toString())
+
+                    }
+                })
+        }
+
+
+    }
+
+    fun editJobReqApi(
+        binding: FragmentSalaryDetailBinding,
+        context: Context,
+        token: String,
+        description: MultipartBody.Part,
+        positionName: MultipartBody.Part,
+        payrollPayGroupId: MultipartBody.Part,
+        industryId: MultipartBody.Part,
+        jobNature: MultipartBody.Part,
+        address1: MultipartBody.Part,
+        address2: MultipartBody.Part,
+        country: MultipartBody.Part,
+        zipcode: MultipartBody.Part,
+        city: MultipartBody.Part,
+        state: MultipartBody.Part,
+        location: MultipartBody.Part,
+        headcount: MultipartBody.Part,
+        jobType: MultipartBody.Part,
+        startDate: MultipartBody.Part,
+        endDate: MultipartBody.Part,
+        currency: MultipartBody.Part,
+        minimumSalary: MultipartBody.Part,
+        maximumSalary: MultipartBody.Part,
+        jobFrequency: MultipartBody.Part,
+        workingDaysNo: MultipartBody.Part,
+        estimatedHours: MultipartBody.Part,
+        WorkingDays: MultipartBody.Part,
+        jobSkills: MultipartBody.Part,
+        markup: MultipartBody.Part,
+        minPayRate: MultipartBody.Part,
+        minBillRate: MultipartBody.Part,
+        maxPayRate: MultipartBody.Part,
+        maxBillRate: MultipartBody.Part,
+        targetPayRate: MultipartBody.Part,
+        targetBillRate: MultipartBody.Part,
+        overTimeMultiplier: MultipartBody.Part,
+        overtimeType: MultipartBody.Part,
+        overtimeMarkup: MultipartBody.Part,
+        overtimePayRate: MultipartBody.Part,
+        overtimeBillRate: MultipartBody.Part,
+        doubletimeMultiplier: MultipartBody.Part,
+        doubletimeType: MultipartBody.Part,
+        doubletimeMarkup: MultipartBody.Part,
+        doubletimePayRate: MultipartBody.Part,
+        doubletimeBillRate: MultipartBody.Part,
+        frequency: MultipartBody.Part,
+        jobRequestId: MultipartBody.Part
+    ) {
+
+        viewModelScope.launch {
+            ApiUtils.getAPIService(context).EditJobReq(
+                token,
+                description,
+                positionName,
+                payrollPayGroupId,
+                industryId,
+
+                jobNature,
+                address1,
+                address2,
+                country,
+                zipcode,
+                city,
+                state,
+                location,
+                headcount,
+                jobType,
+                startDate,
+                endDate,
+                currency,
+                minimumSalary,
+                maximumSalary,
+                jobFrequency,
+                workingDaysNo,
+                estimatedHours,
+                WorkingDays,
+                jobSkills,
+                markup,
+                minPayRate,
+                minBillRate,
+                maxPayRate,
+                maxBillRate,
+                targetPayRate,
+                targetBillRate,
+                overTimeMultiplier,
+                overtimeType,
+                overtimeMarkup,
+                overtimePayRate,
+                overtimeBillRate,
+                doubletimeMultiplier,
+                doubletimeType,
+                doubletimeMarkup,
+                doubletimePayRate,
+                doubletimeBillRate,
+                frequency,
+                jobRequestId
+            )
+                .enqueue(object : Callback<EditJobReqResponse> {
+                    override fun onResponse(
+                        call: Call<EditJobReqResponse>,
+                        response: Response<EditJobReqResponse>
+                    ) {
+
+                        if (response.body() != null) {
+
+                            MLDEditJobReq.postValue(response.body())
+
+                        } else {
+                            binding.btnnext.isEnabled = true
+                            val rootView = binding.root
+                            val message = "Invalid parameters"
+                            val duration = Snackbar.LENGTH_SHORT
+
+                            val snackbar = Snackbar.make(rootView, message, duration)
+                            snackbar.setActionTextColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.red
+                                )
+                            )
+                            snackbar.show()
+                            Log.i("errormsg", response.message())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<EditJobReqResponse>, t: Throwable) {
 
                         Log.i("exceptionddsfdsfds", t.toString())
 

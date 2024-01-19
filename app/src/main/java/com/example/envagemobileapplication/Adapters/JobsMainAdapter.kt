@@ -13,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Activities.Jobs.JobSummary.JobsSummaryActivity
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetEditJob
-import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetJobsStatus
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetEditJob
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetJobsStatus
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.Record
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.Datum
 import com.example.envagemobileapplication.R
@@ -181,6 +181,7 @@ class JobsMainAdapter(
             Global.jobGuid = dataList.get(position).guid
             Global.jobtitle =
                 dataList.get(position).positionName
+            Global.isbackfromjobsummary = true
             context.startActivity(Intent(context, JobsSummaryActivity::class.java))
         }
 
