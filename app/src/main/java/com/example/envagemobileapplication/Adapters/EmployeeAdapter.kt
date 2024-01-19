@@ -1,8 +1,8 @@
 package com.example.envagemobileapplication.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.envagemobileapplication.Activities.Employees.EmployeeProfileSummary
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
+import com.example.envagemobileapplication.Utils.Constants
 import com.squareup.picasso.Picasso
 
 class EmployeeAdapter(
@@ -71,6 +74,15 @@ class EmployeeAdapter(
                 }
 
                 true
+            }
+
+
+            holder.itemLayout.setOnClickListener {
+
+                Constants.employeeGUID = dataList.get(position).guid
+                Constants.employeeName = dataList.get(position).firstName +" "+ dataList.get(position).lastName
+
+                context.startActivity(Intent(context, EmployeeProfileSummary::class.java))
             }
 
             holder.tv_emp_name.text = dataList.get(position).firstName +" "+ dataList.get(position).lastName
@@ -172,6 +184,7 @@ class EmployeeAdapter(
         var tv_emp_address1: TextView = itemView.findViewById(R.id.tv_emp_address1)
         var emp_profile_pic: ImageView = itemView.findViewById(R.id.emp_profile_pic)
         var iv_gender: ImageView = itemView.findViewById(R.id.iv_gender)
+        var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
 
 
     }

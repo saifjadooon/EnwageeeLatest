@@ -19,6 +19,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ConvertCandidateResponse.ConvertCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.EmployeeHeaderSummaryResponse.EmployeeHeaderSummaryResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
@@ -39,6 +40,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.GetJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.GetJobsStatusesResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetOfferLetterTemplates.GetOfferLetterTemplates
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetPlacementResponse.GetPlacementResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetRecentJobsRes.GetRecentJobsRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetRights.GetRigths
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetSpecificAssesmentRsp.GetspecificAssesmentResp
@@ -538,10 +540,23 @@ public interface ApiInterface {
         @Path("candidateGUID") candidateId: String
     ): Call<CandidateJobsResponse>
 
+    @GET("api/v1/Employee/get-job-placements/{employeeGUID}")
+    fun GetEmployeeSummaryPlacement(
+        @Header("x-access-token") authorization: String,
+        @Path("employeeGUID") employeeGUID: String
+    ): Call<GetPlacementResponse>
+
     @GET("/api/v1/CandidateEducation/get-all/{candidateGUID}")
     fun GetCandidateSummaryEducation(
         @Header("x-access-token") authorization: String,
         @Path("candidateGUID") candidateId: String
+    ): Call<CandidateSummaryEducationRes>
+
+
+    @GET("/api/v1/EmployeeEducation/get-all/{employeeGUID}")
+    fun GetEmployeeSummaryEducation(
+        @Header("x-access-token") authorization: String,
+        @Path("employeeGUID") employeeGUID: String
     ): Call<CandidateSummaryEducationRes>
 
     @GET("/api/v1/CandidateExperience/get-all/{candidateGUID}")
@@ -550,10 +565,22 @@ public interface ApiInterface {
         @Path("candidateGUID") candidateId: String
     ): Call<CandidateSummaryExperienceRes>
 
+    @GET("/api/v1/EmployeeExperience/get-all/{employeeGUID}")
+    fun GetEmployeeSummaryExperience(
+        @Header("x-access-token") authorization: String,
+        @Path("employeeGUID") employeeGUID: String
+    ): Call<CandidateSummaryExperienceRes>
+
     @GET("/api/v1/CandidateSkill/get-candidate-skills/{candidateGUID}")
     fun GetCandidateSummarySkills(
         @Header("x-access-token") authorization: String,
         @Path("candidateGUID") candidateId: String
+    ): Call<CandidateSummarySkillsRes>
+
+    @GET("/api/v1/EmployeeSkills/get-employee-skills/{employeeGUID}")
+    fun GetEmployeeSummarySkills(
+        @Header("x-access-token") authorization: String,
+        @Path("employeeGUID") employeeGUID: String
     ): Call<CandidateSummarySkillsRes>
 
     @GET("/api/v1/Candidate/summary/{candidateGUID}")
@@ -561,6 +588,13 @@ public interface ApiInterface {
         @Header("x-access-token") authorization: String,
         @Path("candidateGUID") candidateId: String
     ): Call<CandidateHeaderSummaryResponse>
+
+    @GET("/api/v1/Employee/get-header-summary/{employeeGUID}")
+    fun GetEmployeeHeaderSummary(
+        @Header("x-access-token") authorization: String,
+        @Path("employeeGUID") candidateId: String
+    ): Call<EmployeeHeaderSummaryResponse>
+
 
     @POST("api/v1/Employee/employees")
     fun getEmployees(

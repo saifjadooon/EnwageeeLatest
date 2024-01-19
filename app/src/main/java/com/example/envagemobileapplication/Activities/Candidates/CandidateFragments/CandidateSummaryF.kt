@@ -550,28 +550,7 @@ class CandidateSummaryF : Fragment() {
     }
 
 
-    fun uriToFile(contentResolver: ContentResolver, uri: Uri): File? {
-        try {
-            val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
-            cursor?.use {
-                it.moveToFirst()
-                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                val inputStream = contentResolver.openInputStream(uri)
-                val file = File(Constants.context!!.cacheDir, displayName)
 
-                inputStream?.use { input ->
-                    file.outputStream().use { output ->
-                        input.copyTo(output)
-                    }
-                    return file
-                }
-            }
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
-            e.printStackTrace()
-        }
-        return null
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -713,6 +692,8 @@ class CandidateSummaryF : Fragment() {
 
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 
+//
+
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 openCameraActivityResultLauncher.launch(pictureIntent)
             } else {
@@ -769,6 +750,29 @@ class CandidateSummaryF : Fragment() {
         val matrix = Matrix()
         matrix.preRotate(rotationDegree.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    fun uriToFile(contentResolver: ContentResolver, uri: Uri): File? {
+        try {
+            val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
+            cursor?.use {
+                it.moveToFirst()
+                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                val inputStream = contentResolver.openInputStream(uri)
+                val file = File(Constants.context!!.cacheDir, displayName)
+
+                inputStream?.use { input ->
+                    file.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                    return file
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
+        return null
     }
 
 
@@ -835,6 +839,23 @@ class CandidateSummaryF : Fragment() {
         }
     }
 
+    private fun getImageFile(): File {
+        val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
+        val storageDir: File = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            requireContext().filesDir
+        } else {
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                "Camera"
+            )
+        }
+        val file = File.createTempFile(
+            imageFileName, ".jpg", storageDir
+        )
+        currentPhotoPath = "file:" + file.absolutePath
+        return file
+    }
+
     private fun UpdateProfilePic(bodyofpf: MultipartBody.Part) {
         loader.show()
 
@@ -891,39 +912,9 @@ class CandidateSummaryF : Fragment() {
 
 
     }
-    private fun getImageFile(): File {
-        val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
-        val storageDir: File = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            requireContext().filesDir
-        } else {
-            File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                "Camera"
-            )
-        }
-        val file = File.createTempFile(
-            imageFileName, ".jpg", storageDir
-        )
-        currentPhotoPath = "file:" + file.absolutePath
-        return file
-    }
+
 
     private fun clickListeners() {
-//        binding.ivFb.setOnClickListener{
-//            Toast.makeText(requireContext(), "fb clicked", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        binding.ivLinkedIn.setOnClickListener{
-//            Toast.makeText(requireContext(), "ivLinkedIn clicked", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        binding.ivTwitter.setOnClickListener{
-//            Toast.makeText(requireContext(), "twitter clicked", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        binding.ivInstagram.setOnClickListener{
-//            Toast.makeText(requireContext(), "instagram clicked", Toast.LENGTH_SHORT).show()
-//        }
 
 //        LongClick Listeners
         binding.candidateName.setOnLongClickListener{
@@ -960,7 +951,6 @@ class CandidateSummaryF : Fragment() {
             }
 
 
-
             binding.cvTakePhoto.setOnClickListener {
                 openCamera()
                 binding.cvGallery.setBackgroundResource(R.drawable.searchbg)
@@ -991,10 +981,7 @@ class CandidateSummaryF : Fragment() {
                         null
                     )
                 }
-
-
             }
-
             binding.cvGallery.setOnClickListener {
 
                 openGallery()

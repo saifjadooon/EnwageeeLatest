@@ -75,6 +75,12 @@ class Constants {
         var candidateJobDropedId: Int = 0
         var candidateName: String = ""
         var candidateId: String? = ""
+
+        var employeeGUID : String? = ""
+        var employeeName : String? = ""
+        var employeeId : Int = 0
+
+
         var isfromBackpress: Boolean = false
         var statusclickedColor: String? = ""
         var clientPocId: Int? = 0

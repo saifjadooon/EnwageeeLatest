@@ -140,8 +140,7 @@ class CandidateAdapter(
         var iv_deal_status: TextView = itemView.findViewById(R.id.iv_deal_status)
         var tv_dropdown: ImageView = itemView.findViewById(R.id.tv_dropdown)
         var iv_profile_pic: ImageView = itemView.findViewById(R.id.iv_profile_pic)
-         var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
-
+        var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
 
     }
 

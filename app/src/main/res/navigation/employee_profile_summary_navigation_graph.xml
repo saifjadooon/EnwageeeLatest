@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employee_profile_summary_navigation_graph"
+    app:startDestination="@id/employeeProfileSummaryF">
+
+
+    <fragment
+        android:id="@+id/employeeProfileSummaryF"
+        android:name="com.example.envagemobileapplication.Activities.Employees.EmployeeFragments.EmployeeProfileSummaryF"
+        android:label="fragment_employee_profile_summary"
+        tools:layout="@layout/fragment_employee_profile_summary" />
+</navigation>

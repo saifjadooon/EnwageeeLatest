@@ -72,7 +72,6 @@ class CandidateProfileSummary : BaseActivity() {
         }
 
 
-
         val itemList = listOf(
             Pair("Candidate summary", R.drawable.ic_profile_summary),
             Pair("Resumes", R.drawable.ic_resume),

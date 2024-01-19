@@ -65,14 +65,17 @@ class LoginFragment : Fragment() {
 //                val username = binding.etUsername.text.toString().trimEnd()
 //                val password = binding.etPassword.text.toString().trimEnd()
 
-               val username = "raja@mailinator.com"
-               val password = "Login@786"
+               val username = "jamesnunez@mailinator.com"
+               val password = "Pakistan@0011"
 /*
             val username = "upshiftuser"
             val password = "Test@Zxc756"*/
 
 //            val username = ""
 //            val password = ""
+
+
+
 
             if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
                 if (username.isNullOrEmpty()) {

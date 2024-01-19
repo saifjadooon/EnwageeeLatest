@@ -699,6 +699,8 @@ class MainActivity : BaseActivity() {
 
                     binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
                     binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+
+
                     var isfromCompnyStatus = false
                     loader.show()
                     val model = sortDirection(
@@ -814,6 +816,11 @@ class MainActivity : BaseActivity() {
                     binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
                     binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
                     binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+
                     val model = SortDirectionCandidates(
                         candidateFilters = emptyList(),
                         pageIndex = 1,
@@ -852,6 +859,10 @@ class MainActivity : BaseActivity() {
 
                     binding.leftDrawerMenu.cvClient.setBackgroundResource(R.drawable.btn_black_radius)
                     binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.white))
+
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
                     var isfromCompnyStatus = false
                     loader.show()
@@ -895,6 +906,11 @@ class MainActivity : BaseActivity() {
 
                     binding.leftDrawerMenu.cvJobs.setBackgroundResource(R.drawable.btn_black_radius)
                     binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.white))
+
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+
                     loader.show()
                     var isfromJobBottomSheet = false
 
@@ -946,6 +962,10 @@ class MainActivity : BaseActivity() {
 
                     binding.leftDrawerMenu.cvMessages.setBackgroundResource(R.drawable.btn_black_radius)
                     binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.white))
+
+                    binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+                    binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
 
                     replaceFragment(MessagesF(), bundle)
 
@@ -1258,6 +1278,7 @@ class MainActivity : BaseActivity() {
             replaceFragment(ClientsF(), bundle)
 
         }
+
         viewModel.LDgetLoggedinClientDetail.observe(this)
         {
            global.loggedinuserDetails = it.data
@@ -1282,19 +1303,23 @@ class MainActivity : BaseActivity() {
                     Picasso.get().load(tokenManager.getProfilePic())
                         .into(binding.leftDrawerMenu.ivProfile)
                 } catch (e: Exception) {
+
                 }
 
                 try {
                     binding.leftDrawerMenu.tvUserEmail.text = tokenManager.getUserEmail()
                 } catch (ex: Exception) {
+
                 }
 
                 try {
                     //  binding.leftDrawerMenu.tvUsername.text = tokenManager.getUserName()
                 } catch (ex: Exception) {
+
                 }
             }
         }
+
         viewModel.LDgetJobs.observe(this) {
             loader.hide()
             if (it.data != null) {
@@ -1303,12 +1328,10 @@ class MainActivity : BaseActivity() {
                     ArrayList()
 
                 for (i in 0 until it.data.records.size) {
-
-
                     jobsList.add(it.data.records.get(i))
                 }
-                Constants.JobsList = jobsList
 
+                Constants.JobsList = jobsList
                 replaceFragment(JobsF(), bundle)
             }
 
@@ -1349,12 +1372,12 @@ class MainActivity : BaseActivity() {
 
 
         try {
-
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.white))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
             binding.leftDrawerMenu.cvHome.setBackgroundResource(R.drawable.btn_black_radius)
@@ -1365,9 +1388,11 @@ class MainActivity : BaseActivity() {
             binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
             binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
             binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
         } catch (e: Exception) {
-        }
 
+        }
 
     }
 
@@ -1381,7 +1406,6 @@ class MainActivity : BaseActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(networkChangeReceiver, intentFilter)
-
 
         if(global.isBackFromCandidateSummary){
             global.isBackFromCandidateSummary = false

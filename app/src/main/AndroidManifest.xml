@@ -39,18 +39,21 @@
         android:theme="@style/Theme.EnvageMobileApplication"
         tools:replace="android:theme"
         tools:targetApi="31">
-
         <activity
-            android:name=".Activities.Jobs.JobSummary.JobSummaryFragments.JobSummaryCandidateFragments.JobSummaryActivities.CandiDropReasonActivity"
+            android:name=".Activities.Employees.EmployeeProfileSummary"
             android:exported="false"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".Activities.Jobs.JobSummary.JobSummaryFragments.JobSummaryCandidateFragments.JobSummaryActivities.CandiDropReasonActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.Assesments.AssesmentDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.Jobs.JobSummary.ComposeMessage.ComposeMessageActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activities.Jobs.JobSummary.SendOfferLetter.SendOfferLetterActivity"
             android:exported="true"
@@ -66,15 +69,13 @@
         </activity>
         <activity
             android:name=".Activities.Candidates.RecentJobs"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.Candidates.CandidateJobStatusChange"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.Candidates.CandidateProfileSummary"
             android:exported="false"
@@ -83,7 +84,6 @@
             android:name=".Activities.HiredDetails.HiredDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-
 
             <!--
             <intent-filter>
@@ -211,7 +211,6 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             tools:replace="android:authorities" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.squareup.picasso.provider"
@@ -219,7 +218,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

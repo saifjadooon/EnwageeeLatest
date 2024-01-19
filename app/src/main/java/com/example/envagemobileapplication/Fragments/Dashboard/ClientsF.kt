@@ -5,10 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -19,16 +22,20 @@ import com.example.envagemobileapplication.Activities.AddClient.AddClientActivit
 import com.example.envagemobileapplication.Activities.MainActivity
 import com.example.envagemobileapplication.Adapters.ClientsMainAdapter
 import com.example.envagemobileapplication.Fragments.BottomSheet.BottomSheetFilterFragment
+import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateCandidate
 import com.example.envagemobileapplication.Models.RequestModels.sortDirection
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.GetClients
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.Constants
+import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.MainActivityViewModel
 import com.example.envagemobileapplication.databinding.FragmentClientsBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,9 +45,15 @@ import retrofit2.Response
 class ClientsF : Fragment() {
 
     lateinit var loader: Loader
+    lateinit var model: sortDirection
+
     val viewModel: MainActivityViewModel by activityViewModels()
+
     lateinit var tokenManager: TokenManager
     var token = ""
+    private var searchviewtext: String = ""
+    private val handler = Handler(Looper.getMainLooper())
+    private var isfirsttimesearched: Boolean = false
     private var currentPage = 1
     private val pageSize = 25 // Number of items to load per page
     private var isLoading = false
@@ -63,6 +76,9 @@ class ClientsF : Fragment() {
             loader.hide()
             if (it.data != null) {
                 val clientDataList: ArrayList<Record> = ArrayList()
+
+                clientDataList.clear()
+
                 for (i in 0 until it.data.records.size) {
                     clientDataList.add(it.data.records.get(i))
                 }
@@ -73,15 +89,12 @@ class ClientsF : Fragment() {
                     onBoardingStatusList
                 try {
                     adapter.notifyDataSetChanged()
-
                     loader.hide()
                 } catch (e: Exception) {
                     loader.hide()
                 }
 
             }
-
-
         }
 
         viewModel.LDgetCompanyOnBoardingStatus.observe(context as MainActivity)
@@ -127,19 +140,23 @@ class ClientsF : Fragment() {
                 model
             )
         }
-        binding.addCliens.setOnClickListener {
 
+
+        binding.addCliens.setOnClickListener {
 
             requireContext().startActivity(Intent(requireContext(), AddClientActivity::class.java))
 
-
         }
+
+
         binding.ivFilter.setOnClickListener {
 
             val bottomSheetFragment = BottomSheetFilterFragment()
             bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
 
         }
+
+
         binding.clearFilter.setOnClickListener {
 
             binding.clearFilter.visibility = View.INVISIBLE
@@ -150,6 +167,8 @@ class ClientsF : Fragment() {
                 requireContext(), onBoardingStatusList
             )
         }
+
+
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -163,9 +182,129 @@ class ClientsF : Fragment() {
                 }
             }
         })
+
+
         binding.addCliens.setOnClickListener {
             requireContext().startActivity(Intent(requireContext(), AddClientActivity::class.java))
 
+        }
+
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search here when the user submits the query
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                // Implement the debounce mechanism here
+                newText?.let {
+                    // Remove leading spaces from the input
+                    val trimmedText = newText.trimStart()
+                    searchviewtext = trimmedText
+
+                    // Check if the length of the trimmed input is at least 3 characters
+                    if (trimmedText.length >= 3) {
+                        // Cancel previous requests if any
+                        handler.removeCallbacksAndMessages(null)
+
+                        // Delay the API call to ensure efficient network usage
+                        handler.postDelayed({
+                            isfirsttimesearched = true
+                            // Call your API with trimmedText as the search query
+                            fetchData(trimmedText)
+                        }, 500) // Adjust the delay time as needed
+                    }
+
+                    if (newText.length < 3) {
+
+                        if (isfirsttimesearched) {
+                            isfirsttimesearched = false
+                            // Call your API with newText as the search query (even if length is less than 3)
+                            handler.postDelayed({
+                                // Call your API with newText as the search query
+                                fetchData(newText)
+                            }, 500)
+                        }
+
+                    }
+
+                    if (newText.equals("")) {
+                        handler.postDelayed({
+                            searchviewtext = ""
+                            // Call your API with newText as the search query
+                            fetchData(newText)
+                        }, 500)
+
+                    }
+                }
+                return true
+            }
+        })
+
+        val hint = "Search"
+        binding.searchView.queryHint = hint
+
+        binding.searchView.setOnQueryTextFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                // Clear the hint when the SearchView gains focus
+                binding.searchView.queryHint = null
+            } else {
+                // Set the hint when the SearchView loses focus
+                binding.searchView.queryHint = hint
+            }
+        }
+
+
+    }
+
+
+    private fun fetchData(query: String) {
+
+
+        loader.show()
+        // Use Coroutines to perform the API call
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Make your API call here and handle the response
+                if (query.length < 3) {
+
+                    model = sortDirection(
+                        pageIndex = 1,
+                        pageSize = 25,
+                        sortBy = "CreatedDate",
+                        sortDirection = 1,
+                        searchText = "",
+                        tileStatusId = -1
+                    )
+
+
+                } else {
+                     model = sortDirection(
+                        pageIndex = 1,
+                        pageSize = 25,
+                        sortBy = "CreatedDate",
+                        sortDirection = 1,
+                        searchText =query,
+                        tileStatusId = -1
+                    )
+                }
+
+//                viewModel.getClients(requireActivity(), token, model)
+
+                getClients(
+                    requireActivity(),
+                    tokenManager.getAccessToken(),
+                    model
+                )
+
+            } catch (e: Exception) {
+                loader.hide()
+                Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
+                e.printStackTrace()
+
+            }
         }
     }
 
@@ -180,7 +319,6 @@ class ClientsF : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getallOnBoardingStatuses(requireContext() as MainActivity, token)
     }
 
@@ -198,8 +336,6 @@ class ClientsF : Fragment() {
         var cLientList: ArrayList<Record> = ArrayList()
 
         lateinit var binding: FragmentClientsBinding
-
-
         public lateinit var adapter: ClientsMainAdapter
 
         lateinit var cfm: FragmentManager
@@ -237,6 +373,7 @@ class ClientsF : Fragment() {
                 }
 
             }
+
             Log.i("updatedList", filteredListClients.size.toString() + "wi")
 
 
@@ -283,6 +420,8 @@ class ClientsF : Fragment() {
         isLoading = true
         var isfromCompnyStatus = false
         loader.show()
+
+
         val model = sortDirection(
             page,
             pageSize = 25,
@@ -291,6 +430,7 @@ class ClientsF : Fragment() {
             searchText = "",
             tileStatusId = -1
         )
+
         try {
             var tokenManager: TokenManager = TokenManager(requireContext())
 
@@ -355,8 +495,7 @@ class ClientsF : Fragment() {
         try {
             ApiUtils.getAPIService(context).getClients(
                 sortDirection, accessToken.toString(),
-            )
-                .enqueue(object : Callback<GetClients> {
+            ).enqueue(object : Callback<GetClients> {
                     override fun onResponse(
                         call: Call<GetClients>,
                         response: Response<GetClients>
@@ -369,10 +508,15 @@ class ClientsF : Fragment() {
                                     clientDataList.add(response.body()!!.data.records.get(i))
                                 }
 
+
+
                                 Constants.ClientList = clientDataList
+
+                                cLientList.clear()
+
                                 cLientList = clientDataList
-                                com.example.envagemobileapplication.Utils.Global.onBoardingStatusList =
-                                    onBoardingStatusList
+
+                                com.example.envagemobileapplication.Utils.Global.onBoardingStatusList = onBoardingStatusList
                                 try {
                                     setUpNotificationAdapter(
                                         cLientList,
@@ -380,8 +524,7 @@ class ClientsF : Fragment() {
                                     )
                                     adapter.notifyDataSetChanged()
 
-                                    val delayMillis =
-                                        1500L // Delay between transitions in milliseconds
+                                    val delayMillis = 1500L // Delay between transitions in milliseconds
                                     val handler = Handler()
                                     handler.postDelayed({
                                         loader.hide()

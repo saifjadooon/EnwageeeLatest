@@ -114,6 +114,7 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
                 Toast.makeText(requireContext(), "no data found", Toast.LENGTH_SHORT).show()
             }
         }
+
         viewModel.LDshowJobCandidateKebabmenuBottomSheet.observe(requireActivity()) {
 
             if (bottomSheetFragment.isAdded) {
@@ -139,9 +140,9 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
                 } catch (e: Exception) {
                 }
             }
-
-
         }
+
+
         viewModel.LDgetJObCandidates.observe(requireActivity()) {
             loader.hide()
             if (it != null) {
@@ -170,7 +171,6 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
         binding.rvCandidates.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
 
                 // Scrolling downward
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
