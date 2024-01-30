@@ -38,7 +38,7 @@ class BasicDetaialF : Fragment() {
         null
     }
     private var industryFinal: Int = 0
-    lateinit var industryList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.Datum>
+      var industryList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.Datum> = ArrayList()
     var paygroupIDFinal: Int = 0
     var payGroupListresponse: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.PayGroupResponse.Datum> =
         ArrayList()
@@ -78,8 +78,8 @@ class BasicDetaialF : Fragment() {
 
     private fun networkCalls() {
         loader.show()
-        var jobid = 1263
-        var clientid = 1411
+        var jobid = Constants.jobRequestid
+        var clientid = Constants.clientid!!
 
         viewModel.getjobReqByID(requireContext(), token, jobid.toString())
 
@@ -112,7 +112,6 @@ class BasicDetaialF : Fragment() {
                             ).payrollPayGroupId
                         )
                     }
-
                     val adapter = customadapter(
                         requireContext(),
                         R.layout.simple_spinner_item,
@@ -145,6 +144,34 @@ class BasicDetaialF : Fragment() {
                         )
                     }
 
+                    binding.spinnerPaygroup.setOnTouchListener(View.OnTouchListener { v, event ->
+                        if (binding.spinnerPaygroup.isPopupShowing) {
+                            binding.spinnerPaygroup.dismissDropDown()
+                        } else {
+                            payGroupListresponse = ArrayList()
+                            var paygrouplist: ArrayList<String> =
+                                ArrayList()
+                            var paygroupresponselist: ArrayList<PayGroupResponse> = ArrayList()
+                            for (i in 0 until it.data.size) {
+                                paygroupresponselist.add(it)
+                                payGroupListresponse.add(it.data.get(i))
+                                paygrouplist.add(
+                                    it.data.get(i).payrollPayGroupTitle + " | " + it.data.get(
+                                        i
+                                    ).payrollPayGroupId
+                                )
+                            }
+
+                            val adapter = customadapter(
+                                requireContext(),
+                                R.layout.simple_spinner_item,
+                                paygrouplist
+                            )
+                            binding.spinnerPaygroup.setAdapter(adapter)
+                            binding.spinnerPaygroup.showDropDown()
+                        }
+                        false
+                    })
 
                 } catch (e: Exception) {
                 }
@@ -166,14 +193,18 @@ class BasicDetaialF : Fragment() {
                     industrynames.add(industryList.get(i).name.toString())
                 }
                 try {
-
-                    if (global.jobReqbyJobid!!.industryId != null) {
-                        for (i in 0 until industryList.size) {
-                            if (industryList.get(i).industryId.equals(global.jobReqbyJobid!!.industryId)) {
-                                binding.spinnerIndustry.setText(industryList.get(i).name.toString())
+                    if (viewModel.industry != "") {
+                        binding.spinnerIndustry.setText(viewModel.industry)
+                    } else {
+                        if (global.jobReqbyJobid!!.industryId != null) {
+                            for (i in 0 until industryList.size) {
+                                if (industryList.get(i).industryId.equals(global.jobReqbyJobid!!.industryId)) {
+                                    binding.spinnerIndustry.setText(industryList.get(i).name.toString())
+                                }
                             }
                         }
                     }
+
                     val adapter = customadapter(
                         requireContext(),
                         R.layout.simple_spinner_item,
@@ -196,27 +227,28 @@ class BasicDetaialF : Fragment() {
             if (it.data != null) {
 
                 global.jobReqbyJobid = it.data
-                if (it.data.positionName != null) {
-                    binding.etPosition.setText(it.data.positionName)
+                if (viewModel.positionname != "") {
+                    binding.etPosition.setText(viewModel.positionname)
+                } else {
+                    if (it.data.positionName != null) {
+                        binding.etPosition.setText(it.data.positionName)
+                    }
                 }
-                if (it.data.jobNature != null) {
-                    binding.spinnerJobNature.setText(it.data.jobNature)
+
+                if (viewModel.jobnaturee != "") {
+                    binding.spinnerJobNature.setText(viewModel.jobnaturee)
+                } else {
+                    if (it.data.jobNature != null) {
+                        binding.spinnerJobNature.setText(it.data.jobNature)
+                    }
                 }
+
 
             }
         }
     }
 
     private fun clicklistners() {
-
-        binding.spinnerPaygroup.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerPaygroup.isPopupShowing) {
-                binding.spinnerPaygroup.dismissDropDown()
-            } else {
-                binding.spinnerPaygroup.showDropDown()
-            }
-            false
-        })
 
 
         binding.spinnerIndustry.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -309,11 +341,14 @@ class BasicDetaialF : Fragment() {
 
         binding.btnNext.setOnClickListener {
 
-            var positioname = binding.etPosition.text.toString()
 
+            var positioname = binding.etPosition.text.toString()
             var paygroup = binding.spinnerPaygroup.text.toString()
             var industry = binding.spinnerIndustry.text.toString()
-
+            var jobnaturee = binding.spinnerJobNature.text.toString()
+            viewModel.positionname = positioname
+            viewModel.jobnaturee = jobnaturee
+            viewModel.industry = industry
 
 
             for (i in 0 until payGroupListresponse.size) {
@@ -452,6 +487,13 @@ class BasicDetaialF : Fragment() {
         )
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.positionname != "") {
+            binding.etPosition.setText(viewModel.positionname)
+        }
     }
 
 }

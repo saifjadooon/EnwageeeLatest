@@ -53,6 +53,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/spinnerPaygroup"
+            android:focusableInTouchMode="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
@@ -85,6 +86,7 @@
         <AutoCompleteTextView
             android:id="@+id/spinnerIndustry"
             android:layout_width="match_parent"
+            android:focusableInTouchMode="false"
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
             android:drawableRight="@drawable/ic_spinnerdropdown"
@@ -116,6 +118,7 @@
         <AutoCompleteTextView
             android:id="@+id/spinnerJobNature"
             android:layout_width="match_parent"
+            android:focusableInTouchMode="false"
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
             android:drawableRight="@drawable/ic_spinnerdropdown"

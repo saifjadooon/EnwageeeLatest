@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/white_pill_with_gray_bg"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNext"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/btn_black_radius"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCancel"
+        app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Ticlient"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Client Name"
+        android:minHeight="60dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/Tijob"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Tijob">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinnerClient"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:drawableRight="@drawable/ic_spinnerdropdown"
+            android:drawablePadding="12dp"
+            android:inputType="none"
+            android:minHeight="60dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Tijob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Pay Group"
+        android:minHeight="60dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Ticlient"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinnerjobs"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:drawableRight="@drawable/ic_spinnerdropdown"
+            android:drawablePadding="12dp"
+            android:inputType="none"
+            android:minHeight="60dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TISendto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Send to"
+        android:minHeight="60dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="12dp"
+
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/TIStatus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Ticlient">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinnerSendTo"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:drawableRight="@drawable/ic_spinnerdropdown"
+            android:drawablePadding="12dp"
+            android:inputType="none"
+            android:minHeight="60dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TIStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Status"
+        android:minHeight="60dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TISendto"
+        app:layout_constraintTop_toTopOf="@+id/TISendto">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinnerStatus"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:drawableRight="@drawable/ic_spinnerdropdown"
+            android:drawablePadding="12dp"
+            android:inputType="none"
+
+            android:minHeight="60dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/applyFilter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_applyfilter"
+        app:layout_constraintEnd_toEndOf="@+id/Tijob"
+        app:layout_constraintStart_toStartOf="@+id/Ticlient"
+        app:layout_constraintTop_toBottomOf="@+id/TISendto" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:queryHint="Search"
+        android:queryBackground="@null"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/searchbg"
+        android:iconifiedByDefault="false"
+        app:defaultQueryHint="Search"
+        app:iconifiedByDefault="true"
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/Tijob"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/Ticlient"
+        app:layout_constraintTop_toBottomOf="@+id/applyFilter"
+        />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintEnd_toEndOf="@+id/Tijob"
+        app:layout_constraintStart_toStartOf="@+id/Ticlient"
+        app:layout_constraintTop_toBottomOf="@+id/selectAllcheckbox">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFilered"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+            app:layout_constraintEnd_toEndOf="@+id/Tijob"
+            app:layout_constraintStart_toStartOf="@+id/Ticlient"
+            app:layout_constraintTop_toBottomOf="@+id/selectAllcheckbox" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+    <CheckBox
+        android:id="@+id/selectAllcheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select All"
+        app:layout_constraintStart_toStartOf="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <TextView
+        android:id="@+id/tvSelectedStatus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/TIStatus"
+        app:layout_constraintEnd_toEndOf="@+id/TIStatus"
+        app:layout_constraintStart_toStartOf="@+id/TIStatus"
+        app:layout_constraintTop_toTopOf="@+id/TIStatus" />
+</androidx.constraintlayout.widget.ConstraintLayout>

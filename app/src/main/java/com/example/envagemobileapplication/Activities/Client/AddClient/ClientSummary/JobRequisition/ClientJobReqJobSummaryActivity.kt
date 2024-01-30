@@ -66,11 +66,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
     private fun clicklisteners() {
         binding.tvjobNature.setOnClickListener {
-          /*  if (bottomSheetFragment.isAdded()) {
+            if (bottomSheetFragment.isAdded()) {
                 return@setOnClickListener
             } else {
                 bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
-            }*/
+            }
         }
     }
 
@@ -250,7 +250,7 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         loader = Loader(this)
 
 
-        if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail!=null){
+        if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail != null) {
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -258,13 +258,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup.toString()
                     )
                 )
-            }
-            else { salaryDetailsData.add(
-                JobsSummaryFragment.KeyValueData(
-                    "Markup Percentage",
-                    "-"
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Markup Percentage",
+                        "-"
+                    )
                 )
-            )}
+            }
 
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate != null) {
                 salaryDetailsData.add(
@@ -273,10 +274,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Min. Pay Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Min. Pay Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -284,10 +289,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Min. Bill Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Min. Bill Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -295,10 +304,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Max. Pay Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Max. Pay Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -306,10 +319,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Max. Bill Rate",
-                "-"
-            )  )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Max. Bill Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -317,10 +334,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Target Pay Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Target Pay Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate != null) {
 
                 salaryDetailsData.add(
@@ -329,10 +350,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Target Bill Rate",
-                "-"
-            ) )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Target Bill Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -340,10 +365,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Overtime Type",
-                "-"
-            ) )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Overtime Type",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -351,10 +380,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Overtime Markup Percentage",
-                "-"
-            ) )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Overtime Markup Percentage",
+                        "-"
+                    )
+                )
+            }
 
 
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate != null) {
@@ -364,10 +397,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Overtime Pay Rate",
-                "-"
-            )  )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Overtime Pay Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -375,10 +412,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Overtime Bill Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Overtime Bill Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -386,10 +427,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Double-time Type",
-                "-"
-            ) )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Double-time Type",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -397,10 +442,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Double-Time Markup Percentage",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Double-Time Markup Percentage",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -408,10 +457,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Double-Time Pay Rate",
-                "-"
-            ) )}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Double-Time Pay Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -419,10 +472,14 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate.toString()
                     )
                 )
-            }else { salaryDetailsData.add(JobsSummaryFragment.KeyValueData(
-                "Double-Time Bill Rate",
-                "-"
-            ))}
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Double-Time Bill Rate",
+                        "-"
+                    )
+                )
+            }
             if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -430,10 +487,13 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency.toString()
                     )
                 )
-            }else {salaryDetailsData.add( JobsSummaryFragment.KeyValueData(
-                "Frequency",
-                "-"
-            ))
+            } else {
+                salaryDetailsData.add(
+                    JobsSummaryFragment.KeyValueData(
+                        "Frequency",
+                        "-"
+                    )
+                )
             }
 
             setupBillingDetailAdapter(salaryDetailsData)
@@ -460,13 +520,19 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
             jobCurrentStatus =
                 Constants.jobReqData!!.records.get(global.jobRequisitonPosition).status
-            val drawable: Drawable? = binding.tvjobNature.compoundDrawables[2] // Assuming your drawable is on the right
+            val drawable: Drawable? =
+                binding.tvjobNature.compoundDrawables[2] // Assuming your drawable is on the right
 
             var colorrr = Color.parseColor(hexColorCode)
             if (drawable != null) {
                 val wrappedDrawable = DrawableCompat.wrap(drawable)
                 DrawableCompat.setTint(wrappedDrawable, colorrr)
-                binding.tvjobNature.setCompoundDrawablesWithIntrinsicBounds(null, null, wrappedDrawable, null)
+                binding.tvjobNature.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    wrappedDrawable,
+                    null
+                )
             }
 
             val jobtypehexcolor = "#AF6606"

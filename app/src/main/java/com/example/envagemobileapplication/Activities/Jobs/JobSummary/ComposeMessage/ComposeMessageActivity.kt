@@ -104,7 +104,6 @@ class ComposeMessageActivity : BaseActivity() {
         viewModel.getCustomTemplatesForMessages(this, tokenManager.getAccessToken())
         var jobguid = global.jobHeaderSummary!!.data.jobInfo.guid!!
         viewModel.getjobbyJobid(this, tokenManager.getAccessToken(), jobguid)
-
         viewModel.getTwilioConfigration(this, tokenManager.getAccessToken())
     }
 
@@ -224,7 +223,8 @@ class ComposeMessageActivity : BaseActivity() {
                 var dcontent = binding.etDescription.html.toString()
                 var model = sendMesageReqModel(toolist, dcontent)
                 viewModel.sendMessageResponse(this, token, model,binding)
-            } else {
+            }
+            else {
                 if (descriptiontext.isNullOrEmpty() || descriptiontext.equals("<p></p>")) {
                     binding.ccDescription.error = "body is Required."
                     binding.ccDescription.errorIconDrawable = null// Set the error message
@@ -321,7 +321,7 @@ class ComposeMessageActivity : BaseActivity() {
                 jobType = global.jobHeaderSummary!!.data.jobInfo.jobType
             }
 
-            if (jobType != null) {
+            if (jobNature != null) {
                 jobNature = global.jobHeaderSummary!!.data.jobInfo.jobNature
             }
 

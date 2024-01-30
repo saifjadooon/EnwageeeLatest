@@ -350,7 +350,8 @@ class AddjobJobDetailF : Fragment() {
                                             "${arraylistskills.size} Skills Selected"
                                         viewModel.skillCountText =
                                             "${arraylistskills.size} Skills Selected"
-                                    } else {
+                                    }
+                                    else {
                                         binding.tvskillllstext.visibility = View.GONE
                                     }
 

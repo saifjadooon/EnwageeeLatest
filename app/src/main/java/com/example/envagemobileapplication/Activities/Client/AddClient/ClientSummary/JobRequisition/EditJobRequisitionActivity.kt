@@ -12,7 +12,30 @@ import com.example.envagemobileapplication.databinding.ActivityEditJobRequisitio
 class EditJobRequisitionActivity : BaseActivity() {
 
     var global = com.example.envagemobileapplication.Utils.Global
-    companion object{
+    companion object {
+
+        var selectedFragmentTag: String? = null
+        fun showFragment(fragmentManager: FragmentManager, tag: String) {
+            val fragmentToShow = fragmentManager.findFragmentByTag(tag)
+            if (fragmentToShow != null) {
+                val transaction = fragmentManager.beginTransaction()
+                transaction.show(fragmentToShow)
+                transaction.addToBackStack(null)
+                transaction.commit()
+                selectedFragmentTag = tag
+            }
+        }
+
+        fun hideFragment(fragmentManager: FragmentManager, tag: String) {
+            val fragmentToHide = fragmentManager.findFragmentByTag(tag)
+            if (fragmentToHide != null) {
+                val transaction = fragmentManager.beginTransaction()
+                transaction.hide(fragmentToHide)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+        }
+
         lateinit var binding: ActivityEditJobRequisitionBinding
     }
 
@@ -45,5 +68,6 @@ class EditJobRequisitionActivity : BaseActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
 
 }

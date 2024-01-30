@@ -24,6 +24,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.EditJobReqResponse.EditJobReqResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.GetAllSmsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentForms.GetAssessmentForms
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAssesmentResp.GetAssesmentResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetCandiStatuskeyPipeline.GetCandiStatuskeyPipeline
@@ -57,6 +58,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.MessageTemplatesRes.MessageTemplatesRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.OnlineApplicantsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.PayGroupResponse.PayGroupResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchClientByNameResp.SearchClientByNameResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendAssessmentResponse.SendAssessmentResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCJobStatusRes.UpdateCJobStatusRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCandidateResponse.UpdateCandidateResponse
@@ -65,6 +67,8 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateStatusResponse.UpdateStatusResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ZipCodeResponse.ZipCodeResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getBulkMsgFilterdResp.GetBulkMsgFilterdResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getClientJobsResp.GetClientJobsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getEmailTemplateResponse.GetEmailTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobSkills.GetJobSkills
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobStatusResponse.GetJobStatusResponse
@@ -525,6 +529,19 @@ public interface ApiInterface {
     ): Call<UpdateCandidateResponse>
 
 
+   @GET("api/v1/Client/search-client-by-name?searchText=")
+    fun SearchClientbyName(
+        @Header("x-access-token") authorization: String
+    ): Call<SearchClientByNameResp>
+
+
+   @GET("api/v1/Job/get-client-jobs/{clientId}")
+        fun getClientJobs(
+        @Header("x-access-token") authorization: String,
+        @Path("clientId") clientId: Int
+    ): Call<GetClientJobsResp>
+
+
     @POST("api/v1/ApplicationForms/get-all-offer-letter-custom-templates")
     fun getofferLetterTemplates(
         @Header("Authorization") authorization: String,
@@ -550,6 +567,12 @@ public interface ApiInterface {
 
     @GET("api/v1/ApplicationForms/get-candidate-message-templates")
     fun getMessagesTemplates(
+        @Header("Authorization") authorization: String,
+    ): Call<MessageTemplatesRes>
+
+
+   @GET("api/v1/ApplicationForms/get-candidate-message-templates")
+    fun getCandidateMessagesTemplate(
         @Header("Authorization") authorization: String,
     ): Call<MessageTemplatesRes>
 
@@ -699,6 +722,12 @@ public interface ApiInterface {
         @Body payload: GetAssessmentFormsRM,
     ): Call<GetAssessmentForms>
 
+    @POST("api/v1/Job/multi-status-candidate")
+    fun getBulkMsgFiltered(
+        @Header("x-access-token") authorization: String,
+        @Body payload: GetFltrDtaBulkMsgRm,
+    ): Call<GetBulkMsgFilterdResp>
+
     @POST("/api/v1/Candidate/add-assign-assessment-form")
     fun SendAssessmentForm(
         @Header("x-access-token") authorization: String,
@@ -733,5 +762,18 @@ public interface ApiInterface {
         @Header("x-access-token") authorization: String,
         @Path("jobRequestId") clientId: Int
     ): Call<JobRequestSkills>
+
+    @GET("api/v1/TwilioSMS/get-all-sms?pageSize=25&page=0")
+    fun getAllSms(
+        @Header("Authorization") authorization: String,
+    ): Call<GetAllSmsResp>
+
+    @GET("api/v1/TwilioSMS/get-all-sms")
+    fun getAllSmsPagginated(
+        @Header("Authorization") authorization: String,
+        @Query("pageSize") pageSize: String,
+        @Query("page") page: String,
+        @Query("token") token: String
+    ): Call<GetAllSmsResp>
 
 }

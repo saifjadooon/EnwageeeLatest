@@ -159,7 +159,6 @@ class HiredDetailsActivity : BaseActivity() {
 
     }
 
-
     private fun setupHorizontalScrollView() {
 
 
@@ -239,18 +238,6 @@ class HiredDetailsActivity : BaseActivity() {
             binding.linearlist.addView(itemView)
         }
     }
-
-   /* fun replaceFragment(fragment: Fragment) {
-        try {
-            val fragmentManager: FragmentManager = supportFragmentManager
-            val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.nav_hired_summary, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        } catch (e: Exception) {
-        }
-
-    }*/
 
     private fun replaceFragment(fragment: Fragment, tag: String) {
         val transaction = supportFragmentManager.beginTransaction()

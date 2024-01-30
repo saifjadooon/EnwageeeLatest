@@ -28,6 +28,8 @@ data class AddJobRequestPayLoad(
     val workingDays: String,
     val jobStatusId: Int,
     val jobSkills: List<JobSkill>,
+    //val experienceRequired : String
+    //val useTemplate : false
     val markup: Int,
     val minPayRate: Double,
     val minBillRate: Double,
@@ -56,6 +58,7 @@ data class AddJobRequestPayLoad(
     val showSkills: Boolean,
     val showShift: Boolean,
     val isPublish: Boolean
+   // val jobPlatform : String
 )
 
 data class JobSkill(

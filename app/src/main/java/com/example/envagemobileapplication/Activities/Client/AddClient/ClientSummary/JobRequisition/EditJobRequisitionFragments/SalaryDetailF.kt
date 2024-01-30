@@ -20,6 +20,7 @@ import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSum
 import com.example.envagemobileapplication.Adapters.customadapter
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.AddJobsSharedViewModel
 import com.example.envagemobileapplication.databinding.FragmentSalaryDetailBinding
@@ -28,6 +29,8 @@ import okhttp3.MultipartBody
 import kotlin.math.round
 
 class SalaryDetailF : Fragment() {
+    var selectedFragmentTag: String? = null
+
     private var frequeny: String = ""
     val viewModel: AddJobsSharedViewModel by activityViewModels()
     var global = com.example.envagemobileapplication.Utils.Global
@@ -77,22 +80,20 @@ class SalaryDetailF : Fragment() {
         {
             loader.hide()
             if (it.data != null) {
-
                 try {
                     binding.btnnext.isEnabled = true
                     Toast.makeText(requireContext(), "Job Updated Successfully", Toast.LENGTH_LONG)
                         .show()
-
-                    val delayMillis = 3000L // Delay between transitions in milliseconds
+                    loader.hide()
+                    val delayMillis = 1000L // Delay between transitions in milliseconds
                     val handler = Handler()
                     handler.postDelayed({
                         requireActivity().finish()
                     }, delayMillis)
-
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Job created Successfully", Toast.LENGTH_LONG)
-                        .show()
-                    val delayMillis = 3000L // Delay between transitions in milliseconds
+                }
+                catch (e: Exception) {
+                    loader.hide()
+                    val delayMillis = 1000L // Delay between transitions in milliseconds
                     val handler = Handler()
                     handler.postDelayed({
                         requireActivity().finish()
@@ -104,13 +105,10 @@ class SalaryDetailF : Fragment() {
     }
 
     private fun networkCalls() {
-
     }
 
     private fun clickListeners() {
-
         binding.btnback.setOnClickListener {
-
             viewModel.markuppercentage = binding.etMarkupPErcentage.text.toString()
             viewModel.minpayrate = binding.etPayrate.text.toString()
             viewModel.minbillrate = binding.etMinBillRate.text.toString()
@@ -166,7 +164,7 @@ class SalaryDetailF : Fragment() {
                 var workingDaysNo = global.addJobDetailModel?.workingDaysNo
                 var estimatedHours = global.addJobDetailModel?.estimatedHours
                 var workingdays = global.addJobDetailModel?.workingDays
-                var jobstatusID = "1266"
+                var jobstatusID = Constants.jobRequestid
                 var jobskills = global.addJobDetailModel?.jobSkills
                 var markupPercentage = binding.etMarkupPErcentage.text.toString()
                 var minPayrate = binding.etPayrate.text.toString()
@@ -211,6 +209,7 @@ class SalaryDetailF : Fragment() {
 
                 var weekdays = global.addJobDetailModel?.workingDays
 
+                loader.show()
                 viewModel.editJobReqApi(
                     binding,
                     requireContext(),
@@ -765,74 +764,102 @@ class SalaryDetailF : Fragment() {
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.minPayRate != null) {
+                minPayRate = global.jobReqbyJobid!!.billingDetails.minPayRate.toString()
                 binding.etPayrate.setText(
                     global.jobReqbyJobid!!.billingDetails.minPayRate.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.maxPayRate != null) {
+                maxPAyRatee = global.jobReqbyJobid!!.billingDetails.maxPayRate.toString()
                 binding.etMaxPayrate.setText(
                     global.jobReqbyJobid!!.billingDetails.maxPayRate.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.targetPayRate != null) {
+                targetPayrate = global.jobReqbyJobid!!.billingDetails.targetPayRate.toString()
                 binding.etTargetPayrate.setText(
                     global.jobReqbyJobid!!.billingDetails.targetPayRate.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("None")) {
+                overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbNoneOvertime.isChecked = true
             } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbPaidNotBilledOvertime.isChecked = true
             } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid and Billed")) {
+                overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbPaidandBilledOvertime.isChecked = true
             }
 
             if (global.jobReqbyJobid!!.billingDetails.overtimeMultiplier != null) {
+                try {
+                    overtimeMultiplier =
+                        global.jobReqbyJobid!!.billingDetails.overtimeMultiplier.toString()
+                            .toFloat()
+
+                } catch (e: Exception) {
+                }
                 binding.tvHeadCountOvertime.setText(
                     global.jobReqbyJobid!!.billingDetails.overtimeMultiplier.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.overtimeMarkup != null) {
+
                 binding.etOvertimeMarkupPercentage.setText(
                     global.jobReqbyJobid!!.billingDetails.overtimeMarkup.toString()
                 )
+
+                overtimemarkupPercentageGlobal = binding.etOvertimeMarkupPercentage.text
             }
             if (global.jobReqbyJobid!!.billingDetails.overtimePayRate != null) {
+                overtimePayRateGlobal =
+                    global.jobReqbyJobid!!.billingDetails.overtimePayRate.toString()
                 binding.etovertimePayrate.setText(
                     global.jobReqbyJobid!!.billingDetails.overtimePayRate.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.overtimeBillRate != null) {
+                overTimeBillRateGlobal =
+                    global.jobReqbyJobid!!.billingDetails.overtimeBillRate.toString()
                 binding.etovertimeBillRate.setText(
                     global.jobReqbyJobid!!.billingDetails.overtimeBillRate.toString()
                 )
             }
 
             if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("None")) {
+                doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbNonerbDoubletime.isChecked = true
             } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
+                doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbPaidNotBilledDoubletime.isChecked = true
             } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid and Billed")) {
+                doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbPaidandBilledDoubletime.isChecked = true
             }
 
 
             if (global.jobReqbyJobid!!.billingDetails.doubletimeMarkup != null) {
+                global.jobReqbyJobid!!.billingDetails.doubletimeMarkup.toString()
                 binding.etDoubletimeMarkupPercentage.setText(
                     global.jobReqbyJobid!!.billingDetails.doubletimeMarkup.toString()
                 )
+                doubleTimeMarkupPErcentage = binding.etDoubletimeMarkupPercentage.text
             }
             if (global.jobReqbyJobid!!.billingDetails.doubletimePayRate != null) {
+                doubleTimePayRateGlobal =
+                    global.jobReqbyJobid!!.billingDetails.doubletimePayRate.toString()
                 binding.etdoubletimePayrate.setText(
                     global.jobReqbyJobid!!.billingDetails.doubletimePayRate.toString()
                 )
             }
             if (global.jobReqbyJobid!!.billingDetails.doubletimeBillRate != null) {
+                doubletimBillRateGlobal =
+                    global.jobReqbyJobid!!.billingDetails.doubletimeBillRate.toString()
                 binding.etdoubletimeBillRate.setText(
                     global.jobReqbyJobid!!.billingDetails.doubletimeBillRate.toString()
                 )
             }
-
             if (global.jobReqbyJobid!!.billingDetails.frequency != null) {
                 binding.spinnerFrequency.setText(global.jobReqbyJobid!!.billingDetails.frequency.toString())
             }
@@ -1000,6 +1027,4 @@ class SalaryDetailF : Fragment() {
         viewModel.doubletimetype = doubletimeType
         super.onPause()
     }
-
-
 }

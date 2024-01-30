@@ -243,15 +243,8 @@ class JobsF : Fragment() {
                                 }
                                 Constants.JobsList = jobsList
 
-                                //currentPage++
                                 isLoading = false
                                 adapter.notifyDataSetChanged()
-                                //  cLientList = clientDataList
-                                /* setUpNotificationAdapter(
-                                     cLientList,
-                                     requireContext(),
-                                     onBoardingStatusList
-                                 )*/
 
                             }
                         }

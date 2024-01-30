@@ -17,6 +17,7 @@ import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSum
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetEditJob
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.Record
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.Constants
 import java.text.SimpleDateFormat
 
 
@@ -47,12 +48,15 @@ class JobRequsitionAdapter(
 
     private fun clicklistenrs(holder: JobRequsitionAdapter.MyViewHolder, position: Int) {
         holder.itemLayout.setOnClickListener {
+
+            Constants.jobRequestid = dataList.get(position).jobRequestId
             com.example.envagemobileapplication.Utils.Global.jobRequisitonPosition = position
             val intent = Intent(context, ClientJobReqJobSummaryActivity::class.java)
             context.startActivity(intent)
         }
 
         holder.kebabmenu.setOnClickListener{
+            Constants.jobRequestid = dataList.get(position).jobRequestId
             global.isfromEditJobRequisition = true
             val bottomSheetFragment = BottomSheetEditJob()
             bottomSheetFragment.show(cfm, bottomSheetFragment.tag)

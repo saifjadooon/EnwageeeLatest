@@ -43,7 +43,7 @@
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:inputType="numberDecimal"
-                    android:maxLength="3" />
+                    android:maxLength="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -596,6 +596,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerFrequency"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/white"

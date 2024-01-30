@@ -64,6 +64,8 @@ class ClientSummaryJobRequisitionF : Fragment() {
         clickListeners()
     }
 
+
+
     private fun clickListeners() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {

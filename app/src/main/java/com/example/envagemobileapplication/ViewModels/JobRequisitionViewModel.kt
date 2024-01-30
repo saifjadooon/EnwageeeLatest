@@ -18,6 +18,9 @@ import retrofit2.Response
 
 class JobRequisitionViewModel  : ViewModel(){
 
+    var industry: String = ""
+    var jobnaturee: String = ""
+    var positionname: String = ""
     val LDgetIndustry: LiveData<GetIndustryListResponse>
         get() = MLDgetIndustry
     private val MLDgetIndustry = MutableLiveData<GetIndustryListResponse>()

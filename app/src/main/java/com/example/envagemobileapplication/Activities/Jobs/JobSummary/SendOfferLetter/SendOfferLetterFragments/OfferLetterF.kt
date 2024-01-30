@@ -57,7 +57,6 @@ import java.text.SimpleDateFormat
 class OfferLetterF : Fragment() {
 
     private var clientHeaderSummaryResp: ClientHeaderSummaryResponse? = null
-
     var descriptiontext: String = ""
     private var mEditor: RichEditor? = null
     private lateinit var datePickerHelper: DatePickerHelper

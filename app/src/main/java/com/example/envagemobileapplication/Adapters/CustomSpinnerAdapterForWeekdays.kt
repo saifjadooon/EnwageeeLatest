@@ -48,6 +48,22 @@ class CustomSpinnerAdapterForWeekdays(
             onItemSelectedListener(getSelectedWeekdays())
         }
 
+
+        var global = com.example.envagemobileapplication.Utils.Global
+
+        var arraylistWeekdays : ArrayList<String> =  ArrayList()
+        for (i in 0 until global.jobReqbyJobid!!.workingDays.size) {
+
+            arraylistWeekdays.add(global.jobReqbyJobid!!.workingDays.get(i))
+            if (weekdayText.text == arraylistWeekdays.get(i)) {
+
+                checkbox.isChecked = true
+                weekday.isSelected = true
+                onItemSelectedListener(getSelectedWeekdays())
+                //  checkbox.isChecked = weekday.isSelected
+            }
+        }
+
         weekdayText.text = weekday.name
 
         return view

@@ -15,7 +15,6 @@ object OAuthClient {
 
     private val BASE_URL = Constants.BASE_URL
 
-
     val okHttpClient = OkHttpClient.Builder()
         .authenticator(TokenAuthenticator(Constants.token.toString()))
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -26,8 +25,6 @@ object OAuthClient {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
-
-
     private val oauthService: OAuthService = retrofit.create(OAuthService::class.java)
 
     fun getToken(username: String, password: String): Call<Example> {

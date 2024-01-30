@@ -7,6 +7,9 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.widget.ProgressBar
 
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobAdressDetailsReqModel
@@ -29,6 +32,11 @@ public class Global {
     companion object {
 
 
+        var selectedJObGuid: String? = ""
+        var clietidforBulkMsg: Int? = 0
+        var clientforbulkmsgs: String? = ""
+        var twilioResp:com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getTwilioConfig.Data? = null
+        var phonenumberlist: ArrayList<String> = ArrayList()
         var editreqjobSkills: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequestSkills.Datum> ?= null
         var jobReqbyJobid: com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequestResp.Data? = null
         var isfromEditJobRequisition: Boolean = false
@@ -146,6 +154,23 @@ public class Global {
             val alertDialog: AlertDialog = alertDialogBuilder.create()
             alertDialog.show()
 
+        }
+
+
+        fun formatHintWithRedAsterisk(hint: String): CharSequence {
+            val spannable = SpannableStringBuilder(hint)
+            val indexOfAsterisk = hint.indexOf('*')
+
+            if (indexOfAsterisk >= 0) {
+                spannable.setSpan(
+                    ForegroundColorSpan(Color.RED),
+                    indexOfAsterisk,
+                    indexOfAsterisk + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+
+            return spannable
         }
     }
 

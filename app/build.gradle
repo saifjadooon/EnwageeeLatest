@@ -67,7 +67,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-urlconnection")
     //oAuth
-    implementation 'com.nimbusds:oauth2-oidc-sdk:9.8'
+  //  implementation 'com.nimbusds:oauth2-oidc-sdk:9.8'
     implementation 'net.openid:appauth:0.11.1'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

@@ -13,7 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.JobRequisition.EditJobRequisitionActivity
+import com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesActivty
 import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
@@ -165,8 +165,9 @@ class LoginFragment : Fragment() {
 
                 SharedPrefs.setFirstTimeLaunch(requireContext(), "isFirstTime", false)
                 SharedPrefs.setUserLogin(requireContext(), "isUserLogin", true)
-                // val intent = Intent(requireContext(), MainActivity::class.java)
-                  val intent = Intent(requireContext(), EditJobRequisitionActivity::class.java)
+                val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
+               // val intent = Intent(requireContext(), MainActivity::class.java)
+                // val intent = Intent(requireContext(), EditJobRequisitionActivity::class.java)
                 // val intent = Intent(requireContext(), AssesmentDetailActivity::class.java)
                 //  val intent = Intent(requireContext(), ComposeMessageActivity::class.java)
                 // val intent = Intent(requireContext(), HiredDetailsActivity::class.java)

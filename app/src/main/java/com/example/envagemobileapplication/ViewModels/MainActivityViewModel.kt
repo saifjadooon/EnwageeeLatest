@@ -11,19 +11,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
 import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryF
 import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryJobsF
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.ClientsF
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.JobsF
+import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidates
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionEmployees
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobs
 import com.example.envagemobileapplication.Models.RequestModels.sortDirection
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.GetCompanyOnboardingStatusResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.GetAllSmsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetCandidateResponse.GetCandidatesResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.GetClients
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.GetCompanyOnboardingStatusResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetEmployeesRes.GetEmployeesRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.GetJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.GetJobsStatusesResponse
@@ -62,6 +63,11 @@ class MainActivityViewModel : ViewModel() {
         get() = MLDGetCandidates
 
     private val MLDGetCandidates = MutableLiveData<GetCandidatesResponse>()
+
+    val LDgetAllSms: LiveData<GetAllSmsResp>
+        get() = MLDgetAllSms
+
+    private val MLDgetAllSms = MutableLiveData<GetAllSmsResp>()
 
     val LDgetCompanyOnBoardingStatus: LiveData<GetCompanyOnboardingStatusResponse>
         get() = MLDgetCompanyOnBoardingStatus
@@ -424,7 +430,34 @@ class MainActivityViewModel : ViewModel() {
                 Log.i("exceptionddsfdsfds", ex.toString())
             }
         }
+    }
 
+    fun getAllSms(context: Context, token: String) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getAllSms(
+                    token.toString(),
+                )
+                    .enqueue(object : Callback<GetAllSmsResp> {
+                        override fun onResponse(
+                            call: Call<GetAllSmsResp>,
+                            response: Response<GetAllSmsResp>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDgetAllSms.postValue(response.body())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetAllSmsResp>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
     }
 
 }

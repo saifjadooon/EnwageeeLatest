@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/send_bulk_messaes_navgraph"
+    app:startDestination="@id/filterRecipetentsF">
+
+    <fragment
+        android:id="@+id/filterRecipetentsF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesFragments.FilterRecipetentsF"
+        android:label="fragment_filter_recipetents"
+        tools:layout="@layout/fragment_filter_recipetents" >
+        <action
+            android:id="@+id/action_filterRecipetentsF_to_sendBulkMessageF"
+            app:destination="@id/sendBulkMessageF" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendBulkMessageF"
+        android:name="com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesFragments.SendBulkMessageF"
+        android:label="fragment_send_bulk_message"
+        tools:layout="@layout/fragment_send_bulk_message" />
+</navigation>

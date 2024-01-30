@@ -87,6 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:focusableInTouchMode="false"
                 android:minHeight="60dp"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="12dp"
@@ -99,6 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout10">
 
                 <AutoCompleteTextView
+                    android:focusableInTouchMode="false"
                     android:id="@+id/spinnerJobType"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -233,6 +235,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ccStartdate">
 
                 <AutoCompleteTextView
+                    android:focusableInTouchMode="false"
                     android:id="@+id/spinnerCurrency"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -271,7 +274,8 @@
                     android:inputType="none"
                     android:minHeight="60dp"
                     android:paddingLeft="15dp"
-                    android:paddingRight="15dp" />
+                    android:paddingRight="15dp"
+                    android:focusableInTouchMode="false"/>
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -300,6 +304,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/TIestimatedHours"
+                android:focusableInTouchMode="false"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -347,6 +352,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerRequiredSkills"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/white"

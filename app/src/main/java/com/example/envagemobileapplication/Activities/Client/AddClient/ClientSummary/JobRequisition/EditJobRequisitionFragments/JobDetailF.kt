@@ -98,10 +98,13 @@ class JobDetailF : Fragment() {
         clicklisteners()
         networkCalls()
         if (global.jobReqbyJobid!!.headcount != null) {
+            counter = global.jobReqbyJobid!!.headcount
             binding.tvHeadCount.setText(global.jobReqbyJobid!!.headcount.toString())
         }
         if (global.jobReqbyJobid!!.jobType != null) {
+
             binding.spinnerJobType.setText(global.jobReqbyJobid!!.jobType)
+            binding.spinnerJobType
         }
 
         if (global.jobReqbyJobid!!.startDate != null) {
@@ -182,6 +185,8 @@ class JobDetailF : Fragment() {
                     if (description.isNullOrEmpty()) {
                         // binding.etDescription.visibility = View.GONE
                     } else {
+
+                        descriptiontext = htmlContent
                         binding.etClientDescription.html = htmlContent
                         //  binding.etDescription.contentDescription = spannedText
                     }
@@ -640,7 +645,8 @@ class JobDetailF : Fragment() {
                 if (selectedWeekdays.size == 0) {
                     binding.TIweekdays.visibility = View.VISIBLE
                     binding.tvWeekdaysconcaatinated.visibility = View.GONE
-                } else {
+                }
+                else {
                     binding.TIweekdays.visibility = View.INVISIBLE
                     binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
                 }
@@ -648,6 +654,73 @@ class JobDetailF : Fragment() {
             }
 
         binding.spinnerWeekdays.setAdapter(adapternew)
+
+        binding.spinnerWeekdays.setOnTouchListener(View.OnTouchListener { v, event ->
+            if (binding.spinnerWeekdays.isPopupShowing) {
+                binding.spinnerWeekdays.dismissDropDown()
+            } else {
+                val adapternew =
+                    CustomSpinnerAdapterForWeekdays(requireContext(), weekdays) { selectedWeekdays ->
+                        for (selectedWeekday in selectedWeekdays) {
+                            if (selectedWeekdays.size >= 1) {
+                                binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
+                                val concatenatedNames = selectedWeekdays.joinToString(",") { it.name }
+                                concatenatedNamesfinal = concatenatedNames
+                                Log.i("concatednatedstring", concatenatedNames.toString())
+                                binding.tvWeekdaysconcaatinated.setText(concatenatedNames.toString())
+                                global.weekdaysConcatinated =
+                                    concatenatedNamesfinal
+                                viewModel.weekdaysConcatinated = concatenatedNamesfinal
+                                binding.TIweekdays.visibility = View.INVISIBLE
+
+                            } else {
+                                binding.tvWeekdaysconcaatinated.visibility = View.GONE
+                                binding.TIweekdays.visibility = View.VISIBLE
+
+                            }
+
+                        }
+
+                        binding.spinnerWeekdays.setOnItemSelectedListener(object :
+                            AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parentView: AdapterView<*>?,
+                                selectedItemView: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+
+                                // Check the size of the selected items and update visibility accordingly
+                                if (selectedWeekdays.size >= 1) {
+
+                                    binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
+
+                                } else {
+                                    binding.tvWeekdaysconcaatinated.visibility = View.GONE
+                                }
+                            }
+
+                            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                                // Do nothing if nothing is selected
+                            }
+                        })
+
+                        if (selectedWeekdays.size == 0) {
+                            binding.TIweekdays.visibility = View.VISIBLE
+                            binding.tvWeekdaysconcaatinated.visibility = View.GONE
+                        }
+                        else {
+                            binding.TIweekdays.visibility = View.INVISIBLE
+                            binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
+                        }
+                        binding.tvDaysCount.setText(selectedWeekdays.size.toString())
+                    }
+
+                binding.spinnerWeekdays.setAdapter(adapternew)
+                binding.spinnerWeekdays.showDropDown()
+            }
+            false
+        })
 
         val workingHoursAdapter = customadapter(
             requireContext(),
@@ -790,34 +863,91 @@ class JobDetailF : Fragment() {
             }
         }
 
-        binding.spinnerJobType.setOnTouchListener(View.OnTouchListener { v, event ->
+       /* binding.spinnerJobType.setOnClickListener{
+            if (binding.spinnerJobType.isPopupShowing) {
+                binding.spinnerJobType.dismissDropDown()
+            }
+            else {
+
+                jobtypeList = ArrayList()
+                jobtypeList.add("Full Time")
+                jobtypeList.add("Part Time")
+                jobtypeList.add("Temporary")
+                jobtypeList.add("Freelance")
+                jobtypeList.add("Internship")
+                jobtypeList.add("Contractor")
+                jobtypeList.add("Consultancy")
+
+                global.jobtypelist = jobtypeList
+                val adapter = customadapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    jobtypeList
+                )
+                binding.spinnerJobType.setAdapter(adapter)
+                binding.spinnerJobType.showDropDown()
+            }
+
+        }*/
+
+        binding.spinnerJobType.setOnClickListener {
             if (binding.spinnerJobType.isPopupShowing) {
                 binding.spinnerJobType.dismissDropDown()
             } else {
+                binding.spinnerJobType.requestFocus()
+                jobtypeList = ArrayList()
+                jobtypeList.add("Full Time")
+                jobtypeList.add("Part Time")
+                jobtypeList.add("Temporary")
+                jobtypeList.add("Freelance")
+                jobtypeList.add("Internship")
+                jobtypeList.add("Contractor")
+                jobtypeList.add("Consultancy")
+
+                global.jobtypelist = jobtypeList
+                val adapter = customadapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    jobtypeList
+                )
+                binding.spinnerJobType.setAdapter(adapter)
+
+                // Request focus to show the dropdown
+
+
+                // Show the dropdown
                 binding.spinnerJobType.showDropDown()
             }
-            false
-        })
+        }
 
-        binding.TIJobtype.setOnTouchListener(View.OnTouchListener { v, event ->
+      /*   binding.TIJobtype.setOnTouchListener(View.OnTouchListener { v, event ->
             if (binding.spinnerJobType.isPopupShowing) {
                 binding.spinnerJobType.dismissDropDown()
             } else {
+                jobtypeList = ArrayList()
+                jobtypeList.add("Full Time")
+                jobtypeList.add("Part Time")
+                jobtypeList.add("Temporary")
+                jobtypeList.add("Freelance")
+                jobtypeList.add("Internship")
+                jobtypeList.add("Contractor")
+                jobtypeList.add("Consultancy")
+
+                global.jobtypelist = jobtypeList
+                val adapter = customadapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    jobtypeList
+                )
+                binding.spinnerJobType.setAdapter(adapter)
                 binding.spinnerJobType.showDropDown()
             }
             false
-        })
+        })*/
 
 
 
-        binding.spinnerWeekdays.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerWeekdays.isPopupShowing) {
-                binding.spinnerWeekdays.dismissDropDown()
-            } else {
-                binding.spinnerWeekdays.showDropDown()
-            }
-            false
-        })
+
         binding.spinnerEstimatedHour.setOnTouchListener(View.OnTouchListener { v, event ->
             if (binding.spinnerEstimatedHour.isPopupShowing) {
                 binding.spinnerEstimatedHour.dismissDropDown()
