@@ -1,5 +1,6 @@
 package com.example.envagemobileapplication.Activities.DashBoard.BulkMessages
 
+import BaseActivity
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -14,7 +15,7 @@ import com.example.envagemobileapplication.ViewModels.BulkMessagesViewModel
 import com.example.envagemobileapplication.ViewModels.MainActivityViewModel
 import com.example.envagemobileapplication.databinding.ActivityBulkMessagesActivtyBinding
 
-class BulkMessagesActivty : AppCompatActivity() {
+class BulkMessagesActivty : BaseActivity() {
     var global = com.example.envagemobileapplication.Utils.Global
     val viewModel: BulkMessagesViewModel by viewModels()
     lateinit var tokenManager: TokenManager

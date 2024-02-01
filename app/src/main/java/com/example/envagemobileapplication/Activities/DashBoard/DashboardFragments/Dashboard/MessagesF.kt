@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
+import com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesActivty
+import com.example.envagemobileapplication.Activities.Jobs.JobSummary.ComposeMessage.ComposeMessageActivity
 import com.example.envagemobileapplication.Adapters.MessagesAdapter
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.GetAllSmsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.Record
@@ -53,8 +55,8 @@ class MessagesF : Fragment() {
     private fun clicklisteners() {
 
         binding.composeMessage.setOnClickListener{
-            val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
-            requireActivity().finish()
+            val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
+            startActivity(intent)
 
         }
         binding.swipeRefreshLayout.setOnRefreshListener {

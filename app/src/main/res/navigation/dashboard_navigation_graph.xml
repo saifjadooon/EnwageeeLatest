@@ -46,5 +46,10 @@
         android:name="com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.Dashboard.MessagesF"
         android:label="fragment_messages"
         tools:layout="@layout/fragment_messages" />
+    <fragment
+        android:id="@+id/settingsF"
+        android:name="com.example.envagemobileapplication.SettingsF"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

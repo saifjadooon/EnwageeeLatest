@@ -195,6 +195,14 @@ public interface ApiInterface {
         @Part image: MultipartBody.Part
     ): Call<UpdateProfileResultResponse>
 
+    @Multipart
+    @POST("api/v1/User/update-user-profile-image")
+    fun UpdateUserProfilepic(
+        @Header("x-access-token") authorization: String,
+        @Part("userId") clientID: Int,
+        @Part image: MultipartBody.Part
+    ): Call<UpdateProfileResultResponse>
+
 
     @GET("/api/v1/ClientProfile/get-client-header-summary/{clientId}")
     fun GetClientHeaderSummary(
@@ -232,6 +240,14 @@ public interface ApiInterface {
         @Header("x-access-token") authorization: String,
         @Body payload: List<UpdateStatusPayload>,
         @Path("clientId") clientId: Int
+    ): Call<UpdateJobsStatusResponse>
+
+    @PATCH("api/v1/User/patch/{userId}")
+    fun updateUserProfile(
+
+        @Header("x-access-token") authorization: String,
+        @Body payload: List<UpdateStatusPayload>,
+        @Path("userId") clientId: Int
     ): Call<UpdateJobsStatusResponse>
 
 

@@ -22,10 +22,8 @@ import com.example.envagemobileapplication.Adapters.FilteredCandidatesAdapter
 import com.example.envagemobileapplication.Adapters.StatusAdapterWithCheckbox
 import com.example.envagemobileapplication.Adapters.customadapter
 import com.example.envagemobileapplication.Models.RequestModels.GetFltrDtaBulkMsgRm
-import com.example.envagemobileapplication.Models.RequestModels.SortDirectionCandidateCandidate
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getBulkMsgFilterdResp.GetBulkMsgFilterdResp
 import com.example.envagemobileapplication.Oauth.TokenManager
-import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.BulkMessagesViewModel
 import com.example.envagemobileapplication.databinding.FragmentFilterRecipetentsBinding
@@ -61,6 +59,7 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     var statusList: ArrayList<String> = ArrayList()
     private var isLoading = false
     private var currentPage = 1
+    var spinnercandidatelist: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -150,7 +149,7 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
 
                             selectedJobid = clientJobList.get(i).jobId
-                           global.selectedJObGuid = clientJobList.get(i).guid
+                            global.selectedJObGuid = clientJobList.get(i).guid
                         }
                     }
                     binding.Tijob.error = null
@@ -179,13 +178,6 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
 
                 try {
-                    /*val adapter = customadapter(
-                        requireContext(),
-                        R.layout.simple_spinner_item,
-                        items
-                    )
-                    binding.spinnerStatus.setAdapter(adapter)
-                    binding.spinnerStatus.setSelection(0)*/
 
                     statusAdapter = StatusAdapterWithCheckbox(
                         requireContext(),
@@ -231,6 +223,7 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
                 try {
 
+                    binding.ccRv.visibility = View.VISIBLE
                     setupFilteredCandidateAdapter(filteredCandidateList, requireContext())
 
                 } catch (e: Exception) {
@@ -241,20 +234,26 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     }
 
     private fun clicklisteners() {
-
+        binding.spinnerSendTo.setOnTouchListener(View.OnTouchListener { v, event ->
+            if (binding.spinnerSendTo.isPopupShowing) {
+                binding.spinnerSendTo.dismissDropDown()
+            } else {
+                binding.spinnerSendTo.showDropDown()
+            }
+            false
+        })
         binding.btnNext.setOnClickListener {
 
             var client = binding.spinnerClient.text
             var job = binding.spinnerjobs.text
             global.clientforbulkmsgs = client.toString()
-            if (concatinatedStatusString!=""&& job!=null && client!=null){
+            if (concatinatedStatusString != "" && job != null && client != null) {
                 if (global.phonenumberlist!!.size > 0) {
                     replaceFragment(SendBulkMessageF())
-                }
-                else {
+                } else {
                     val rootView = binding.root
                     val duration = Snackbar.LENGTH_SHORT
-                    val snackbar = Snackbar.make(rootView,"No Candidate selected", duration)
+                    val snackbar = Snackbar.make(rootView, "No Candidate selected", duration)
                     snackbar.setActionTextColor(
                         ContextCompat.getColor(
                             requireContext(),
@@ -263,16 +262,15 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                     )
                     snackbar.show()
                 }
-            }
-            else {
+            } else {
                 if (client.equals(null)) {
                     binding.Ticlient.error = "Client is Required"
                 }
-                if (job.equals(null)){
+                if (job.equals(null)) {
                     binding.Tijob.error = "Job is Required"
                 }
 
-                if (concatinatedStatusString.equals("")){
+                if (concatinatedStatusString.equals("")) {
                     binding.TIStatus.error = "Status is Required"
                 }
 
@@ -328,14 +326,15 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
             false
         })
 
-    binding.spinnerStatus.setOnTouchListener(View.OnTouchListener { v, event ->
-               if (binding.spinnerStatus.isPopupShowing) {
-                   binding.spinnerStatus.dismissDropDown()
-               } else {
-                   binding.spinnerStatus.showDropDown()
-               }
-               false
-           })
+
+        binding.spinnerStatus.setOnTouchListener(View.OnTouchListener { v, event ->
+            if (binding.spinnerStatus.isPopupShowing) {
+                binding.spinnerStatus.dismissDropDown()
+            } else {
+                binding.spinnerStatus.showDropDown()
+            }
+            false
+        })
 
         binding.tvSelectedStatus.setOnClickListener {
             if (binding.spinnerStatus.isPopupShowing) {
@@ -346,6 +345,7 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
         }
         binding.applyFilter.setOnClickListener {
 
+            loader.show()
             val model = GetFltrDtaBulkMsgRm(
                 pageIndex = 1,
                 pageSize = 15,
@@ -473,6 +473,22 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
         val Status = "Status *"
         val formattedStatus = global.formatHintWithRedAsterisk(Status)
         binding.TIStatus.hint = formattedStatus
+
+        spinnercandidatelist.add("Candidate")
+        try {
+            val adapter = customadapter(
+                requireContext(),
+                R.layout.simple_spinner_item,
+                spinnercandidatelist
+            )
+            binding.spinnerSendTo.setAdapter(adapter)
+
+
+        } catch (e: Exception) {
+
+        }
+
+
     }
 
     fun setupFilteredCandidateAdapter(
@@ -517,10 +533,10 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                 updateConcatenatedString()
             }
         }
-        if (statusList.size>=1){
+        if (statusList.size >= 1) {
             binding.tvSelectedStatus.visibility = View.VISIBLE
             binding.tvSelectedStatus.setText(statusList.size.toString() + " Selected")
-        }else {
+        } else {
             binding.tvSelectedStatus.visibility = View.GONE
         }
 
@@ -535,10 +551,10 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                 Log.i("Deselected Item", item)
                 updateConcatenatedString()
             }
-            if (statusList.size>=1){
+            if (statusList.size >= 1) {
                 binding.tvSelectedStatus.visibility = View.VISIBLE
                 binding.tvSelectedStatus.setText(statusList.size.toString() + " Selected")
-            }else {
+            } else {
                 binding.tvSelectedStatus.visibility = View.GONE
             }
         }
@@ -559,7 +575,7 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     }
 
     private fun loadMoreData(page: Int) {
-        loader.show()
+
         isLoading = true
         var page = page
 
@@ -586,10 +602,9 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                         if (response.body() != null) {
 
                             if (response.body() != null) {
-                                loader.hide()
+
                                 isLoading = false
                                 if (response.body()!!.data != null) {
-
 
                                     for (i in 0 until response.body()!!.data.records.size) {
                                         filteredCandidateList.add(
@@ -610,11 +625,11 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                     }
 
                     override fun onFailure(call: Call<GetBulkMsgFilterdResp>, t: Throwable) {
-                        loader.hide()
+
                     }
                 })
         } catch (ex: java.lang.Exception) {
-            loader.hide()
+
         }
 
     }
@@ -626,10 +641,10 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
         // Use Coroutines to perform the API call
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                var model : GetFltrDtaBulkMsgRm
+                var model: GetFltrDtaBulkMsgRm
                 // Make your API call here and handle the response
                 if (query.length < 3) {
-                      model = GetFltrDtaBulkMsgRm(
+                    model = GetFltrDtaBulkMsgRm(
                         pageIndex = 1,
                         pageSize = 15,
                         sortBy = "CreatedDate",
@@ -641,10 +656,9 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                     )
 
 
-                }
-                else {
+                } else {
 
-                      model = GetFltrDtaBulkMsgRm(
+                    model = GetFltrDtaBulkMsgRm(
                         pageIndex = 1,
                         pageSize = 15,
                         sortBy = "CreatedDate",

@@ -32,6 +32,9 @@ public class Global {
     companion object {
 
 
+        var message: String? = ""
+        var too: String? =""
+        var from: String? = ""
         var selectedJObGuid: String? = ""
         var clietidforBulkMsg: Int? = 0
         var clientforbulkmsgs: String? = ""

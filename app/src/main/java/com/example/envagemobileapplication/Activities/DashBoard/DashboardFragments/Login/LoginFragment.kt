@@ -165,8 +165,8 @@ class LoginFragment : Fragment() {
 
                 SharedPrefs.setFirstTimeLaunch(requireContext(), "isFirstTime", false)
                 SharedPrefs.setUserLogin(requireContext(), "isUserLogin", true)
-                val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
-               // val intent = Intent(requireContext(), MainActivity::class.java)
+                //val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
+                val intent = Intent(requireContext(), MainActivity::class.java)
                 // val intent = Intent(requireContext(), EditJobRequisitionActivity::class.java)
                 // val intent = Intent(requireContext(), AssesmentDetailActivity::class.java)
                 //  val intent = Intent(requireContext(), ComposeMessageActivity::class.java)

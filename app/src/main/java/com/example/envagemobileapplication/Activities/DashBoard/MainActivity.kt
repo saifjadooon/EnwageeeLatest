@@ -425,6 +425,9 @@ class MainActivity : BaseActivity() {
 
         }
         binding.leftDrawerMenu.cvClient.setOnClickListener {
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.white))
@@ -473,6 +476,9 @@ class MainActivity : BaseActivity() {
         }
 
         binding.leftDrawerMenu.cvCandidate.setOnClickListener {
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
@@ -518,6 +524,9 @@ class MainActivity : BaseActivity() {
         }
 
         binding.leftDrawerMenu.cvEmployee.setOnClickListener {
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
@@ -547,6 +556,9 @@ class MainActivity : BaseActivity() {
 
 
         binding.leftDrawerMenu.cvJobs.setOnClickListener {
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
@@ -583,6 +595,9 @@ class MainActivity : BaseActivity() {
 
 
         binding.leftDrawerMenu.cvMessages.setOnClickListener {
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.white))
             binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
@@ -637,8 +652,47 @@ class MainActivity : BaseActivity() {
             binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
             binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
 
+            binding.leftDrawerMenu.cvSettings.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.black))
+
+
+
 
             replaceFragment(HomeF(), bundle)
+            binding.bottomNavigationView.selectedItemId = 0
+            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+
+        }
+        binding.leftDrawerMenu.cvSettings.setOnClickListener {
+
+            binding.leftDrawerMenu.ivSettings.setColorFilter(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.cvSettings.setBackgroundResource(R.drawable.btn_black_radius)
+            binding.leftDrawerMenu.tvSettings.setTextColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.ivHome.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvHome.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvHome.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivMessages.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvMessages.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvMessages.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivClient.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivCandidate.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivJobs.setColorFilter(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvCandidate.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvCandidate.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvClient.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvClients.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.cvJobs.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvJobs.setTextColor(resources.getColor(R.color.black))
+
+
+            // for employees
+            binding.leftDrawerMenu.cvEmployee.setBackgroundColor(resources.getColor(R.color.white))
+            binding.leftDrawerMenu.tvEmployee.setTextColor(resources.getColor(R.color.black))
+            binding.leftDrawerMenu.ivEmploye.setColorFilter(resources.getColor(R.color.black))
+
+
+            replaceFragment(SettingsF(), bundle)
             binding.bottomNavigationView.selectedItemId = 0
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
 

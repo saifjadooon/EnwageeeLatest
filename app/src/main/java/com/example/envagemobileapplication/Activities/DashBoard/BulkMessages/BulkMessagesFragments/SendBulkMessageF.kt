@@ -157,10 +157,7 @@ class SendBulkMessageF : Fragment() {
 
 
 
-                            offerletterlink = "offer letter link"
-                            clientFacebook = "www.facebook.com"
-                            clientInstagram = "www.instagram.com"
-                            clientLinkedin = "www.facebook.com"
+
                             if (response.body()!!.data.jobInfo.country != null) {
                                 jobCountry = response.body()!!.data.jobInfo.country.toString()
                             }
@@ -231,10 +228,50 @@ class SendBulkMessageF : Fragment() {
                                     clientPhoneNumber = response.body()!!.data.clientInfo.phone
                                 }
 
+                                if (response.body()!!.data.clientSocialMedia != null) {
+                                    if (response.body()!!.data.clientSocialMedia.size > 0) {
+                                        for (i in 0 until response.body()!!.data.clientSocialMedia.size) {
 
-                                for (i in 0 until response.body()!!.data.clientSocialMedia.size) {
+                                            if (response.body()!!.data.clientSocialMedia.get(i).name.equals(
+                                                    "Facebook"
+                                                )
+                                            ) {
+                                                if (response.body()!!.data.clientSocialMedia.get(i).url != null) {
+                                                    clientFacebook =
+                                                        response.body()!!.data.clientSocialMedia.get(
+                                                            i
+                                                        ).url.toString()
+                                                }
+                                            }
+
+                                            if (response.body()!!.data.clientSocialMedia.get(i).name.equals(
+                                                    "LinkedIn"
+                                                )
+                                            ) {
+                                                if (response.body()!!.data.clientSocialMedia.get(i).url != null) {
+                                                    clientLinkedin =
+                                                        response.body()!!.data.clientSocialMedia.get(
+                                                            i
+                                                        ).url.toString()
+                                                }
+                                            }
+
+                                            if (response.body()!!.data.clientSocialMedia.get(i).name.equals(
+                                                    "Instagram"
+                                                )
+                                            ) {
+                                                if (response.body()!!.data.clientSocialMedia.get(i).url != null) {
+                                                    clientInstagram =
+                                                        response.body()!!.data.clientSocialMedia.get(
+                                                            i
+                                                        ).url.toString()
+                                                }
+                                            }
+                                        }
+                                    }
 
                                 }
+
                             }
                         }
                     }
@@ -287,7 +324,7 @@ class SendBulkMessageF : Fragment() {
         viewModel.LDSendMessage.observe(requireActivity()) {
             loader.hide()
             if (it != null) {
-                requireActivity().finish()
+
                 Toast.makeText(
                     requireContext(),
                     "Message has been sent successfully.",
@@ -393,7 +430,10 @@ class SendBulkMessageF : Fragment() {
         loader = Loader(requireContext())
         tokenManager = TokenManager(requireContext())
         token = tokenManager.getAccessToken().toString()
-        setUpRtf()
+        val hintSubject = "Body *"
+        val formattedhintSubject = global.formatHintWithRedAsterisk(hintSubject)
+        binding.textView37.text = formattedhintSubject
+     /*   setUpRtf()*/
         try {
             binding.tvEmailFrom.setText(global.twilioResp!!.number.toString())
         } catch (e: Exception) {
@@ -408,9 +448,7 @@ class SendBulkMessageF : Fragment() {
             global.clientforbulkmsgs = clientname
         }
 
-        clientFacebook = "www.facebook.com"
-        clientInstagram = "www.instagram.com"
-        clientLinkedin = "www.facebook.com"
+
     }
 
     private fun setupScrollViews(dataList: List<String>) {
@@ -603,6 +641,18 @@ class SendBulkMessageF : Fragment() {
             .replace(
                 "[Job Location]",
                 if (joblocation.isNotEmpty()) joblocation else "[Job Location]"
+            )
+            .replace(
+                "[Client Facebook]",
+                if (clientFacebook.isNotEmpty()) clientFacebook else "[Client Facebook]"
+            )
+            .replace(
+                "[Client Instagram]",
+                if (clientInstagram.isNotEmpty()) clientInstagram else "[Client Instagram]"
+            )
+            .replace(
+                "[Client LinkedIn]",
+                if (clientLinkedin.isNotEmpty()) clientLinkedin else "[Client LinkedIn]"
             )
 
 

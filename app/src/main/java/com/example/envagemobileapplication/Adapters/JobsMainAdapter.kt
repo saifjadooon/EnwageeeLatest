@@ -37,7 +37,7 @@ class JobsMainAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.messages_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.jobs_item, parent, false)
         return MyViewHolder(view)
     }
 

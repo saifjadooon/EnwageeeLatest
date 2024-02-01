@@ -197,18 +197,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="emptyFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-304" />
-                            <option name="y" value="-268" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="homeF">
                     <value>
                       <LayoutPositions>
@@ -257,6 +245,18 @@
                           <Point>
                             <option name="x" value="575" />
                             <option name="y" value="23" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsF">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="766" />
+                            <option name="y" value="18" />
                           </Point>
                         </option>
                       </LayoutPositions>

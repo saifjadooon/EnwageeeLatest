@@ -1,6 +1,7 @@
 package com.example.envagemobileapplication.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.ViewMessageActivity
+import com.example.envagemobileapplication.Activities.Jobs.JobSummary.ComposeMessage.ComposeMessageActivity
 import com.example.envagemobileapplication.R
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MessagesAdapter(
@@ -22,10 +24,9 @@ class MessagesAdapter(
 
 ) :
     RecyclerView.Adapter<MessagesAdapter.MyViewHolder>() {
-
-
-    var dataList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.Record> = onlineList
-
+    var global = com.example.envagemobileapplication.Utils.Global
+    var dataList: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.Record> =
+        onlineList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
@@ -34,48 +35,48 @@ class MessagesAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-         try {
-               if (!dataList.get(position).to.isNullOrEmpty()) {
+        try {
+            if (!dataList.get(position).to.isNullOrEmpty()) {
 
-                   holder.tvTo.text = "To: "+dataList.get(position).to
-               }/* else {
+                holder.tvTo.text = "To: " + dataList.get(position).to
+            }/* else {
                    holder.tvTo.visibility = View.GONE
                }*/
 
-           } catch (e: java.lang.Exception) {
-           }
-           try {
-               if (!dataList.get(position).from.isNullOrEmpty()) {
-                   holder.tvFrom.text = dataList.get(position).from
-               }
+        } catch (e: java.lang.Exception) {
+        }
+        try {
+            if (!dataList.get(position).from.isNullOrEmpty()) {
+                holder.tvFrom.text = dataList.get(position).from
+            }
 
-           } catch (e: java.lang.Exception) {
-           }
-           try {
-               if (!dataList.get(position).dateCreated.isNullOrEmpty()) {
-                 /*  var formatedDate = com.example.envagemobileapplication.Utils.Global.formatDate(dataList.get(position).dateCreated)
-                   holder.tvDate.text = formatedDate*/
-                   val originalDateTime = dataList.get(position).dateCreated
-                   val formattedDateTime = convertDateTimeFormat(originalDateTime)
+        } catch (e: java.lang.Exception) {
+        }
+        try {
+            if (!dataList.get(position).dateCreated.isNullOrEmpty()) {
+                /*  var formatedDate = com.example.envagemobileapplication.Utils.Global.formatDate(dataList.get(position).dateCreated)
+                  holder.tvDate.text = formatedDate*/
+                val originalDateTime = dataList.get(position).dateCreated
+                val formattedDateTime = convertDateTimeFormat(originalDateTime)
 
-                   holder.tvDate.text = formattedDateTime
-               } else {
-                   holder.tvDate.text = "Not provided"
-               }
+                holder.tvDate.text = formattedDateTime
+            } else {
+                holder.tvDate.text = "Not provided"
+            }
 
-           } catch (e: java.lang.Exception) {
-           }
-           try {
-               if (!dataList.get(position).body.isNullOrEmpty()) {
-                   val originalText = dataList.get(position).body
-                   val textWithoutSpaces = originalText.replace("  ", "")
-                   holder.tvMsg.text =    textWithoutSpaces
-               } else {
+        } catch (e: java.lang.Exception) {
+        }
+        try {
+            if (!dataList.get(position).body.isNullOrEmpty()) {
+                val originalText = dataList.get(position).body
+                val textWithoutSpaces = originalText.replace("  ", "")
+                holder.tvMsg.text = textWithoutSpaces
+            } else {
 
-               }
+            }
 
-           } catch (e: java.lang.Exception) {
-           }
+        } catch (e: java.lang.Exception) {
+        }
 
         holder.tvMsg.setOnLongClickListener {
 
@@ -89,7 +90,84 @@ class MessagesAdapter(
             true
         }
         holder.itemlayout.setOnClickListener {
+            try {
+                var from = dataList.get(position).from
+                var to = dataList.get(position).to
+                var message  = dataList.get(position).body
+                global.from = from
+                global.too = to
+                global.message = message
+            }
+            catch (e:Exception){
 
+            }
+
+            val intent = Intent(context, ViewMessageActivity::class.java)
+           context.startActivity(intent)
+        }
+        holder.tvFrom.setOnClickListener {
+            try {
+                var from = dataList.get(position).from
+                var to = dataList.get(position).to
+                var message  = dataList.get(position).body
+                global.from = from
+                global.too = to
+                global.message = message
+            }
+            catch (e:Exception){
+
+            }
+
+            val intent = Intent(context, ViewMessageActivity::class.java)
+           context.startActivity(intent)
+        }
+        holder.tvDate.setOnClickListener {
+            try {
+                var from = dataList.get(position).from
+                var to = dataList.get(position).to
+                var message  = dataList.get(position).body
+                global.from = from
+                global.too = to
+                global.message = message
+            }
+            catch (e:Exception){
+
+            }
+
+            val intent = Intent(context, ViewMessageActivity::class.java)
+           context.startActivity(intent)
+        }
+        holder.tvTo.setOnClickListener {
+            try {
+                var from = dataList.get(position).from
+                var to = dataList.get(position).to
+                var message  = dataList.get(position).body
+                global.from = from
+                global.too = to
+                global.message = message
+            }
+            catch (e:Exception){
+
+            }
+
+            val intent = Intent(context, ViewMessageActivity::class.java)
+           context.startActivity(intent)
+        }
+        holder.tvMsg.setOnClickListener {
+            try {
+                var from = dataList.get(position).from
+                var to = dataList.get(position).to
+                var message  = dataList.get(position).body
+                global.from = from
+                global.too = to
+                global.message = message
+            }
+            catch (e:Exception){
+
+            }
+
+            val intent = Intent(context, ViewMessageActivity::class.java)
+           context.startActivity(intent)
         }
 
     }
