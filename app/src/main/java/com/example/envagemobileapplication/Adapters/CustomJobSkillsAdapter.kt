@@ -46,15 +46,21 @@ class CustomJobSkillsAdapter(
         weekdayText.text = weekday.name
         var global = com.example.envagemobileapplication.Utils.Global
 
-        for (i in 0 until global.editreqjobSkills!!.size) {
+        try{
+            for (i in 0 until global.editreqjobSkills!!.size) {
 
-            if (weekdayText.text == global.editreqjobSkills!!.get(i).name) {
+                if (weekdayText.text == global.editreqjobSkills!!.get(i).name) {
 
-                checkbox.isChecked = true
-                weekday.isSelected = true
-                onItemSelectedListener(getSelectedWeekdays())
-                //  checkbox.isChecked = weekday.isSelected
+                    checkbox.isChecked = true
+                    weekday.isSelected = true
+                    onItemSelectedListener(getSelectedWeekdays())
+                    //  checkbox.isChecked = weekday.isSelected
+                }
             }
+
+        }
+        catch (e:Exception){
+
         }
 
 

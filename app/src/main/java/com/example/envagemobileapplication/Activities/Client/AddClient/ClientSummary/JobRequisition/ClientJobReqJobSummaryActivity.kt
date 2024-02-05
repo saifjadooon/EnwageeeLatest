@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BsJobReqStatuses
 import com.example.envagemobileapplication.Activities.Jobs.JobSummary.JobSummaryFragments.JobsSummaryFragment
 import com.example.envagemobileapplication.Adapters.BillingDetailJobSummaryAdapter
+import com.example.envagemobileapplication.Models.RequestModels.JobSkill
+import com.example.envagemobileapplication.Models.RequestModels.skillmodelforJobreq
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.Constants
@@ -52,6 +54,7 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
     lateinit var tokenManager: TokenManager
     lateinit var loader: Loader
     val skillsList: ArrayList<String> = ArrayList()
+    val skillsListwithmodel: ArrayList<skillmodelforJobreq> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,19 +108,18 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         viewModel.LDgetIndustry.observe(this) {
             loader.hide()
             if (it.data != null) {
-                if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).industryId != null) {
-                    var indutryid =
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).industryId
-                    for (i in 0 until it.data.size) {
-                        if (it.data.get(i).industryId == indutryid) {
-                            industryglobal = it.data.get(i).name.toString()
-                            binding.tvIndustry.setText(it.data.get(i).name.toString())
+                for (i in 0 until com.example.envagemobileapplication.Utils.Global.jobreqlist.size) {
+                    if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).industryId != null) {
+                        var indutryid =
+                            com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).industryId
+                        for (i in 0 until it.data.size) {
+                            if (it.data.get(i).industryId == indutryid) {
+                                industryglobal = it.data.get(i).name.toString()
+                                binding.tvIndustry.setText(it.data.get(i).name.toString())
+                            }
                         }
                     }
-                } else {
-                    binding.tvIndustry.setText("Not Provided")
                 }
-
             }
         }
 
@@ -127,10 +129,15 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
                 for (i in 0 until it.data.size) {
                     skillsList.add(it.data.get(i).name)
+                    val jobskill =
+                        skillmodelforJobreq(it.data.get(i).skillId, it.data.get(i).name, "1", false)
+                    skillsListwithmodel.add(jobskill)
+
                 }
                 if (skillsList.size >= 1) {
                     binding.tvNoskills.visibility = View.INVISIBLE
                     setupScrollViews(skillsList)
+                    global.skilllistJobReq = skillsListwithmodel
                 } else {
                     binding.tvNoskills.visibility = View.VISIBLE
                 }
@@ -220,7 +227,7 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                     var jobrequestid =
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestId
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
                     viewModel.getjobReqStatuses(this, token, jobrequestid)
                     isfromstatuschange = true
 
@@ -236,7 +243,7 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
     private fun networkCalls() {
         var jobrequestid =
-            Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestId
+            com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
         viewModel.getindustry(this, token)
         viewModel.getjobskills(this, token, jobrequestid)
         viewModel.getjobReqStatuses(this, token, jobrequestid)
@@ -250,12 +257,12 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         loader = Loader(this)
 
 
-        if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail != null) {
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup != null) {
+        if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Markup Percentage",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup.toString()
                     )
                 )
             } else {
@@ -267,11 +274,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                 )
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Min. Pay Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.minPayRate.toString()
                     )
                 )
             } else {
@@ -282,11 +289,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Min. Bill Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.minBillRate.toString()
                     )
                 )
             } else {
@@ -297,11 +304,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Max. Pay Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxPayRate.toString()
                     )
                 )
             } else {
@@ -312,11 +319,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Max. Bill Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.maxBillRate.toString()
                     )
                 )
             } else {
@@ -327,11 +334,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Target Pay Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetPayRate.toString()
                     )
                 )
             } else {
@@ -342,12 +349,12 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate != null) {
 
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Target Bill Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.targetBillRate.toString()
                     )
                 )
             } else {
@@ -358,13 +365,27 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType != null) {
-                salaryDetailsData.add(
-                    JobsSummaryFragment.KeyValueData(
-                        "Overtime Type",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.toString()
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType != null) {
+
+                if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.equals(
+                        "Yes"
                     )
-                )
+                ) {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Type",
+                            "Paid and Billed"
+                        )
+                    )
+                } else {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Type",
+                            "None"
+                        )
+                    )
+                }
+
             } else {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -373,11 +394,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Overtime Markup Percentage",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup.toString()
                     )
                 )
             } else {
@@ -390,11 +411,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
             }
 
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Overtime Pay Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimePayRate.toString()
                     )
                 )
             } else {
@@ -405,11 +426,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Overtime Bill Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeBillRate.toString()
                     )
                 )
             } else {
@@ -420,13 +441,28 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType != null) {
-                salaryDetailsData.add(
-                    JobsSummaryFragment.KeyValueData(
-                        "Double-time Type",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.toString()
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType != null) {
+
+                if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.equals(
+                        "Yes"
                     )
-                )
+                ) {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-time Type",
+                            "Paid and Billed"
+                        )
+                    )
+                } else {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-time Type",
+                            "None"
+                        )
+                    )
+                }
+
+
             } else {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -435,11 +471,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Double-Time Markup Percentage",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup.toString()
                     )
                 )
             } else {
@@ -450,11 +486,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Double-Time Pay Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimePayRate.toString()
                     )
                 )
             } else {
@@ -465,11 +501,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Double-Time Bill Rate",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeBillRate.toString()
                     )
                 )
             } else {
@@ -480,11 +516,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                     )
                 )
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency != null) {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
                         "Frequency",
-                        Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency.toString()
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.frequency.toString()
                     )
                 )
             } else {
@@ -502,7 +538,7 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
         try {
             val weekdaysString =
-                Constants.jobReqData!!.records.get(global.jobRequisitonPosition).workingDays.toString()
+                com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).workingDays.toString()
 
             if (weekdaysList.isEmpty()) {
 
@@ -514,12 +550,12 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         }
         try {
             val hexColorCode =
-                Constants.jobReqData!!.records.get(global.jobRequisitonPosition).colorCode
+                com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).colorCode
             binding.tvjobNature.setTextColor(Color.parseColor(hexColorCode))
             parseBackgroundColor(binding.tvjobNature, hexColorCode)
 
             jobCurrentStatus =
-                Constants.jobReqData!!.records.get(global.jobRequisitonPosition).status
+                com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).status
             val drawable: Drawable? =
                 binding.tvjobNature.compoundDrawables[2] // Assuming your drawable is on the right
 
@@ -544,44 +580,72 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         } catch (e: Exception) {
         }
         try {
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).positionName != null) {
-                binding.tvName.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).positionName)
-                binding.tvJobName.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).positionName)
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).positionName != null) {
+                binding.tvName.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).positionName
+                )
+                binding.tvJobName.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).positionName
+                )
             } else {
                 binding.tvJobName.setText("Not Provided")
             }
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).clientName != null) {
-                binding.clientname.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).clientName)
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).clientName != null) {
+                binding.clientname.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).clientName
+                )
             } else {
                 binding.clientname.setText("Not Provided")
             }
 
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobType != null) {
-                binding.tvJobstatus.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobType)
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobType != null) {
+                binding.tvJobstatus.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).jobType
+                )
             } else {
                 binding.tvJobstatus.setText("Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobNature != null) {
-                binding.tvjobtype.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobNature)
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobNature != null) {
+                binding.tvjobtype.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).jobNature
+                )
             } else {
                 binding.tvjobtype.setText("Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).status != null) {
-                binding.tvjobNature.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).status)
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).status != null) {
+                binding.tvjobNature.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).status
+                )
             } else {
                 binding.tvjobNature.setText("Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).payGroupName != null) {
-                binding.payGroup.setText("Pay Group: " + Constants.jobReqData!!.records.get(global.jobRequisitonPosition).payGroupName.toString())
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).payGroupName != null) {
+                binding.payGroup.setText(
+                    "Pay Group: " + com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).payGroupName.toString()
+                )
             } else {
                 binding.payGroup.setText("Pay Group:Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).headcount != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).headcount != null) {
                 binding.tvHeadCount.setText(
                     "Headcount: " + Constants.jobReqData!!.records.get(
                         global.jobRequisitonPosition
@@ -591,84 +655,124 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                 binding.tvHeadCount.setText("Headcount:Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).startDate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).startDate != null) {
                 val formattedDate =
-                    formatDate(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).startDate)
+                    formatDate(
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                            global.jobRequisitonPosition
+                        ).startDate
+                    )
                 binding.tvStartDate.setText("Start Date: " + formattedDate)
             } else {
                 binding.tvStartDate.setText("Start Date: Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).endDate != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).endDate != null) {
                 val formattedDate =
-                    formatDate(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).endDate.toString())
+                    formatDate(
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                            global.jobRequisitonPosition
+                        ).endDate.toString()
+                    )
                 binding.tvStartDate2.setText("End Date: " + formattedDate)
             } else {
                 binding.tvStartDate2.setText("End Date: Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).workingDaysNo != null) {
-                if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).workingDaysNo.equals(
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).workingDaysNo != null) {
+                if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).workingDaysNo.equals(
                         1
                     )
                 ) {
-                    binding.tvTotalDays.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).workingDaysNo.toString() + " Day")
+                    binding.tvTotalDays.setText(
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                            global.jobRequisitonPosition
+                        ).workingDaysNo.toString() + " Day"
+                    )
                 } else {
-                    binding.tvTotalDays.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).workingDaysNo.toString() + " Days")
+                    binding.tvTotalDays.setText(
+                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                            global.jobRequisitonPosition
+                        ).workingDaysNo.toString() + " Days"
+                    )
 
                 }
             } else {
                 binding.tvTotalDays.setText("Days:Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 != null
             ) {
                 binding.tvHomeAdress.setText(
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 + ", " + Constants.jobReqData!!.records.get(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 + ", " + Constants.jobReqData!!.records.get(
                         global.jobRequisitonPosition
                     ).address2
                 )
-            } else if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
+            } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 == null
             ) {
-                binding.tvHomeAdress.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1)
-            } else if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 == null && Constants.jobReqData!!.records.get(
+                binding.tvHomeAdress.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).address1
+                )
+            } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 == null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 != null
             ) {
-                binding.tvHomeAdress.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address2)
+                binding.tvHomeAdress.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).address2
+                )
             } else {
                 binding.tvHomeAdress.setText("Not Provided")
             }
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).zipcode != null) {
-                binding.postalcode.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).zipcode.toString())
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).zipcode != null) {
+                binding.postalcode.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).zipcode.toString()
+                )
             } else {
                 binding.postalcode.setText("Not Provided")
             }
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).city != null)) {
-                binding.country.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).city.toString())
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).city != null)) {
+                binding.country.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).city.toString()
+                )
             } else {
                 binding.country.setText("Not Provided")
             }
 
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).state != null)) {
-                binding.city.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).state.toString())
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).state != null)) {
+                binding.city.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).state.toString()
+                )
             } else {
                 binding.city.setText("Not Provided")
             }
 
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).location != null)) {
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).location != null)) {
 
-                binding.location.setText(Constants.jobReqData!!.records.get(global.jobRequisitonPosition).location.toString())
+                binding.location.setText(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).location.toString()
+                )
             } else {
                 binding.location.setText("Not Provided")
             }
 
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).estimatedHours != null)) {
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).estimatedHours != null)) {
 
                 binding.tvestimatedHours.setText(
                     "Estimated Hours:" + Constants.jobReqData!!.records.get(
@@ -681,12 +785,12 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
 
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobDescription != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobDescription != null) {
                 binding.webView.visibility = View.VISIBLE
 
                 binding.tvNodescription.visibility = View.INVISIBLE
                 var filename =
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobDescription
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobDescription
                 var baseurlnew =
                     "https://staginggateway.enwage.com/api/v1/AzureStorage/download?filename=" + filename
 
@@ -707,10 +811,10 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
         binding.postalcode.setOnLongClickListener {
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).zipcode != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).zipcode != null) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).zipcode,
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).zipcode,
                     Toast.LENGTH_LONG
                 )
 
@@ -722,10 +826,10 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         }
         binding.city.setOnLongClickListener {
 
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).state != null)) {
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).state != null)) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).state,
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).state,
                     Toast.LENGTH_LONG
                 )
 
@@ -736,10 +840,10 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         }
         binding.country.setOnLongClickListener {
 
-            if ((Constants.jobReqData!!.records.get(global.jobRequisitonPosition).city != null)) {
+            if ((com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).city != null)) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).city.toString(),
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).city.toString(),
                     Toast.LENGTH_LONG
                 )
 
@@ -748,10 +852,10 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
             true
         }
         binding.tvJobName.setOnLongClickListener {
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).positionName != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).positionName != null) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).positionName,
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).positionName,
                     Toast.LENGTH_LONG
                 )
 
@@ -775,38 +879,38 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
             true
         }
         binding.tvHomeAdress.setOnLongClickListener {
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 != null
             ) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 + ", " + Constants.jobReqData!!.records.get(
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 + ", " + Constants.jobReqData!!.records.get(
                         global.jobRequisitonPosition
                     ).address2,
                     Toast.LENGTH_LONG
                 )
                 toast.show()
 
-            } else if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
+            } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 != null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 == null
             ) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1,
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1,
                     Toast.LENGTH_LONG
                 )
 
                 toast.show()
 
-            } else if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address1 == null && Constants.jobReqData!!.records.get(
+            } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address1 == null && Constants.jobReqData!!.records.get(
                     global.jobRequisitonPosition
                 ).address2 != null
             ) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).address2,
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).address2,
                     Toast.LENGTH_LONG
                 )
                 toast.show()
@@ -816,10 +920,10 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
             true
         }
         binding.location.setOnLongClickListener {
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).location != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).location != null) {
                 val toast = Toast.makeText(
                     this,
-                    Constants.jobReqData!!.records.get(global.jobRequisitonPosition).location.toString(),
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).location.toString(),
                     Toast.LENGTH_LONG
                 )
 
@@ -831,10 +935,12 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         binding.payGroup.setOnLongClickListener {
 
 
-            if (Constants.jobReqData!!.records.get(global.jobRequisitonPosition).payGroupName != null) {
+            if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).payGroupName != null) {
                 val toast = Toast.makeText(
                     this,
-                    "Pay Group: " + Constants.jobReqData!!.records.get(global.jobRequisitonPosition).payGroupName.toString(),
+                    "Pay Group: " + com.example.envagemobileapplication.Utils.Global.jobreqlist.get(
+                        global.jobRequisitonPosition
+                    ).payGroupName.toString(),
                     Toast.LENGTH_LONG
                 )
 

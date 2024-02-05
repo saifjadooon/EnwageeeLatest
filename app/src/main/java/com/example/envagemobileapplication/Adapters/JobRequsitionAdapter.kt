@@ -56,10 +56,14 @@ class JobRequsitionAdapter(
         }
 
         holder.kebabmenu.setOnClickListener{
-            Constants.jobRequestid = dataList.get(position).jobRequestId
-            global.isfromEditJobRequisition = true
-            val bottomSheetFragment = BottomSheetEditJob()
-            bottomSheetFragment.show(cfm, bottomSheetFragment.tag)
+
+            if (dataList.get(position).status!="Approved"){
+                Constants.jobRequestid = dataList.get(position).jobRequestId
+                global.isfromEditJobRequisition = true
+                val bottomSheetFragment = BottomSheetEditJob()
+                bottomSheetFragment.show(cfm, bottomSheetFragment.tag)
+            }
+
         }
     }
 
@@ -103,6 +107,7 @@ class JobRequsitionAdapter(
 
         if (dataList.get(position).status != null) {
             holder.tvapproved.setText(dataList.get(position).status)
+
         } else {
             holder.tvapproved.setText("Not provided")
         }

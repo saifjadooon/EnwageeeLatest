@@ -170,6 +170,7 @@ class ClientSummaryJobRequisitionF : Fragment() {
                         jobreqList.add(it.data.records.get(i))
                     }
 
+                    com.example.envagemobileapplication.Utils.Global.jobreqlist = jobreqList
                     try {
                         setupJobReqAdapter(jobreqList, requireContext())
 
@@ -255,8 +256,9 @@ class ClientSummaryJobRequisitionF : Fragment() {
     }
 
     private fun loadMoreData(page: Int) {
-        loader.show()
+        //loader.show()
         isLoading = true
+        binding.searchView2.clearFocus()
 
         model = SortDirectionJobRequisition(
             clientId = Constants.clientid.toString(),
@@ -280,12 +282,17 @@ class ClientSummaryJobRequisitionF : Fragment() {
                         call: Call<GetJobRequests>,
                         response: Response<GetJobRequests>
                     ) {
-                        loader.hide()
+                       // loader.hide()
                         if (response.body() != null) {
 
+                            Constants.jobReqData = response.body()!!.data
                             for (i in 0 until response.body()!!.data.records.size) {
                                 jobreqList.add(response.body()!!.data.records.get(i))
+
                             }
+
+
+                            com.example.envagemobileapplication.Utils.Global.jobreqlist = jobreqList
                             isLoading = false
                             adapter.notifyDataSetChanged()
                         }
@@ -295,13 +302,13 @@ class ClientSummaryJobRequisitionF : Fragment() {
                         call: Call<GetJobRequests>,
                         t: Throwable
                     ) {
-                        loader.hide()
+                     //   loader.hide()
                         Log.i("exceptionddsfdsfds", t.toString())
 
                     }
                 })
         } catch (ex: java.lang.Exception) {
-            loader.hide()
+          //  loader.hide()
             Log.i("exceptionddsfdsfds", ex.toString())
         }
 

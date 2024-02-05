@@ -109,10 +109,12 @@ class JobCandidateAdapter(
         }
 
         if (!onlineApplicantsDataList.get(position).source.toString().isNullOrEmpty()) {
+           var jobidd =  com.example.envagemobileapplication.Utils.Global.GlobalJobID
             for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
-                holder.tv_type.setText(onlineApplicantsDataList.get(position).candidateJobs.get(i).status)
+                if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId){
+                    holder.tv_type.setText(onlineApplicantsDataList.get(position).candidateJobs.get(i).status)
+                }
             }
-
         } else {
             holder.tv_type.text = "Not Provided"
         }

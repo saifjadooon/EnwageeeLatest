@@ -18,6 +18,7 @@ import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestMod
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobSalaryDetailReqModel
 import com.example.envagemobileapplication.Models.RequestModels.JobSkill
 import com.example.envagemobileapplication.Models.RequestModels.SkillsRequestModels
+import com.example.envagemobileapplication.Models.RequestModels.skillmodelforJobreq
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteJobRsp.CandidateJobGetJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
@@ -25,6 +26,9 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.Data
 import okhttp3.MultipartBody
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 import java.text.SimpleDateFormat
 
 public class Global {
@@ -32,6 +36,9 @@ public class Global {
     companion object {
 
 
+        var skilllistJobReq: ArrayList<skillmodelforJobreq>? = null
+        var htmlcontent: String = ""
+        var jobreqlist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.Record> = ArrayList()
         var message: String? = ""
         var too: String? =""
         var from: String? = ""
@@ -174,6 +181,23 @@ public class Global {
             }
 
             return spannable
+        }
+
+        fun htmlToFile(context: Context, htmlContent: String, fileName: String): File? {
+            try {
+                // Create a temporary file
+                val file = File(context.cacheDir, fileName)
+
+                // Write HTML content to the file
+                FileWriter(file).use { writer ->
+                    writer.write(htmlContent)
+                }
+
+                return file
+            } catch (e: IOException) {
+                e.printStackTrace()
+                return null
+            }
         }
     }
 

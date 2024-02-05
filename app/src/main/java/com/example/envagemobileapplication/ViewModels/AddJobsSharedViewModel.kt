@@ -17,6 +17,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.GetIndustryListResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.PayGroupResponse.PayGroupResponse
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.databinding.FragmentAddjobSalaryDetailBinding
 import com.example.envagemobileapplication.databinding.FragmentSalaryDetailBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
@@ -194,7 +195,7 @@ class AddJobsSharedViewModel : ViewModel() {
         binding: FragmentAddjobSalaryDetailBinding,
         context: Context,
         token: String,
-        jopbDescriptionfinal: MultipartBody.Part,
+   /*     jopbDescriptionfinal: MultipartBody.Part,*/
         positionNamefinal: MultipartBody.Part,
         clientIdfinal: MultipartBody.Part,
         payrollPayGroupIdfinal: MultipartBody.Part,
@@ -257,7 +258,7 @@ class AddJobsSharedViewModel : ViewModel() {
         viewModelScope.launch {
             ApiUtils.getAPIService(context).AddJob(
                 token,
-                jopbDescriptionfinal,
+              /*  jopbDescriptionfinal,*/
                 positionNamefinal,
                 clientIdfinal,
                 payrollPayGroupIdfinal,
@@ -358,6 +359,7 @@ class AddJobsSharedViewModel : ViewModel() {
     }
 
     fun editJobReqApi(
+        loader: Loader,
         binding: FragmentSalaryDetailBinding,
         context: Context,
         token: String,
@@ -465,6 +467,7 @@ class AddJobsSharedViewModel : ViewModel() {
                             MLDEditJobReq.postValue(response.body())
 
                         } else {
+                            loader.hide()
                             binding.btnnext.isEnabled = true
                             val rootView = binding.root
                             val message = "Invalid parameters"

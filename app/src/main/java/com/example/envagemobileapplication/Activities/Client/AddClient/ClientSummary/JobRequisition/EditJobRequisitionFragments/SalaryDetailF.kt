@@ -211,6 +211,7 @@ class SalaryDetailF : Fragment() {
 
                 loader.show()
                 viewModel.editJobReqApi(
+                    loader,
                     binding,
                     requireContext(),
                     token.toString(),
@@ -763,6 +764,28 @@ class SalaryDetailF : Fragment() {
                     global.jobReqbyJobid!!.billingDetails.markup.toString()
                 )
             }
+
+            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid and Billed")) {
+                binding.rbPaidandBilledOvertime.isChecked = true
+            }
+            else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid Not Billed")){
+                binding.rbPaidNotBilledOvertime.isChecked = true
+            }
+            else {
+                binding.rbNoneOvertime.isChecked = true
+            }
+
+            if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid and Billed")) {
+                binding.rbPaidandBilledDoubletime.isChecked = true
+            }
+            else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid Not Billed")){
+                binding.rbPaidNotBilledDoubletime.isChecked = true
+            }
+            else {
+                binding.rbNonerbDoubletime.isChecked = true
+            }
+
+
             if (global.jobReqbyJobid!!.billingDetails.minPayRate != null) {
                 minPayRate = global.jobReqbyJobid!!.billingDetails.minPayRate.toString()
                 binding.etPayrate.setText(

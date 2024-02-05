@@ -59,146 +59,149 @@ class JobSalaryDetails : Fragment() {
                         if (response.body() != null) {
                             global.getjobbyjoid = response.body()!!
 
-                            if (response.body()!!.data.billingDetails.markup != null) {
-                                try {
-                                    binding.tvMarkupPercentage.setText(response.body()!!.data.billingDetails.markup.toString())
-                                } catch (e: Exception) {
+                            if (response.body()!!.data.billingDetails!=null){
+                                if (response.body()!!.data.billingDetails.markup != null) {
+                                    try {
+                                        binding.tvMarkupPercentage.setText(response.body()!!.data.billingDetails.markup.toString())
+                                    } catch (e: Exception) {
 
+                                    }
+
+                                } else {
+                                    binding.tvMarkupPercentage.setText("-")
+                                }
+                                if (response.body()!!.data.billingDetails.minPayRate != null) {
+                                    binding.tvMinPayRate.setText(
+                                        response.body()!!.data.billingDetails.minPayRate.toFloat()
+                                            .toString()
+                                    )
+
+                                } else {
+                                    binding.tvMinPayRate.setText("-")
                                 }
 
-                            } else {
-                                binding.tvMarkupPercentage.setText("-")
-                            }
-                            if (response.body()!!.data.billingDetails.minPayRate != null) {
-                                binding.tvMinPayRate.setText(
-                                    response.body()!!.data.billingDetails.minPayRate.toFloat()
-                                        .toString()
-                                )
+                                if (response.body()!!.data.billingDetails.overtimePayRate != null) {
+                                    binding.tvOTDTMinpayRate.setText(response.body()!!.data.billingDetails.overtimePayRate.toString())
+                                } else {
+                                    binding.tvOTDTMinpayRate.setText("-")
+                                }
+                                if (response.body()!!.data.billingDetails.minBillRate != null) {
+                                    binding.tvMinBillRate.setText(response.body()!!.data.billingDetails.minBillRate.toString())
+                                } else {
+                                    binding.tvMinBillRate.setText("-")
+                                }
+                                if (response.body()!!.data.billingDetails.maxPayRate != null) {
+                                    binding.tvMaxPayRate.setText(response.body()!!.data.billingDetails.maxPayRate.toString())
+                                } else {
+                                    binding.tvMaxPayRate.setText("-")
+                                }
 
-                            } else {
-                                binding.tvMinPayRate.setText("-")
-                            }
-
-                            if (response.body()!!.data.billingDetails.overtimePayRate != null) {
-                                binding.tvOTDTMinpayRate.setText(response.body()!!.data.billingDetails.overtimePayRate.toString())
-                            } else {
-                                binding.tvOTDTMinpayRate.setText("-")
-                            }
-                            if (response.body()!!.data.billingDetails.minBillRate != null) {
-                                binding.tvMinBillRate.setText(response.body()!!.data.billingDetails.minBillRate.toString())
-                            } else {
-                                binding.tvMinBillRate.setText("-")
-                            }
-                            if (response.body()!!.data.billingDetails.maxPayRate != null) {
-                                binding.tvMaxPayRate.setText(response.body()!!.data.billingDetails.maxPayRate.toString())
-                            } else {
-                                binding.tvMaxPayRate.setText("-")
-                            }
-
-                            if (response.body()!!.data.billingDetails.maxBillRate != null) {
-                                binding.tvMaxBillRate.setText(response.body()!!.data.billingDetails.maxBillRate.toString())
-                            } else {
-                                binding.tvMaxBillRate.setText("-")
-                            }
+                                if (response.body()!!.data.billingDetails.maxBillRate != null) {
+                                    binding.tvMaxBillRate.setText(response.body()!!.data.billingDetails.maxBillRate.toString())
+                                } else {
+                                    binding.tvMaxBillRate.setText("-")
+                                }
 
 
-                            if (response.body()!!.data.billingDetails.targetPayRate != null) {
-                                binding.tvTargetPayRate.setText(response.body()!!.data.billingDetails.targetPayRate.toString())
-                            } else {
-                                binding.tvTargetPayRate.setText("-")
-                            }
+                                if (response.body()!!.data.billingDetails.targetPayRate != null) {
+                                    binding.tvTargetPayRate.setText(response.body()!!.data.billingDetails.targetPayRate.toString())
+                                } else {
+                                    binding.tvTargetPayRate.setText("-")
+                                }
 
-                            if (response.body()!!.data.billingDetails.targetBillRate != null) {
+                                if (response.body()!!.data.billingDetails.targetBillRate != null) {
 
-                                binding.tvTargetBillRate.setText(response.body()!!.data.billingDetails.targetBillRate.toString())
-                            } else {
-                                binding.tvTargetBillRate.setText("-")
-                            }
+                                    binding.tvTargetBillRate.setText(response.body()!!.data.billingDetails.targetBillRate.toString())
+                                } else {
+                                    binding.tvTargetBillRate.setText("-")
+                                }
 
-                            if (response.body()!!.data.billingDetails.frequency != null) {
+                                if (response.body()!!.data.billingDetails.frequency != null) {
 
-                                binding.tvFrequecny.setText(response.body()!!.data.billingDetails.frequency.toString())
-                            } else {
-                                binding.tvFrequecny.setText("-")
-                            }
+                                    binding.tvFrequecny.setText(response.body()!!.data.billingDetails.frequency.toString())
+                                } else {
+                                    binding.tvFrequecny.setText("-")
+                                }
 
-                            if (response.body()!!.data.billingDetails.overtimeType != null) {
+                                if (response.body()!!.data.billingDetails.overtimeType != null) {
 
-                                binding.tvOTRule.setText(response.body()!!.data.billingDetails.overtimeType.toString())
-                            } else {
-                                binding.tvOTRule.setText("-")
-                            }
+                                    binding.tvOTRule.setText(response.body()!!.data.billingDetails.overtimeType.toString())
+                                } else {
+                                    binding.tvOTRule.setText("-")
+                                }
 
 
-                            if (response.body()!!.data.billingDetails.overtimeMultiplier != null) {
-                                if (response.body()!!.data.billingDetails.overtimeType.equals("None")) {
+                                if (response.body()!!.data.billingDetails.overtimeMultiplier != null) {
+                                    if (response.body()!!.data.billingDetails.overtimeType.equals("None")) {
+                                        binding.tvOtMultiplier.setText("-")
+                                    } else {
+                                        binding.tvOtMultiplier.setText(response.body()!!.data.billingDetails.overtimeMultiplier.toString())
+                                    }
+
+                                } else {
                                     binding.tvOtMultiplier.setText("-")
-                                } else {
-                                    binding.tvOtMultiplier.setText(response.body()!!.data.billingDetails.overtimeMultiplier.toString())
                                 }
 
-                            } else {
-                                binding.tvOtMultiplier.setText("-")
-                            }
+
+                                if (response.body()!!.data.billingDetails.overtimeMarkup != null) {
 
 
-                            if (response.body()!!.data.billingDetails.overtimeMarkup != null) {
+                                    binding.tvOtPayRate.setText(response.body()!!.data.billingDetails.overtimeMarkup.toString())
+                                } else {
+                                    binding.tvOtPayRate.setText("-")
+                                }
+
+                                if (response.body()!!.data.billingDetails.doubletimeType != null) {
 
 
-                                binding.tvOtPayRate.setText(response.body()!!.data.billingDetails.overtimeMarkup.toString())
-                            } else {
-                                binding.tvOtPayRate.setText("-")
-                            }
+                                    binding.tvdtrule.setText(response.body()!!.data.billingDetails.doubletimeType.toString())
+                                } else {
+                                    binding.tvdtrule.setText("-")
+                                }
 
-                            if (response.body()!!.data.billingDetails.doubletimeType != null) {
+                                if (response.body()!!.data.billingDetails.doubletimeMarkup != null) {
 
-
-                                binding.tvdtrule.setText(response.body()!!.data.billingDetails.doubletimeType.toString())
-                            } else {
-                                binding.tvdtrule.setText("-")
-                            }
-
-                            if (response.body()!!.data.billingDetails.doubletimeMarkup != null) {
-
-                                binding.tvdetMArkuppercentage.setText(response.body()!!.data.billingDetails.doubletimeMarkup.toString())
-                            } else {
-                                binding.tvdetMArkuppercentage.setText("-")
-                            }
+                                    binding.tvdetMArkuppercentage.setText(response.body()!!.data.billingDetails.doubletimeMarkup.toString())
+                                } else {
+                                    binding.tvdetMArkuppercentage.setText("-")
+                                }
 
 
-                            if (response.body()!!.data.billingDetails.overtimeBillRate != null) {
-                                binding.tvoTBillRate.setText(response.body()!!.data.billingDetails.overtimeBillRate.toString())
-                            } else {
-                                binding.tvoTBillRate.setText("-")
-                            }
+                                if (response.body()!!.data.billingDetails.overtimeBillRate != null) {
+                                    binding.tvoTBillRate.setText(response.body()!!.data.billingDetails.overtimeBillRate.toString())
+                                } else {
+                                    binding.tvoTBillRate.setText("-")
+                                }
 
-                            if (response.body()!!.data.billingDetails.doubletimeMultiplier != null) {
-                                if (response.body()!!.data.billingDetails.doubletimeType.equals("None")) {
+                                if (response.body()!!.data.billingDetails.doubletimeMultiplier != null) {
+                                    if (response.body()!!.data.billingDetails.doubletimeType.equals("None")) {
+                                        binding.tvDtMultiplier.setText("-")
+                                    } else {
+                                        binding.tvDtMultiplier.setText(response.body()!!.data.billingDetails.doubletimeMultiplier.toString())
+
+                                    }
+
+                                } else {
                                     binding.tvDtMultiplier.setText("-")
-                                } else {
-                                    binding.tvDtMultiplier.setText(response.body()!!.data.billingDetails.doubletimeMultiplier.toString())
-
                                 }
 
-                            } else {
-                                binding.tvDtMultiplier.setText("-")
+                                if (response.body()!!.data.billingDetails.doubletimePayRate != null) {
+                                    binding.tvDtPayRate.setText(response.body()!!.data.billingDetails.doubletimePayRate.toString())
+
+                                } else {
+                                    binding.tvDtPayRate.setText("-")
+                                }
+
+
+                                if (response.body()!!.data.billingDetails.doubletimeBillRate != null) {
+                                    binding.tvDTBillRate.setText(response.body()!!.data.billingDetails.doubletimeBillRate.toString())
+
+
+                                } else {
+                                    binding.tvDTBillRate.setText("-")
+                                }
                             }
 
-                            if (response.body()!!.data.billingDetails.doubletimePayRate != null) {
-                                binding.tvDtPayRate.setText(response.body()!!.data.billingDetails.doubletimePayRate.toString())
-
-                            } else {
-                                binding.tvDtPayRate.setText("-")
-                            }
-
-
-                            if (response.body()!!.data.billingDetails.doubletimeBillRate != null) {
-                                binding.tvDTBillRate.setText(response.body()!!.data.billingDetails.doubletimeBillRate.toString())
-
-
-                            } else {
-                                binding.tvDTBillRate.setText("-")
-                            }
                         }
                     }
 

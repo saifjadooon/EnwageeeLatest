@@ -26,12 +26,14 @@ import com.example.envagemobileapplication.ViewModels.ClientSummaryViewModel
 import com.example.envagemobileapplication.databinding.BsJobreqStatusesBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class BsJobReqStatuses : BottomSheetDialogFragment() {
+    private var json: String? = ""
     val viewModel: ClientSummaryViewModel by activityViewModels()
     private var clickedjobRequestStatusName: String? = ""
     private var clickedStatusId: Int? = 0
@@ -62,6 +64,20 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         loader = Loader(requireContext())
         clicklisteners()
         setupHorizontalScrollView()
+        val gson = Gson()
+
+        var jobskilllist = global.skilllistJobReq
+        val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
+            linkedMapOf(
+                "skillId" to jobSkill.skillId,
+                "name" to jobSkill.name,
+                "skillRating" to jobSkill.skillRating,
+                "IsDeleted" to jobSkill.IsDeleted
+            )
+        }
+
+        val json = gson.toJson(listOfLinkedHashMaps)
+        Log.i("jsonstringofskills", json)
 
     }
 
@@ -99,11 +115,27 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         jobRequestid: Int?,
         statusname: String?
     ) {
+
+        val gson = Gson()
+
+        var jobskilllist = global.skilllistJobReq
+        val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
+            linkedMapOf(
+                "skillId" to jobSkill.skillId,
+                "name" to jobSkill.name,
+                "skillRating" to jobSkill.skillRating,
+                "IsDeleted" to jobSkill.IsDeleted
+            )
+        }
+
+        val json = gson.toJson(listOfLinkedHashMaps)
+        Log.i("jsonstringofskills", json)
+
         val jobRequestmodel = JobReqUpdateModel(
             jobRequestId = jobRequestid!!,
             statusId = statusid!!,
             jobRequestStatusName = statusname!!,
-            jobSkills = "[]",
+            jobSkills = json,
             remarks = remarks
         )
         try {
@@ -154,13 +186,26 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
             Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestId
         var statusname = clickedjobRequestStatusName
 
+        val gson = Gson()
 
+        var jobskilllist = global.skilllistJobReq
+        val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
+            linkedMapOf(
+                "skillId" to jobSkill.skillId,
+                "name" to jobSkill.name,
+                "skillRating" to jobSkill.skillRating,
+                "IsDeleted" to jobSkill.IsDeleted
+            )
+        }
+
+        val json = gson.toJson(listOfLinkedHashMaps)
+        Log.i("jsonstringofskills", json)
         val jobStatus = JobStatus(
             jobRequestId = jobRequestid,
             statusId = statusid!!,
             jobRequestStatusName = statusname!!,
             remarks = remarks,
-            jobSkills = "[]" // Assuming jobSkills is a list of strings
+            jobSkills = json // Assuming jobSkills is a list of strings
         )
 
         // Create an instance of JobPublishSetting
@@ -218,11 +263,26 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         jobRequestid: Int,
         statusname: String?
     ) {
+
+        val gson = Gson()
+
+        var jobskilllist = global.skilllistJobReq
+        val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
+            linkedMapOf(
+                "skillId" to jobSkill.skillId,
+                "name" to jobSkill.name,
+                "skillRating" to jobSkill.skillRating,
+                "IsDeleted" to jobSkill.IsDeleted
+            )
+        }
+
+        val json = gson.toJson(listOfLinkedHashMaps)
+        Log.i("jsonstringofskills", json)
         val jobRequestmodel = JobReqUpdateModel(
             jobRequestId = jobRequestid,
             statusId = statusid!!,
             jobRequestStatusName = statusname!!,
-            jobSkills = "[]", // You can populate this list with actual skills
+            jobSkills = json, // You can populate this list with actual skills
             remarks = remarks
         )
 

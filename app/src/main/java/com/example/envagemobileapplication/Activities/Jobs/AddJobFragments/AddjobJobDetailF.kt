@@ -783,6 +783,7 @@ class AddjobJobDetailF : Fragment() {
 
             if (!descriptiontext.isNullOrBlank()) {
                 val htmlContent = descriptiontext
+                global.htmlcontent = htmlContent
                 val mediaType = "text/html".toMediaTypeOrNull()
                 val descriptionBody = RequestBody.create(mediaType, htmlContent)
                 val descriptionPart =
@@ -792,9 +793,11 @@ class AddjobJobDetailF : Fragment() {
                         descriptionBody
                     )
                 description = descriptionPart
-            } else {
+            }
+            else {
 
                 val htmlContent = "<p></p>"
+                global.htmlcontent = htmlContent
                 val mediaType = "text/html".toMediaTypeOrNull()
                 val descriptionBody = RequestBody.create(mediaType, htmlContent)
                 val descriptionPart =

@@ -190,7 +190,6 @@ class JobsMainAdapter(
     override fun getItemCount(): Int {
         return dataList.size
     }
-
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_position: TextView = itemView.findViewById(R.id.tv_position)
         var iv_job_status: TextView = itemView.findViewById(R.id.iv_job_status)

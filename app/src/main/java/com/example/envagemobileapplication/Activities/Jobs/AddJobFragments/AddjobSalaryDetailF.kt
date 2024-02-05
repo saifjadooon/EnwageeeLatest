@@ -24,7 +24,16 @@ import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.AddJobsSharedViewModel
 import com.example.envagemobileapplication.databinding.FragmentAddjobSalaryDetailBinding
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
+import java.io.IOException
 import kotlin.math.round
 
 class AddjobSalaryDetailF : Fragment() {
@@ -249,22 +258,139 @@ class AddjobSalaryDetailF : Fragment() {
 
                 var weekdays = global.addJobDetailModel?.workingDays
 
+                loader.show()
+                GlobalScope.launch(Dispatchers.IO) {
+                    try {
+
+                        val client = OkHttpClient()
+
+                        val htmlContent = global.htmlcontent
+                        val fileName = "description.html"
+                        val file = global.htmlToFile(requireContext(), htmlContent, fileName)
+                        val mediaTypeOctetStream = "text/html".toMediaTypeOrNull()
+                        val fileRequestBody = file?.asRequestBody(mediaTypeOctetStream)
+                        val descriptionPart = MultipartBody.Part.createFormData(
+                            "jopbDescription",
+                            "1eec2c78-dd2b-41a0-a154-3992001888ff",
+                            fileRequestBody!!
+                        )
 
 
-                viewModel.addJobApi(
-                    binding,
-                    requireContext(),
-                    token.toString(),
-                    description!!,
-                    MultipartBody.Part.createFormData(
-                        "positionName",
-                        global.basicDetailReqModel?.positionName.toString()
-                    ),
+                        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                        // Add "text/plain" parameters
+                        requestBody.addFormDataPart(
+                            "positionName",
+                            global.basicDetailReqModel?.positionName.toString()
+                        )
+                            .addFormDataPart("clientId", clientid.toString())
+                            .addFormDataPart("payrollPayGroupId", payrollPayGroupid.toString())
+                            .addFormDataPart("jobId", jobid.toString())
+                            .addFormDataPart("industryId", industryid.toString())
+                            .addFormDataPart("jobNature", jobnature.toString())
+                            .addFormDataPart("address1", address1.toString())
+                            .addFormDataPart("address2", address2.toString())
+                            .addFormDataPart("country", country.toString())
+                            .addFormDataPart("zipcode", zipcode.toString())
+                            .addFormDataPart("city", city.toString())
+                            .addFormDataPart("state", statee.toString())
+                            .addFormDataPart("location", location.toString())
+                            .addFormDataPart("headcount", headcount.toString())
+                            .addFormDataPart("jobType", jobtype.toString())
+                            .addFormDataPart("startDate", startDate.toString())
+                            .addFormDataPart("endDate", endDate.toString())
+                            .addFormDataPart("currency", currency.toString())
+                            .addFormDataPart("minimumSalary", "0")
+                            .addFormDataPart("maximumSalary", "0")
+                            .addFormDataPart("workingDaysNo", workingDaysNo.toString())
+                            .addFormDataPart("estimatedHours", estimatedHours.toString())
+                            .addFormDataPart("WorkingDays", workingdays.toString())
+                            .addFormDataPart("jobStatusId", jobstatusID.toString())
+                            .addFormDataPart("jobSkills", json.toString())
+                            .addFormDataPart("experienceRequired", "2")
+                            .addFormDataPart(
+                                "useTemplate",
+                                global.basicDetailReqModel?.useTemplate.toString()
+                            )
+                            .addFormDataPart("markup", markupPercentage.toString())
+                            .addFormDataPart("minPayRate", minPayrate.toString())
+                            .addFormDataPart("minBillRate", minBillRate.toString())
+                            .addFormDataPart("maxPayRate", maxPayRate.toString())
+                            .addFormDataPart("maxBillRate", maxBillRate.toString())
+                            .addFormDataPart("targetPayRate", targetPayRate.toString())
+                            .addFormDataPart("targetBillRate", targetBillrate.toString())
+                            .addFormDataPart("overTimeMultiplier", overtimeMultiplier.toString())
+                            .addFormDataPart("overtimeType", overtimeType)
+                            .addFormDataPart("overtimeMarkup", overtimeMarkupPercentage)
+                            .addFormDataPart("overtimePayRate", overtimePayRate)
+                            .addFormDataPart("overtimeBillRate", overTimeBillRate)
+                            .addFormDataPart("doubletimeMultiplier", doubletimeMultiplier)
+                            .addFormDataPart("doubletimeType", doubletimeType)
+                            .addFormDataPart("doubletimeMarkup", doubleTimeMarkUpPercentage)
+                            .addFormDataPart("doubletimePayRate", doubletimePayRate)
+                            .addFormDataPart("doubletimeBillRate", doubletimeBillRate)
+                            .addFormDataPart("frequency", binding.spinnerFrequency.text.toString())
+                            .addFormDataPart("ApplicationFormId", "1047")
+                            .addFormDataPart("ShowSalary", "false")
+                            .addFormDataPart("ShowNature", "false")
+                            .addFormDataPart("ShowClient", "false")
+                            .addFormDataPart("ShowIndustry", "false")
+                            .addFormDataPart("ShowAddress", "false")
+                            .addFormDataPart("ShowType", "false")
+                            .addFormDataPart("ShowSkills", "false")
+                            .addFormDataPart("ShowShift", "false")
+                            .addFormDataPart("IsPublish", "false")
+                            .addFormDataPart("jobPlatform", "\"\"")
+
+                        val request = Request.Builder()
+                            .url("https://staginggateway.enwage.com/api/v1/Job/add-job")
+                            .post(requestBody.build())
+                            .addHeader(
+                                "Authorization",
+                                "Bearer " + tokenmanager.getAccessToken().toString()
+                            )
+                            .build()
+
+                        // Execute the request
+                        val response = client.newCall(request).execute()
+                        val responseBody = response.body?.string()
+                        Log.i("respdfdfdfd", responseBody ?: "Empty response")
+                        val jsonResponse = JSONObject(responseBody)
+                        val message = jsonResponse.getJSONObject("data").getString("message")
+
+                        requireActivity().runOnUiThread {
+                            if (message == "Item has been created successfully.") {
+                                loader.hide()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Job created Successfully",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                                val delayMillis = 3000L // Delay between transitions in milliseconds
+                                val handler = Handler()
+                                handler.postDelayed({
+                                    requireActivity().finish()
+                                }, delayMillis)
+                            } else {
+                                // Show the message from the response
+                                loader.hide()
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        loader.hide()
+                    }
+                }
+                /*    viewModel.addJobApi(
+                        binding,
+                        requireContext(),
+                        token.toString(),
+                      *//*  description!!,*//*
+                    MultipartBody.Part.createFormData("positionName", global.basicDetailReqModel?.positionName.toString()),
                     MultipartBody.Part.createFormData("clientId", clientid.toString()),
-                    MultipartBody.Part.createFormData(
-                        "payrollPayGroupId",
-                        payrollPayGroupid.toString()
-                    ),
+                    MultipartBody.Part.createFormData("payrollPayGroupId", payrollPayGroupid.toString()),
                     MultipartBody.Part.createFormData("jobId", jobid.toString()),
                     MultipartBody.Part.createFormData("industryId", industryid.toString()),
                     MultipartBody.Part.createFormData("jobNature", jobnature.toString()),
@@ -288,14 +414,8 @@ class AddjobSalaryDetailF : Fragment() {
                     MultipartBody.Part.createFormData("jobStatusId", jobstatusID.toString()),
                     MultipartBody.Part.createFormData("jobSkills", json.toString()),
                     MultipartBody.Part.createFormData("experienceRequired", "2"),
-                    MultipartBody.Part.createFormData(
-                        "useTemplate",
-                        global.basicDetailReqModel?.useTemplate.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "jobTemplateId",
-                        global.basicDetailReqModel?.jobTemplateId.toString()
-                    ),
+                    MultipartBody.Part.createFormData("useTemplate", global.basicDetailReqModel?.useTemplate.toString()),
+                    MultipartBody.Part.createFormData("jobTemplateId", global.basicDetailReqModel?.jobTemplateId.toString()),
                     MultipartBody.Part.createFormData("markup", markupPercentage.toString()),
                     MultipartBody.Part.createFormData("minPayRate", minPayrate.toString()),
                     MultipartBody.Part.createFormData("minBillRate", minBillRate.toString()),
@@ -303,44 +423,17 @@ class AddjobSalaryDetailF : Fragment() {
                     MultipartBody.Part.createFormData("maxBillRate", maxBillRate.toString()),
                     MultipartBody.Part.createFormData("targetPayRate", targetPayRate.toString()),
                     MultipartBody.Part.createFormData("targetBillRate", targetBillrate.toString()),
-                    MultipartBody.Part.createFormData(
-                        "overTimeMultiplier",
-                        overtimeMultiplier.toString()
-                    ),
+                    MultipartBody.Part.createFormData("overTimeMultiplier", overtimeMultiplier.toString()),
                     MultipartBody.Part.createFormData("overtimeType", overtimeType.toString()),
-                    MultipartBody.Part.createFormData(
-                        "overtimeMarkup",
-                        overtimeMarkupPercentage.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "overtimePayRate",
-                        overtimePayRate.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "overtimeBillRate",
-                        overTimeBillRate.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "doubletimeMultiplier",
-                        doubletimeMultiplier.toString()
-                    ),
+                    MultipartBody.Part.createFormData("overtimeMarkup", overtimeMarkupPercentage.toString()),
+                    MultipartBody.Part.createFormData("overtimePayRate", overtimePayRate.toString()),
+                    MultipartBody.Part.createFormData("overtimeBillRate", overTimeBillRate.toString()),
+                    MultipartBody.Part.createFormData("doubletimeMultiplier", doubletimeMultiplier.toString()),
                     MultipartBody.Part.createFormData("doubletimeType", doubletimeType.toString()),
-                    MultipartBody.Part.createFormData(
-                        "doubletimeMarkup",
-                        doubleTimeMarkUpPercentage.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "doubletimePayRate",
-                        doubletimePayRate.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "doubletimeBillRate",
-                        doubletimeBillRate.toString()
-                    ),
-                    MultipartBody.Part.createFormData(
-                        "frequency",
-                        binding.spinnerFrequency.text.toString()
-                    ),
+                    MultipartBody.Part.createFormData("doubletimeMarkup", doubleTimeMarkUpPercentage.toString()),
+                    MultipartBody.Part.createFormData("doubletimePayRate", doubletimePayRate.toString()),
+                    MultipartBody.Part.createFormData("doubletimeBillRate", doubletimeBillRate.toString()),
+                    MultipartBody.Part.createFormData("frequency", binding.spinnerFrequency.text.toString()),
                     MultipartBody.Part.createFormData("ApplicationFormId", "0"),
                     MultipartBody.Part.createFormData("ShowSalary", "false"),
                     MultipartBody.Part.createFormData("ShowNature", "false"),
@@ -352,7 +445,7 @@ class AddjobSalaryDetailF : Fragment() {
                     MultipartBody.Part.createFormData("ShowShift", "false"),
                     MultipartBody.Part.createFormData("IsPublish", "false"),
                     MultipartBody.Part.createFormData("jobPlatform", "")
-                )
+                )*/
             } else {
 
                 if (frequencyy.isNullOrEmpty()) {
@@ -394,7 +487,6 @@ class AddjobSalaryDetailF : Fragment() {
                         if (!overTimeBillRateGlobal.isNullOrEmpty()) {
                             binding.etovertimeBillRate.setText(overTimeBillRateGlobal)
                         }
-
                     }
                 }
                 R.id.rbPaidNotBilledOvertime -> {
@@ -803,6 +895,12 @@ class AddjobSalaryDetailF : Fragment() {
             }
         })
     }
+
+
+    private fun addJobWithOkHttp() {
+
+    }
+
 
     private fun calculateOvertimePayRate(targetPayrate: Double, ovettimeMultiplur: Double): Double {
 

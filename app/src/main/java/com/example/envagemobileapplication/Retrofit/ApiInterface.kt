@@ -355,7 +355,7 @@ public interface ApiInterface {
     @POST("api/v1/Job/add-job")
     fun AddJob(
         @Header("x-access-token") authorization: String,
-        @Part jobDescription: MultipartBody.Part,
+      /*  @Part jobDescription: MultipartBody.Part,*/
         @Part positionName: MultipartBody.Part,
         @Part clientId: MultipartBody.Part,
         @Part payrollPayGroupId: MultipartBody.Part,

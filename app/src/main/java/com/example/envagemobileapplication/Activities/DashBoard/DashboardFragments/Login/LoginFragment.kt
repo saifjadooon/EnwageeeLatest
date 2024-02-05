@@ -71,9 +71,12 @@ class LoginFragment : Fragment() {
 /*
             val username = "upshiftuser"
             val password = "Test@Zxc756"*/
-
             val username = "raja@mailinator.com"
             val password = "Enwage@786"
+
+ /*           val username = "jamesnunez@mailinator.com"
+            val password = "Pakistan@0011"
+*/
 
             /*val username = "ivar@mailinator.com"
             val password = "QazWsx123@"*/
