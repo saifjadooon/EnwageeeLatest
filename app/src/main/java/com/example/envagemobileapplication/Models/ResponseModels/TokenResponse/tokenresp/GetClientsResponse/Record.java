@@ -10,6 +10,12 @@ public class Record {
     @SerializedName("clientId")
     @Expose
     private Integer clientId;
+
+    @SerializedName("branch")
+    @Expose
+    private String branch;
+
+
     @SerializedName("companyId")
     @Expose
     private Integer companyId;
@@ -220,6 +226,28 @@ public class Record {
     @SerializedName("billingMonth")
     @Expose
     private Object billingMonth;
+
+    @SerializedName("groupName")
+    @Expose
+    private String groupName;
+
+
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     public Integer getClientId() {
         return clientId;

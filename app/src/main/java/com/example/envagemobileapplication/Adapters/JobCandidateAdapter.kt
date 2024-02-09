@@ -72,7 +72,7 @@ class JobCandidateAdapter(
                 .transform(CircleTransformation()).into(holder.iv_profile_pic)
         }
 
-        if (!onlineApplicantsDataList.get(position).firstName.toString().isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).firstName .isNullOrEmpty()) {
             holder.tv_Name.setText(
                 onlineApplicantsDataList.get(position).firstName + " " + onlineApplicantsDataList.get(
                     position
@@ -82,7 +82,7 @@ class JobCandidateAdapter(
             holder.tv_Name.text = "Not Provided"
         }
 
-        if (!onlineApplicantsDataList.get(position).primaryEmail.toString().isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).primaryEmail .isNullOrEmpty()) {
             holder.tvEmail.setText(onlineApplicantsDataList.get(position).primaryEmail)
         } else {
             holder.tvEmail.text = "Not Provided"
@@ -99,7 +99,7 @@ class JobCandidateAdapter(
             true
         }
 
-        if (!onlineApplicantsDataList.get(position).phoneNumber.toString().isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).phoneNumber.isNullOrEmpty()) {
             val inputPhoneNumber = onlineApplicantsDataList.get(position).phoneNumber.toString()
             val formattedPhoneNumber = formatToUSAPhoneNumber(inputPhoneNumber)
             holder.tv_contact_phone.setText(formattedPhoneNumber)
@@ -108,7 +108,7 @@ class JobCandidateAdapter(
             holder.tv_contact_phone.text = "Not Provided"
         }
 
-        if (!onlineApplicantsDataList.get(position).source.toString().isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).source.isNullOrEmpty()) {
            var jobidd =  com.example.envagemobileapplication.Utils.Global.GlobalJobID
             for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
                 if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId){
@@ -151,6 +151,7 @@ class JobCandidateAdapter(
                 }
 
                 if (statusid == Constants.candidateInterviewdId) {
+
                     viewmodel.showJobCandidateKebabmenuBottomSheet(true)
                 } else {
                     viewmodel.showJobCandidateKebabmenuBottomSheet(false)

@@ -33,7 +33,7 @@
             android:backgroundTint="@color/white"
             android:drawableRight="@drawable/ic_spinnerdropdown"
             android:drawablePadding="12dp"
-            android:inputType="none"
+
             android:minHeight="60dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />

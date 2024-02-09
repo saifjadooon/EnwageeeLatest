@@ -90,8 +90,7 @@ class SalaryDetailF : Fragment() {
                     handler.postDelayed({
                         requireActivity().finish()
                     }, delayMillis)
-                }
-                catch (e: Exception) {
+                } catch (e: Exception) {
                     loader.hide()
                     val delayMillis = 1000L // Delay between transitions in milliseconds
                     val handler = Handler()
@@ -158,6 +157,7 @@ class SalaryDetailF : Fragment() {
                 var location = global.addJobAddressDetailModel?.location
                 var headcount = global.addJobDetailModel?.headcount
                 var jobtype = global.addJobDetailModel?.jobType
+
                 var startDate = global.addJobDetailModel?.startDate
                 var endDate = global.addJobDetailModel?.endDate
                 var currency = global.addJobDetailModel?.currency
@@ -592,8 +592,6 @@ class SalaryDetailF : Fragment() {
 
 
                 if (!enteredText.isEmpty() && !markupPercentage!!.isEmpty()) {
-
-
                     val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
                     val minPayRatedouble: Double = minPayRate.toString().toDouble()
                     var calculatePayRate =
@@ -709,16 +707,13 @@ class SalaryDetailF : Fragment() {
 
                 } else {
                     binding.TItargetPayrate.error = null
-                    targetPayrate = "" // Reset the targetPayrate or take any other action
-
+                    targetPayrate = ""
                     binding.etovertimePayrate.setText("")
                     binding.etovertimeBillRate.setText("")
                     binding.etdoubletimePayrate.setText("")
                     binding.etdoubletimeBillRate.setText("")
-                    // You may want to set default values or perform other actions
 
                 }
-
             }
         })
         binding.etMarkupPErcentage.addTextChangedListener(object : TextWatcher {
@@ -733,11 +728,37 @@ class SalaryDetailF : Fragment() {
 
             override fun afterTextChanged(editable: Editable?) {
 
+
                 val enteredText = editable.toString()
+                if (enteredText.equals("")) {
+                    binding.etMinBillRate.setText("")
+                    binding.etMaxBillRate.setText("")
+                    binding.etTargetBillRate.setText("")
+                }
                 overtimemarkupPercentageGlobal = binding.etMarkupPErcentage.text
                 doubleTimeMarkupPErcentage = overtimemarkupPercentageGlobal
                 binding.etOvertimeMarkupPercentage.setText(enteredText)
                 binding.etDoubletimeMarkupPercentage.setText(enteredText)
+                try {
+                    var markuppercntage = binding.etMarkupPErcentage.text.toString().toDouble()
+                    var minparrate = binding.etPayrate.text.toString().toDouble()
+                    var maxPayrate = binding.etMaxPayrate.text.toString().toDouble()
+                    var targetPayRate = binding.etTargetPayrate.text.toString().toDouble()
+
+                    var calculatedMinbillrate =
+                        calculateMinBillRate(markuppercntage, minparrate)
+                    binding.etMinBillRate.setText(calculatedMinbillrate.toString())
+
+                    var calculateMaxPayRate =
+                        calculateMaxBillRate(maxPayrate, markuppercntage)
+                    binding.etMaxBillRate.setText(calculateMaxPayRate.toString())
+
+                    var calculateTargetPayRate =
+                        calculateTargetBillRate(targetPayRate, markuppercntage)
+                    binding.etTargetBillRate.setText(calculateTargetPayRate.toString())
+
+                } catch (e: Exception) {
+                }
             }
         })
     }
@@ -767,21 +788,17 @@ class SalaryDetailF : Fragment() {
 
             if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid and Billed")) {
                 binding.rbPaidandBilledOvertime.isChecked = true
-            }
-            else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid Not Billed")){
+            } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid Not Billed")) {
                 binding.rbPaidNotBilledOvertime.isChecked = true
-            }
-            else {
+            } else {
                 binding.rbNoneOvertime.isChecked = true
             }
 
             if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid and Billed")) {
                 binding.rbPaidandBilledDoubletime.isChecked = true
-            }
-            else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid Not Billed")){
+            } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid Not Billed")) {
                 binding.rbPaidNotBilledDoubletime.isChecked = true
-            }
-            else {
+            } else {
                 binding.rbNonerbDoubletime.isChecked = true
             }
 

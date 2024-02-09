@@ -65,7 +65,7 @@ class CandidateSalaryDetails : Fragment() {
             loader.hide()
             if (it.data != null) {
 
-                if(it.data.message!="HeadCount Error"){
+                if(it.data.message!="Error: You are not allowed to create an employee more than the head count of job."){
                     try {
                         Toast.makeText(
                             requireContext(),
@@ -79,7 +79,7 @@ class CandidateSalaryDetails : Fragment() {
                             val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
                             requireActivity().finish()
                             startActivity(intent)
-                        }, delayMillis)
+                            }, delayMillis)
 
                     }
                     catch (e: Exception) {

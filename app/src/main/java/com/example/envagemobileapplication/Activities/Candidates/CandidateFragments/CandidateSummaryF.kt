@@ -39,11 +39,11 @@ import com.example.envagemobileapplication.Adapters.CandidateSummaryEducationAda
 import com.example.envagemobileapplication.Adapters.CandidateSummaryExperienceAdapter
 import com.example.envagemobileapplication.Adapters.CandidateSummaryJobsAdapter
 import com.example.envagemobileapplication.Adapters.CandidateSummarySkillsAdapter
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.CandidateJobsResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.CandidateSummarySkillsRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteHeadrSmaryRsp.CandidateHeaderSummaryResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.CandidateSummaryEducationRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.CandidateSummaryExperienceRes
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.CandidateJobsResponse
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.CandidateSummarySkillsRes
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
@@ -55,9 +55,6 @@ import com.ezshifa.aihealthcare.network.ApiUtils
 import com.squareup.picasso.BuildConfig
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
-
-
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -74,8 +71,8 @@ class CandidateSummaryF : Fragment() {
     lateinit var candidateSummaryExperienceAdapter: CandidateSummaryExperienceAdapter
     lateinit var candidateSummarySkillsAdapter: CandidateSummarySkillsAdapter
 
-    lateinit var longEmail:String
-    lateinit var longAddress:String
+    lateinit var longEmail: String
+    lateinit var longAddress: String
 
     val viewModel: CandidatesProfileSumViewModel by activityViewModels()
 
@@ -145,8 +142,6 @@ class CandidateSummaryF : Fragment() {
     }
 
 
-
-
     private fun checkPermissions(): Boolean {
 
         if (Build.VERSION.SDK_INT >= 33) {
@@ -178,8 +173,6 @@ class CandidateSummaryF : Fragment() {
         }
         return true
     }
-
-
 
 
     private fun showNoPermissionDialog() {
@@ -329,7 +322,6 @@ class CandidateSummaryF : Fragment() {
     }
 
 
-
     private fun networkCalls() {
         getCandidateHeaderSummary()
         getCandidateSummaryJobs()
@@ -355,21 +347,22 @@ class CandidateSummaryF : Fragment() {
                         response: Response<CandidateSummarySkillsRes>
                     ) {
 
-                        if(response.body() != null){
+                        if (response.body() != null) {
 
                             loader.hide()
 
-                            var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.Datum> = ArrayList()
+                            var arraylist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummarySkillsRes.Datum> =
+                                ArrayList()
 
 
                             response?.body()?.data?.let { arraylist.addAll(it) }
 
-                            if(arraylist.size >0){
+                            if (arraylist.size > 0) {
                                 binding.tvNoSkills.visibility = View.GONE
                                 setupSkillsAdapter(arraylist)
                             }
 
-                        }else{
+                        } else {
                             loader.hide()
 
                         }
@@ -381,9 +374,9 @@ class CandidateSummaryF : Fragment() {
                 })
 
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             loader.hide()
-            Log.d("candidateMSg",e.toString())
+            Log.d("candidateMSg", e.toString())
 
         }
     }
@@ -406,35 +399,39 @@ class CandidateSummaryF : Fragment() {
                         response: Response<CandidateSummaryExperienceRes>
                     ) {
 
-                        if(response.body() != null){
+                        if (response.body() != null) {
                             loader.hide()
 
-                            var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.Datum> = ArrayList()
+                            var arraylist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.Datum> =
+                                ArrayList()
                             response?.body()?.data?.let { arraylist.addAll(it) }
 
-                            if(arraylist.size >0){
+                            if (arraylist.size > 0) {
 
                                 binding.tvNoExperience.visibility = View.GONE
                                 setupExperienceAdapter(arraylist)
 
                             }
 
-                        }else{
+                        } else {
                             loader.hide()
 
                         }
                     }
 
-                    override fun onFailure(call: Call<CandidateSummaryExperienceRes>, t: Throwable) {
+                    override fun onFailure(
+                        call: Call<CandidateSummaryExperienceRes>,
+                        t: Throwable
+                    ) {
                         // Handle the failure
                         loader.hide()
 
                     }
                 })
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             loader.hide()
-            Log.d("candidateMSg",e.toString())
+            Log.d("candidateMSg", e.toString())
 
         }
     }
@@ -446,7 +443,7 @@ class CandidateSummaryF : Fragment() {
 
         val candidateId = Constants.candidateId
 
-        Log.d("The candidate id is ",candidateId.toString())
+        Log.d("The candidate id is ", candidateId.toString())
 
         try {
 
@@ -460,20 +457,21 @@ class CandidateSummaryF : Fragment() {
                     ) {
 
 
-                        if(response.body() != null){
+                        if (response.body() != null) {
                             loader.hide()
 
-                            var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.Datum> = ArrayList()
+                            var arraylist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.Datum> =
+                                ArrayList()
 
 
                             response?.body()?.data?.let { arraylist.addAll(it) }
 
-                            if(arraylist.size >0){
+                            if (arraylist.size > 0) {
                                 binding.tvNoEducation.visibility = View.GONE
                                 setupEducationAdapter(arraylist)
                             }
 
-                        }else{
+                        } else {
                             loader.hide()
 
                         }
@@ -486,9 +484,9 @@ class CandidateSummaryF : Fragment() {
                 })
 
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             loader.hide()
-            Log.d("candidateMSg",e.toString())
+            Log.d("candidateMSg", e.toString())
 
         }
     }
@@ -511,18 +509,20 @@ class CandidateSummaryF : Fragment() {
                         response: Response<CandidateJobsResponse>
                     ) {
 
-                        if(response.body() != null){
+                        if (response.body() != null) {
                             loader.hide()
 
-                            var arraylist :ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.Datum> = ArrayList()
+                            com.example.envagemobileapplication.Utils.Global.candidatesJobResp = response.body()
+                            var arraylist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.Datum> =
+                                ArrayList()
                             response?.body()?.data?.let { arraylist.addAll(it) }
 
-                            if(arraylist.size >0){
+                            if (arraylist.size > 0) {
                                 binding.tvNoJobs.visibility = View.GONE
                                 setupJobsAdapter(arraylist)
                             }
 
-                        }else{
+                        } else {
                             loader.hide()
 
                         }
@@ -534,9 +534,9 @@ class CandidateSummaryF : Fragment() {
                 })
 
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             loader.hide()
-            Log.d("candidateMSg",e.toString())
+            Log.d("candidateMSg", e.toString())
 
         }
 
@@ -713,8 +713,8 @@ class CandidateSummaryF : Fragment() {
             } else {
                 startActivityForResult(pictureIntent, CAMERA_REQUEST_CODE)
             }
-        }catch (e:Exception){
-            Log.d("sjdhjsdf",e.toString())
+        } catch (e: Exception) {
+            Log.d("sjdhjsdf", e.toString())
         }
 
     }
@@ -765,7 +765,6 @@ class CandidateSummaryF : Fragment() {
         matrix.preRotate(rotationDegree.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
-
 
 
     var openCameraActivityResultLauncher = registerForActivityResult(
@@ -865,21 +864,21 @@ class CandidateSummaryF : Fragment() {
 //        }
 
 //        LongClick Listeners
-        binding.candidateName.setOnLongClickListener{
+        binding.candidateName.setOnLongClickListener {
             Toast.makeText(context, Constants.candidateName, Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true
         }
 
-        binding.cAddress.setOnLongClickListener{
-            if(longAddress!=null){
+        binding.cAddress.setOnLongClickListener {
+            if (longAddress != null) {
                 Toast.makeText(context, longAddress, Toast.LENGTH_SHORT).show()
             }
 
             return@setOnLongClickListener true
         }
 
-        binding.cEmail.setOnLongClickListener{
-            if(longEmail!=null){
+        binding.cEmail.setOnLongClickListener {
+            if (longEmail != null) {
                 Toast.makeText(context, longEmail, Toast.LENGTH_SHORT).show()
             }
 
@@ -915,7 +914,8 @@ class CandidateSummaryF : Fragment() {
                 )
                 binding.cvTakePhoto.setBackgroundResource(R.drawable.btn_black_radius)
                 binding.tvCamera.setTextColor(resources.getColor(R.color.white))
-                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_select_camera)
+                val drawable =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_select_camera)
 
                 // Set the color you want for the SVG drawable
                 val color = ContextCompat.getColor(requireContext(), R.color.white)
@@ -942,7 +942,12 @@ class CandidateSummaryF : Fragment() {
                 binding.tvCamera.setTextColor(resources.getColor(R.color.black))
                 val drawableLeft: Drawable? =
                     ContextCompat.getDrawable(requireContext(), R.drawable.ic_select_camera)
-                binding.tvCamera.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+                binding.tvCamera.setCompoundDrawablesWithIntrinsicBounds(
+                    drawableLeft,
+                    null,
+                    null,
+                    null
+                )
 
                 binding.cvGallery.setBackgroundResource(R.drawable.btn_black_radius)
 
@@ -969,7 +974,6 @@ class CandidateSummaryF : Fragment() {
     }
 
 
-
     private fun getCandidateHeaderSummary() {
         loader.show()
         val tokenManager = TokenManager(requireContext())
@@ -989,103 +993,127 @@ class CandidateSummaryF : Fragment() {
                     ) {
 
 
-
-                        if(response.body() != null){
+                        if (response.body() != null) {
 
                             try {
                                 var candidateData = response?.body()?.data
                                 loader.hide()
 
-                                if(candidateData?.candidateSocialMedia?.get(0)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(0)?.isActive != false){
+                                if (candidateData?.candidateSocialMedia?.get(0)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(
+                                        0
+                                    )?.isActive != false
+                                ) {
                                     binding.ivFb.visibility = View.VISIBLE
                                 }
-                                if(candidateData?.candidateSocialMedia?.get(1)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(1)?.isActive != false){
+                                if (candidateData?.candidateSocialMedia?.get(1)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(
+                                        1
+                                    )?.isActive != false
+                                ) {
                                     binding.ivTwitter.visibility = View.VISIBLE
                                 }
-                                if(candidateData?.candidateSocialMedia?.get(2)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(2)?.isActive != false){
+                                if (candidateData?.candidateSocialMedia?.get(2)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(
+                                        2
+                                    )?.isActive != false
+                                ) {
                                     binding.ivLinkedIn.visibility = View.VISIBLE
                                 }
-                                if(candidateData?.candidateSocialMedia?.get(3)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(3)?.isActive != false){
+                                if (candidateData?.candidateSocialMedia?.get(3)?.url.toString() != null && candidateData?.candidateSocialMedia?.get(
+                                        3
+                                    )?.isActive != false
+                                ) {
                                     binding.ivInstagram.visibility = View.VISIBLE
                                 }
 
-                                if(candidateData?.candidateInfo?.firstName !=null && candidateData?.candidateInfo?.lastName!=null){
-                                    binding.candidateName.text = candidateData?.candidateInfo?.firstName + " " + candidateData?.candidateInfo?.lastName
-                                }else{
+                                if (candidateData?.candidateInfo?.firstName != null && candidateData?.candidateInfo?.lastName != null) {
+                                    binding.candidateName.text =
+                                        candidateData?.candidateInfo?.firstName + " " + candidateData?.candidateInfo?.lastName
+                                } else {
                                     binding.candidateName.text = "Not Provided"
                                 }
 
 
-                                if(candidateData?.candidateInfo?.ssnNumber != null){
+                                if (candidateData?.candidateInfo?.ssnNumber != null) {
 
                                     try {
                                         val ssn = candidateData?.candidateInfo?.ssnNumber.toString()
                                         val maskedSSN = maskSSN(ssn)
-                                        binding.candidateSSN.text = "SSN: "+maskedSSN
+                                        binding.candidateSSN.text = "SSN: " + maskedSSN
                                     } catch (e: IllegalArgumentException) {
                                         println("Error: ${e.message}")
                                     }
 
-                                }else{
+                                } else {
                                     binding.candidateSSN.text = "SSN: Not Provided"
                                 }
 
-                                if(!candidateData?.candidateInfo?.profileImage.isNullOrBlank()){
+                                if (!candidateData?.candidateInfo?.profileImage.isNullOrBlank()) {
                                     Picasso.get().load(candidateData?.candidateInfo?.profileImage)
                                         .placeholder(R.drawable.upload_pic_bg)
-                                        .transform(CircleTransformation()).into(binding.ivCandidateProfile)
+                                        .transform(CircleTransformation())
+                                        .into(binding.ivCandidateProfile)
                                 }
 
 
-                                if(candidateData?.candidateInfo?.primaryEmail != null){
-                                    longEmail = candidateData?.candidateInfo?.primaryEmail.toString()
+                                if (candidateData?.candidateInfo?.primaryEmail != null) {
+                                    longEmail =
+                                        candidateData?.candidateInfo?.primaryEmail.toString()
                                     binding.cEmail.text = candidateData?.candidateInfo?.primaryEmail
-                                }else{
+                                } else {
                                     binding.cEmail.text = "Not Provided"
                                 }
 
-                                if(candidateData?.candidateInfo?.phoneNumber !=null){
-                                    val inputPhoneNumber = candidateData?.candidateInfo?.phoneNumber.toString()
-                                    val formattedPhoneNumber =  formatToUSAPhoneNumber(inputPhoneNumber)
+                                if (candidateData?.candidateInfo?.phoneNumber != null) {
+                                    val inputPhoneNumber =
+                                        candidateData?.candidateInfo?.phoneNumber.toString()
+                                    val formattedPhoneNumber =
+                                        formatToUSAPhoneNumber(inputPhoneNumber)
                                     binding.cPhone.text = formattedPhoneNumber
-                                }else{
+                                } else {
                                     binding.cPhone.text = "Not Provided"
                                 }
 
-                                if(!candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && !candidateData?.candidateInfo?.addressLine2.isNullOrBlank() ){
-                                    longAddress = candidateData?.candidateInfo?.addressLine1.toString() +", "+candidateData?.candidateInfo?.addressLine2.toString()
-                                    binding.cAddress.text = candidateData?.candidateInfo?.addressLine1 +", "+candidateData?.candidateInfo?.addressLine2
-                                }else if(!candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && candidateData?.candidateInfo?.addressLine2.isNullOrBlank()){
-                                    longAddress = candidateData?.candidateInfo?.addressLine1.toString()
-                                    binding.cAddress.text = candidateData?.candidateInfo?.addressLine1
-                                }else if(candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && !candidateData?.candidateInfo?.addressLine2.isNullOrBlank()){
-                                    longAddress = candidateData?.candidateInfo?.addressLine2.toString()
-                                    binding.cAddress.text = candidateData?.candidateInfo?.addressLine2
-                                }
-                                else{
+                                if (!candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && !candidateData?.candidateInfo?.addressLine2.isNullOrBlank()) {
+                                    longAddress =
+                                        candidateData?.candidateInfo?.addressLine1.toString() + ", " + candidateData?.candidateInfo?.addressLine2.toString()
+                                    binding.cAddress.text =
+                                        candidateData?.candidateInfo?.addressLine1 + ", " + candidateData?.candidateInfo?.addressLine2
+                                } else if (!candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && candidateData?.candidateInfo?.addressLine2.isNullOrBlank()) {
+                                    longAddress =
+                                        candidateData?.candidateInfo?.addressLine1.toString()
+                                    binding.cAddress.text =
+                                        candidateData?.candidateInfo?.addressLine1
+                                } else if (candidateData?.candidateInfo?.addressLine1.isNullOrBlank() && !candidateData?.candidateInfo?.addressLine2.isNullOrBlank()) {
+                                    longAddress =
+                                        candidateData?.candidateInfo?.addressLine2.toString()
+                                    binding.cAddress.text =
+                                        candidateData?.candidateInfo?.addressLine2
+                                } else {
                                     binding.cAddress.text = "Not Provided"
                                 }
-                            }catch (e:Exception){
-                                Log.d("headersummaryex",e.toString())
+                            } catch (e: Exception) {
+                                Log.d("headersummaryex", e.toString())
                             }
 
-                        }else{
+                        } else {
                             loader.hide()
 
                         }
                     }
 
-                    override fun onFailure(call: Call<CandidateHeaderSummaryResponse>, t: Throwable) {
-                        Log.d("headersummaryfailure",t.toString())
+                    override fun onFailure(
+                        call: Call<CandidateHeaderSummaryResponse>,
+                        t: Throwable
+                    ) {
+                        Log.d("headersummaryfailure", t.toString())
                     }
                 })
 
 
-        }catch (e:Exception){
+        } catch (e: Exception) {
             loader.hide()
-            Log.d("candidateMSg",e.toString())
+            Log.d("candidateMSg", e.toString())
         }
 
     }
 
-    }
+}

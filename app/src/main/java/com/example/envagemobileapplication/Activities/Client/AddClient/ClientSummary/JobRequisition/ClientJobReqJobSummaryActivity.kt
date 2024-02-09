@@ -256,7 +256,6 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
         token = tokenManager.getAccessToken().toString()
         loader = Loader(this)
 
-
         if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail != null) {
             if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.markup != null) {
                 salaryDetailsData.add(
@@ -534,7 +533,6 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
 
             setupBillingDetailAdapter(salaryDetailsData)
         }
-
 
         try {
             val weekdaysString =

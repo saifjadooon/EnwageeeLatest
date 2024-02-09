@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/divider7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,11 +42,11 @@
                 android:id="@+id/tv_positionName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:layout_marginTop="8dp"
+                android:ellipsize="end"
                 android:lineHeight="15dp"
+                android:maxWidth="200dp"
+                android:maxLines="1"
                 android:text="Business Analyst"
                 android:textColor="@color/app_main_color"
                 android:textSize="14dp"
@@ -58,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:ellipsize="end"
                 android:lineHeight="15dp"
+                android:maxWidth="100dp"
+                android:maxLines="1"
                 android:text="3M Library Systems "
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 app:fontWeight="400"
-                android:maxWidth="100dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 app:layout_constraintEnd_toStartOf="@+id/tv_job_nature"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -76,14 +78,14 @@
                 android:id="@+id/tv_job_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:lineHeight="15dp"
+                android:maxWidth="100dp"
+                android:maxLines="1"
                 android:text=" - Full Time"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 app:fontWeight="400"
-                android:maxWidth="100dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_clientName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -94,14 +96,14 @@
                 android:id="@+id/tv_job_nature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:lineHeight="15dp"
+                android:maxWidth="100dp"
+                android:maxLines="1"
                 android:text="| On-site"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 app:fontWeight="400"
-                android:maxWidth="100dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_clientName"
                 app:layout_constraintEnd_toStartOf="@+id/tv_job_type"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -402,10 +404,8 @@
                 android:layout_height="300dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="@color/CARD_BG"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_cardFirst">
@@ -637,7 +637,7 @@
                         app:layout_constraintTop_toTopOf="@+id/lbl_dt_billrate" />
 
 
-<!--                    oT_markup_percentage-->
+                    <!--                    oT_markup_percentage-->
 
                     <TextView
                         android:id="@+id/lbl_ot_markup_percentage"
@@ -666,7 +666,7 @@
                         app:layout_constraintTop_toTopOf="@+id/lbl_ot_markup_percentage" />
 
 
-<!-- Dt Markup percentage -->
+                    <!-- Dt Markup percentage -->
 
                     <TextView
                         android:id="@+id/lbl_dt_markup_percentage"
@@ -693,6 +693,311 @@
                         app:layout_constraintBottom_toBottomOf="@+id/lbl_dt_markup_percentage"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lbl_ot_markup_percentage" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_cardThird"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:visibility="gone"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="100dp"
+                app:cardBackgroundColor="@color/CARD_BG"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_cardSecond">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="5dp">
+
+                    <TextView
+                        android:id="@+id/lbl_candidateSalaaryDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Candidate Salary Details"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!--            OTDT rule -->
+                    <TextView
+                        android:id="@+id/lbl_ot_ruleff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="Pay Rate"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lbl_candidateSalaaryDetail" />
+
+                    <TextView
+                        android:id="@+id/csPayRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/lbl_ot_ruleff"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lbl_ot_ruleff" />
+
+
+                    <!--         ot Min Pay rate-->
+                    <TextView
+                        android:id="@+id/csdlblot_min_payrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="Bill Rate:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lbl_ot_ruleff" />
+
+                    <TextView
+                        android:id="@+id/csBillrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlblot_min_payrate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlblot_min_payrate" />
+
+                    <!-- OT Multiplier rate -->
+
+                    <TextView
+                        android:id="@+id/csdlbl_ot_multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="OT Rule:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlblot_min_payrate" />
+
+                    <TextView
+                        android:id="@+id/csOtRule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_ot_multiplier"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_ot_multiplier" />
+
+                    <!--        OT Pay Rate    -->
+
+                    <TextView
+                        android:id="@+id/csdlbl_ot_payrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="OT Pay Rate"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_ot_multiplier" />
+
+                    <TextView
+                        android:id="@+id/csOtpayrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_ot_payrate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_ot_payrate" />
+
+
+                    <!--        Max Bill Rate  OT  -->
+                    <TextView
+                        android:id="@+id/csdlbl_ot_billrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="OT Bill Rate:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_ot_payrate" />
+
+                    <TextView
+                        android:id="@+id/csOtbillrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_ot_billrate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_ot_billrate" />
+
+
+                    <!--        Target Pay Rate  OT  -->
+
+                    <TextView
+                        android:id="@+id/csdlbl_dt_multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="DT Rule:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_ot_billrate" />
+
+                    <TextView
+                        android:id="@+id/csDtrule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_dt_multiplier"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_dt_multiplier" />
+
+
+                    <!--        DT Pay Rate OT  -->
+                    <TextView
+                        android:id="@+id/csdlbl_dt_payrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="DT Pay Rate:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_dt_multiplier" />
+
+                    <TextView
+                        android:id="@+id/csDtPyrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_dt_payrate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_dt_payrate" />
+
+                    <!--       DT Bill Rate OT -->
+
+                    <TextView
+                        android:id="@+id/csdlbl_dt_billrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="DT Bill Rate:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_dt_payrate" />
+
+                    <TextView
+                        android:id="@+id/csDtBillrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_dt_billrate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_dt_billrate" />
+
+
+                    <!--                    oT_markup_percentage-->
+
+                    <TextView
+                        android:id="@+id/csdlbl_ot_markup_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="OT Markup percentage:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_dt_billrate" />
+
+
+                    <TextView
+                        android:id="@+id/csOtmarkuppercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_ot_markup_percentage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/csdlbl_ot_markup_percentage" />
+
+
+                    <!-- Dt Markup percentage -->
+
+                    <TextView
+                        android:id="@+id/csdlbl_dt_markup_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="DT Markup percentage:"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csdlbl_ot_markup_percentage" />
+
+
+                    <TextView
+                        android:id="@+id/csDtmarkup_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:maxLines="1"
+                        android:text="-"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/csdlbl_dt_markup_percentage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/csOtmarkuppercentage" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

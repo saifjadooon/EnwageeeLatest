@@ -182,6 +182,8 @@ class JobsMainAdapter(
             Global.jobtitle =
                 dataList.get(position).positionName
             Global.isbackfromjobsummary = true
+
+            Global.jobfrequency = dataList.get(position).jobFrequency
             context.startActivity(Intent(context, JobsSummaryActivity::class.java))
         }
 

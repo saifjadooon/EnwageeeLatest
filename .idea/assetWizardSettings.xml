@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_profilepillarrowup" />
-                            <entry key="sourceFile" value="C:\Users\saif\Downloads\profilepillarrowup.svg" />
+                            <entry key="outputName" value="ic_app_icon_192x192" />
+                            <entry key="sourceFile" value="C:\Users\saif\Downloads\app icon 192x192.svg" />
                           </map>
                         </option>
                       </PersistentState>

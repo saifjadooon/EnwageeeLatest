@@ -447,7 +447,6 @@
 
             </RadioGroup>
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ccDoubletimeMultiplier"
                 android:layout_width="0dp"
@@ -483,7 +482,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-
                     android:text="2.0"
                     android:textSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"

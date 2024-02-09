@@ -707,6 +707,33 @@ class ClientSummaryF : Fragment() {
                                     binding.clientiIndustry.text = "Not provided"
                                     //    binding.clientiIndustry.visibility = View.GONE
                                 }
+                                
+                                if (response.body()?.data?.clientInfo?.jobCount!=null) {
+                                     
+                                    binding.jobCount.text =
+                                       "Job Count:" + response.body()?.data?.clientInfo?.jobCount.toString() + ""
+                                } else {
+                                    binding.jobCount.text = "Job count:0"
+                                    //    binding.clientiIndustry.visibility = View.GONE
+                                }
+
+                                if (response.body()?.data?.clientInfo?.groupName!=null) {
+
+                                    binding.groupname.text =
+                                       "Group name:" + response.body()?.data?.clientInfo?.groupName.toString() + ""
+                                } else {
+                                    binding.groupname.text = "Group name:Not Provided"
+
+                                }
+
+                                if (response.body()?.data?.clientInfo?.branch!=null) {
+
+                                    binding.branchName.text =
+                                       "Branch name:" + response.body()?.data?.clientInfo?.branch.toString() + ""
+                                } else {
+                                    binding.branchName.text = "Branch name:Not Provided"
+
+                                }
                                 if (!response.body()?.data?.clientInfo?.onboardingStatus.isNullOrEmpty()) {
 
                                     Constants.StatusClickedName =
@@ -1359,7 +1386,6 @@ class ClientSummaryF : Fragment() {
 
     private fun UpdateProfilePic(bodyofpf: MultipartBody.Part) {
         loader.show()
-
         if (imagefilforapi != null) {
             var tokenmanager: TokenManager = TokenManager(requireContext())
             var token = tokenmanager.getAccessToken()

@@ -9,10 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Base64
 import android.util.Log
@@ -35,6 +32,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.DatePickerHelper
+import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.SendOfferLetterViewModel
 import com.example.envagemobileapplication.databinding.FragmentOfferLetterBinding
@@ -124,22 +122,43 @@ class OfferLetterF : Fragment() {
         val formattedhintselectTemplate = formatHintWithRedAsterisk(hintselectTemplate)
         binding.TISelectTemplate.hint = formattedhintselectTemplate
 
-
         val hintExpiryDate = "Link Expiry Date *"
         val formattedhintExpiryDate = formatHintWithRedAsterisk(hintExpiryDate)
-        binding.ccStartdate.hint = formattedhintExpiryDate
+        binding.ccLinkExpiryDate.hint = formattedhintExpiryDate
 
-        binding.ccStartdate.setOnTouchListener(View.OnTouchListener { v, event ->
-            datePickerHelper.attachDatePicker(binding.ccStartdate, binding.tvExpiryDate)
+        val hintjoiningDate = "Joining Date *"
+        val formattedhintjoiningDate = formatHintWithRedAsterisk(hintjoiningDate)
+        binding.ccJoiningDate.hint = formattedhintjoiningDate
+
+        val hintOfferedSalary = "Offered Salary *"
+        val formattedhintOfferedSalary = formatHintWithRedAsterisk(hintOfferedSalary)
+        binding.ccOfferedSalary.hint = formattedhintOfferedSalary
+
+        binding.ccLinkExpiryDate.setOnTouchListener(View.OnTouchListener { v, event ->
+            datePickerHelper.attachDatePicker(binding.ccLinkExpiryDate, binding.tvExpiryDate)
             false
         })
         binding.tvExpiryDate.setOnTouchListener(View.OnTouchListener { v, event ->
-            datePickerHelper.attachDatePicker(binding.ccStartdate, binding.tvExpiryDate)
+            datePickerHelper.attachDatePicker(binding.ccLinkExpiryDate, binding.tvExpiryDate)
             false
         })
 
         binding.tvExpiryDate.setOnClickListener {
-            datePickerHelper.attachDatePicker(binding.ccStartdate, binding.tvExpiryDate)
+            datePickerHelper.attachDatePicker(binding.ccLinkExpiryDate, binding.tvExpiryDate)
+
+        }
+
+        binding.ccJoiningDate.setOnTouchListener(View.OnTouchListener { v, event ->
+            datePickerHelper.attachDatePicker(binding.ccJoiningDate, binding.tvJoiningDate)
+            false
+        })
+        binding.tvJoiningDate.setOnTouchListener(View.OnTouchListener { v, event ->
+            datePickerHelper.attachDatePicker(binding.ccJoiningDate, binding.tvJoiningDate)
+            false
+        })
+
+        binding.tvJoiningDate.setOnClickListener {
+            datePickerHelper.attachDatePicker(binding.ccJoiningDate, binding.tvJoiningDate)
 
         }
 
@@ -150,7 +169,14 @@ class OfferLetterF : Fragment() {
 
             datePickerHelper.attachDatePickertoConstraintlayout(
                 binding.ccexpdate,
-                binding.tvExpiryDate, binding.ccStartdate
+                binding.tvExpiryDate, binding.ccLinkExpiryDate
+            )
+        }
+        binding.ccjoiningdate.setOnClickListener {
+
+            datePickerHelper.attachDatePickertoConstraintlayout(
+                binding.ccjoiningdate,
+                binding.tvJoiningDate, binding.ccJoiningDate
             )
         }
 
@@ -211,7 +237,6 @@ class OfferLetterF : Fragment() {
 
         viewModel.LDGetJobByJobId.observe(requireActivity()) {
             loader.hide()
-
             jobdeetails = it.data
             if (jobdeetails != null) {
                 val inputDate = jobdeetails!!.startDate.toString()
@@ -221,7 +246,6 @@ class OfferLetterF : Fragment() {
                 jobweekDays = jobdeetails!!.workingDays
                 jobestimatedhours = jobdeetails!!.estimatedHours.toString()
                 var clientid = jobdeetails!!.clientId
-
                 getClientHeaderSummary(clientid)
             }
         }
@@ -306,6 +330,44 @@ class OfferLetterF : Fragment() {
 
     private fun clicklisteners() {
 
+        binding.tvOfferedsalary.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed in this case
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not needed in this case
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val text = s.toString()
+
+                if (text.isNotEmpty() && !text.matches("^\\$\\d+\\/[a-zA-Z]+\$".toRegex())) {
+                    // Preserve only the numeric value and add "$" and dynamic frequency
+                    val numericValue = text.replace(Regex("[^\\d]"), "")
+                    val frequency = text.replace(Regex("[^a-zA-Z]"), Global.jobfrequency.toString())
+
+                    binding.tvOfferedsalary.removeTextChangedListener(this)
+
+                    if (numericValue.isNotEmpty()) {
+                        binding.tvOfferedsalary.setText("$" + numericValue + "/" + frequency)
+                        binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length - frequency.length - 1) // Adjust the index
+                    } else {
+                        binding.tvOfferedsalary.setText("") // Set to empty if numericValue is empty
+                    }
+
+                    binding.tvOfferedsalary.addTextChangedListener(this)
+                } else if (text.endsWith("$") && text.length > 1) {
+                    // Handle backspace by removing the last character when it is a "$"
+                    binding.tvOfferedsalary.removeTextChangedListener(this)
+                    binding.tvOfferedsalary.setText(text.substring(0, text.length - 1))
+                    binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length)
+                    binding.tvOfferedsalary.addTextChangedListener(this)
+                }
+            }
+        })
+
+
         binding.etDescription!!.setOnTextChangeListener { text ->
             if (text.contains("<")) {
                 descriptiontext = text
@@ -345,15 +407,8 @@ class OfferLetterF : Fragment() {
 
                 global.offerlettlink = description
 
-                var candidateid = MultipartBody.Part.createFormData(
-                    "CandidateId",
-                    global.candidateIdForOfferLetter.toString()
-                )
-                var JobId =
-                    MultipartBody.Part.createFormData(
-                        "JobId",
-                        global.jobidForOfferLetter.toString()
-                    )
+                var candidateid = MultipartBody.Part.createFormData("CandidateId", global.candidateIdForOfferLetter.toString())
+                var JobId = MultipartBody.Part.createFormData("JobId", global.jobidForOfferLetter.toString())
                 var TemplateId = MultipartBody.Part.createFormData("TemplateId", templateId)
                 var ClientLogo = MultipartBody.Part.createFormData("ClientLogo", "false")
                 var ClientName = MultipartBody.Part.createFormData("ClientName", "false")
@@ -365,13 +420,10 @@ class OfferLetterF : Fragment() {
                 var ClientTwitter = MultipartBody.Part.createFormData("ClientTwitter", "false")
                 var PoweredBy = MultipartBody.Part.createFormData("PoweredBy", "false")
                 var ClientPoc = MultipartBody.Part.createFormData("ClientPoc", "false")
-                var OfferLetterLink =
-                    MultipartBody.Part.createFormData("OfferLetterLink", description.toString())
-                var validTill =
-                    MultipartBody.Part.createFormData(
-                        "validTill",
-                        binding.tvExpiryDate.text.toString()
-                    )
+                var OfferLetterLink = MultipartBody.Part.createFormData("OfferLetterLink", description.toString())
+                var validTill = MultipartBody.Part.createFormData("validTill", binding.tvExpiryDate.text.toString())
+                var offeredsalary = MultipartBody.Part.createFormData("OfferedSalary", binding.tvOfferedsalary.text.toString())
+                var joiningDate = MultipartBody.Part.createFormData("JoiningDate", binding.tvOfferedsalary.text.toString())
 
                 var spinersleectTemplatetext = binding.spinnerSelectTemplate.text.toString()
 
@@ -396,7 +448,9 @@ class OfferLetterF : Fragment() {
                             PoweredBy,
                             ClientPoc,
                             OfferLetterLink,
-                            validTill
+                            validTill,
+                            offeredsalary,
+                            joiningDate
                         )
                             .enqueue(object : Callback<GenerateOFferLetterResponse> {
                                 override fun onResponse(
@@ -448,9 +502,9 @@ class OfferLetterF : Fragment() {
                         binding.TISelectTemplate.errorIconDrawable = null// Set the error message
                         binding.TISelectTemplate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
                     } else if (binding.tvExpiryDate.text.isNullOrEmpty()) {
-                        binding.ccStartdate.error = "Link Expiry Date is Required."
-                        binding.ccStartdate.errorIconDrawable = null// Set the error message
-                        binding.ccStartdate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+                        binding.ccLinkExpiryDate.error = "Link Expiry Date is Required."
+                        binding.ccLinkExpiryDate.errorIconDrawable = null// Set the error message
+                        binding.ccLinkExpiryDate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
                     }
                 }
             } catch (e: Exception) {
@@ -466,22 +520,35 @@ class OfferLetterF : Fragment() {
 
         }
         binding.TISelectTemplate.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerSelectTemplate.isPopupShowing) {
-                binding.spinnerSelectTemplate.dismissDropDown()
-            } else {
-                binding.spinnerSelectTemplate.showDropDown()
+
+            var expirydate = binding.tvExpiryDate.text.toString()
+            var joiningDate = binding.tvJoiningDate.text.toString()
+            var offeredsalary = binding.tvOfferedsalary.text.toString()
+            Log.i("dfdsfdsf", expirydate + joiningDate + offeredsalary)
+            if (expirydate.isNotEmpty()&& joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()){
+                if (binding.spinnerSelectTemplate.isPopupShowing) {
+                    binding.spinnerSelectTemplate.dismissDropDown()
+                } else {
+                    binding.spinnerSelectTemplate.showDropDown()
+                }
             }
+
+
+
             false
         })
 
-
-
-
         binding.spinnerSelectTemplate.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerSelectTemplate.isPopupShowing) {
-                binding.spinnerSelectTemplate.dismissDropDown()
-            } else {
-                binding.spinnerSelectTemplate.showDropDown()
+            var expirydate = binding.tvExpiryDate.text.toString()
+            var joiningDate = binding.tvJoiningDate.text.toString()
+            var offeredsalary = binding.tvOfferedsalary.text.toString()
+            Log.i("dfdsfdsf", expirydate + joiningDate + offeredsalary)
+            if (expirydate.isNotEmpty()&& joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()){
+                if (binding.spinnerSelectTemplate.isPopupShowing) {
+                    binding.spinnerSelectTemplate.dismissDropDown()
+                } else {
+                    binding.spinnerSelectTemplate.showDropDown()
+                }
             }
             false
         })
@@ -667,13 +734,19 @@ class OfferLetterF : Fragment() {
     }
 
     fun replacePlaceholders(htmlContent: String): String {
+
+        var expirydate = binding.tvExpiryDate.text.toString()
+        var offeredSalary = binding.tvOfferedsalary.text.toString()
+        var joiningDateeee = binding.tvJoiningDate.text.toString()
         // Replace placeholders with your desired values
         var replacedContent = htmlContent
             .replace("[First Name]", if (firstname.isNotEmpty()) firstname else "[First Name]")
             .replace("[Last Name]", if (lastname.isNotEmpty()) lastname else "[Last Name]")
+            .replace("[Offered Salary]", if (offeredSalary.isNotEmpty()) offeredSalary else "[Offered Salary]")
+            .replace("[Link Expiry Date]", if (expirydate.isNotEmpty()) expirydate else "[Link Expiry Date]")
             .replace(
                 "[Joining Date]",
-                if (joiningdate.isNotEmpty()) joiningdate else "[Joining Date]"
+                if (joiningDateeee.isNotEmpty()) joiningDateeee else "[Joining Date]"
             )
             .replace("[Salary]", if (salary.isNotEmpty()) salary else "[Salary]")
             .replace(

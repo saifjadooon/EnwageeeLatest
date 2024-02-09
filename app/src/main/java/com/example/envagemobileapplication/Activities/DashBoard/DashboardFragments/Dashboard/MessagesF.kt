@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Activities.Candidates.CandidateProfileSummary
 import com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesActivty
-import com.example.envagemobileapplication.Activities.Jobs.JobSummary.ComposeMessage.ComposeMessageActivity
 import com.example.envagemobileapplication.Adapters.MessagesAdapter
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.GetAllSmsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSmsResp.Record
@@ -44,17 +42,14 @@ class MessagesF : Fragment() {
     ): View? {
 
         binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        initViews()
-        networkCalls()
-        observers()
-        clicklisteners()
+
         return binding.getRoot()
     }
 
 
     private fun clicklisteners() {
 
-        binding.composeMessage.setOnClickListener{
+        binding.composeMessage.setOnClickListener {
             val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
             startActivity(intent)
 
@@ -96,8 +91,18 @@ class MessagesF : Fragment() {
                 }
 
                 var nextpageurl = it.data.nextPageUrl
-                twillioToken = extractPageToken(nextpageurl)!!
-                setUpJobsAdapter(messagesList, requireContext())
+                try {
+                    twillioToken = extractPageToken(nextpageurl)!!
+                } catch (e: Exception) {
+
+                }
+
+                try {
+                    setUpJobsAdapter(messagesList, requireContext())
+                } catch (e: Exception) {
+
+                }
+
             }
         }
     }
@@ -143,6 +148,7 @@ class MessagesF : Fragment() {
         var pagesize = "25"
         var page = page
         var twillliotoken = twillioToken
+        loader.show()
         try {
             ApiUtils.getAPIService(requireContext()).getAllSmsPagginated(
                 token.toString(), pagesize, page.toString(), twillliotoken
@@ -153,7 +159,7 @@ class MessagesF : Fragment() {
                         response: Response<GetAllSmsResp>
                     ) {
                         if (response.body() != null) {
-
+                            loader.hide()
                             for (i in 0 until response.body()!!.data.records.size) {
                                 messagesList.add(response.body()!!.data.records.get(i))
                             }
@@ -162,16 +168,22 @@ class MessagesF : Fragment() {
                             adapter.notifyDataSetChanged()
 
                             var nextpageurl = response.body()!!.data.nextPageUrl
-                            twillioToken = extractPageToken(nextpageurl)!!
+                            try {
+                                twillioToken = extractPageToken(nextpageurl)!!
+                            } catch (e: Exception) {
+                            }
+
                         }
                     }
 
                     override fun onFailure(call: Call<GetAllSmsResp>, t: Throwable) {
                         Log.i("exceptionddsfdsfds", t.toString())
+                        loader.hide()
                     }
                 })
         } catch (ex: java.lang.Exception) {
             Log.i("exceptionddsfdsfds", ex.toString())
+            loader.hide()
         }
 
     }
@@ -190,5 +202,13 @@ class MessagesF : Fragment() {
         }
 
         return null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initViews()
+        networkCalls()
+        observers()
+        clicklisteners()
     }
 }

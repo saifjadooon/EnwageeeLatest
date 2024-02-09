@@ -1,10 +1,11 @@
 package com.example.envagemobileapplication.Activities.Candidates
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BSCandidateJobStatusF
@@ -51,7 +52,7 @@ class CandidateJobStatusChange : AppCompatActivity() {
         }
 
         binding.cvStatusChange.setOnClickListener {
-            if(Constants.CandidateJobSelectedStatus != "Drop"){
+            if (Constants.CandidateJobSelectedStatus != "Drop") {
                 if (bsCandidateJobStatusF.isAdded()) {
                     return@setOnClickListener
                 } else {
@@ -96,8 +97,9 @@ class CandidateJobStatusChange : AppCompatActivity() {
                 try {
                     Constants.candidateJobHiredId = it.data.candidateHired
                     Constants.candidateJobDropedId = it.data.candidateDrop
-                }catch (e:Exception){
-                    Toast.makeText(this, "exception in fetching candidateHired", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "exception in fetching candidateHired", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
             } else {
@@ -168,28 +170,38 @@ class CandidateJobStatusChange : AppCompatActivity() {
                     binding.tvMaxBillrate.text = "$" + jobData.billingDetails.maxBillRate.toString()
                     binding.tvMaxBillrate.text = "$" + jobData.billingDetails.maxBillRate.toString()
                     binding.tvMaxBillrate.text = "$" + jobData.billingDetails.maxBillRate.toString()
-                    binding.tvTargetPayrate.text = "$" + jobData.billingDetails.targetPayRate.toString()
-                    binding.tvTargetBillrate.text ="$" + jobData.billingDetails.targetBillRate.toString()
+                    binding.tvTargetPayrate.text =
+                        "$" + jobData.billingDetails.targetPayRate.toString()
+                    binding.tvTargetBillrate.text =
+                        "$" + jobData.billingDetails.targetBillRate.toString()
                     binding.tvFrequency.text = jobData.billingDetails.frequency.toString()
 
 
                     // For OT
                     binding.tvOtRule.text = jobData.billingDetails.overtimeType
                     binding.tvotMinPayrate.text = "$" + jobData.billingDetails.minPayRate.toString()
-                    binding.tvOtMultiplier.text = jobData.billingDetails.overtimeMultiplier.toString() + "x"
-                    binding.tvOtPayrate.text = "$" + jobData.billingDetails.overtimePayRate.toString()
-                    binding.tvOtBillrate.text = "$" + jobData.billingDetails.overtimeBillRate.toString()
-                    binding.tvDtMultiplier.text = jobData.billingDetails.doubletimeMultiplier.toString() + "x"
-                    binding.tvDtPayrate.text = "$" + jobData.billingDetails.doubletimePayRate.toString()
-                    binding.tvDtBillrate.text = "$" + jobData.billingDetails.doubletimeBillRate.toString()
-                    binding.tvDtMarkupPercentage.text = "$" + jobData.billingDetails.doubletimeMarkup.toString()
-                    binding.tvOtMarkupPercentage.text = "$" + jobData.billingDetails.overtimeMarkup.toString()
+                    binding.tvOtMultiplier.text =
+                        jobData.billingDetails.overtimeMultiplier.toString() + "x"
+                    binding.tvOtPayrate.text =
+                        "$" + jobData.billingDetails.overtimePayRate.toString()
+                    binding.tvOtBillrate.text =
+                        "$" + jobData.billingDetails.overtimeBillRate.toString()
+                    binding.tvDtMultiplier.text =
+                        jobData.billingDetails.doubletimeMultiplier.toString() + "x"
+                    binding.tvDtPayrate.text =
+                        "$" + jobData.billingDetails.doubletimePayRate.toString()
+                    binding.tvDtBillrate.text =
+                        "$" + jobData.billingDetails.doubletimeBillRate.toString()
+                    binding.tvDtMarkupPercentage.text =
+                        "$" + jobData.billingDetails.doubletimeMarkup.toString()
+                    binding.tvOtMarkupPercentage.text =
+                        "$" + jobData.billingDetails.overtimeMarkup.toString()
 
                 } else {
                     Toast.makeText(this, "no data found", Toast.LENGTH_SHORT).show()
                 }
-            }catch (e:Exception){
-              Log.d("ExceptionCJob",": "+e.toString())
+            } catch (e: Exception) {
+                Log.d("ExceptionCJob", ": " + e.toString())
             }
         }
     }
@@ -200,6 +212,56 @@ class CandidateJobStatusChange : AppCompatActivity() {
         tokenManager = TokenManager(this)
         token = tokenManager.getAccessToken()!!
         binding.lblStatus.text = Constants.CandidateJobSelectedStatus
+        var candidateSalaryResp = com.example.envagemobileapplication.Utils.Global.candidatesJobResp
+        if (candidateSalaryResp != null) {
+            binding.cvCardThird.visibility = View.VISIBLE
+            for (i in 0 until candidateSalaryResp.data.size) {
+                if (Constants.jobId == candidateSalaryResp.data.get(i).jobId) {
+                    if (candidateSalaryResp.data.get(i).payRate != null) {
+                        binding.csPayRate.text = candidateSalaryResp.data.get(i).payRate.toString()
+                    } else {
+                        binding.csPayRate.text = "-"
+                    }
+                    if (candidateSalaryResp.data.get(i).billRate != null) {
+                        binding.csBillrate.text =
+                            candidateSalaryResp.data.get(i).billRate.toString()
+                    } else {
+                        binding.csBillrate.text = "-"
+                    }
+                    if (candidateSalaryResp.data.get(i).overtimePayRate != null) {
+                        binding.csOtpayrate.text =
+                            candidateSalaryResp.data.get(i).overtimePayRate.toString()
+                    } else {
+                        binding.csOtpayrate.text = "-"
+                    }
+                    if (candidateSalaryResp.data.get(i).overtimeBillRate != null) {
+                        binding.csOtbillrate.text =
+                            candidateSalaryResp.data.get(i).overtimeBillRate.toString()
+                    } else {
+                        binding.csOtbillrate.text = "-"
+                    }
+
+                    if (candidateSalaryResp.data.get(i).doublePayRate != null) {
+                        binding.csDtPyrate.text =
+                            candidateSalaryResp.data.get(i).doublePayRate.toString()
+                    } else {
+                        binding.csDtPyrate.text = "-"
+                    }
+
+                    if (candidateSalaryResp.data.get(i).doubleBillRate != null) {
+                        binding.csDtBillrate.text =
+                            candidateSalaryResp.data.get(i).doubleBillRate.toString()
+                    } else {
+                        binding.csDtBillrate.text = "-"
+                    }
+                }
+
+            }
+
+        }
+        else {
+            binding.cvCardThird.visibility = View.GONE
+        }
 
     }
 

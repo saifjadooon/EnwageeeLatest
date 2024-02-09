@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -81,7 +82,6 @@
             android:id="@+id/tv_company_owner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:drawableLeft="@drawable/ic_owner_name"
             android:drawablePadding="2dp"
             android:ellipsize="end"
@@ -91,8 +91,55 @@
             android:paddingRight="8dp"
             android:text="owner:lowry bryson"
             android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvJobCount"
+            app:layout_constraintTop_toTopOf="@+id/tvJobCount" />
+
+        <TextView
+            android:id="@+id/tvJobCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="job count:10"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tvGroupName" />
+
+        <TextView
+            android:id="@+id/tvGroupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Group Name:G-01"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/tv_Name"
             app:layout_constraintTop_toBottomOf="@+id/tv_company_category" />
+
+        <TextView
+            android:id="@+id/tvBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:paddingRight="8dp"
+            android:text="Branch:Main Branch"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvGroupName"
+            app:layout_constraintTop_toTopOf="@+id/tvGroupName" />
 
         <TextView
             android:id="@+id/tv_contact"
@@ -103,16 +150,13 @@
             android:drawablePadding="2dp"
             android:text="+923209527097"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_company_owner_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_company_category" />
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_company_owner_name" />
 
         <TextView
             android:id="@+id/tv_adress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
             android:drawableLeft="@drawable/ic_owner_location"
             android:drawablePadding="2dp"
             android:ellipsize="end"
@@ -122,17 +166,15 @@
             android:paddingRight="8dp"
             android:text="Islamabad"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_home_adresss"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/tv_Name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_company_owner_name" />
+            app:layout_constraintStart_toEndOf="@+id/tv_contact"
+            app:layout_constraintTop_toTopOf="@+id/tv_contact" />
 
         <TextView
             android:id="@+id/tv_home_adresss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:drawableLeft="@drawable/ic_owner_home"
             android:drawablePadding="2dp"
             android:ellipsize="end"
@@ -141,8 +183,9 @@
             android:maxLines="1"
             android:text="051-2156542"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_adress"
-            app:layout_constraintTop_toBottomOf="@+id/tv_company_owner_name" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_Name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_contact" />
 
 
         <androidx.cardview.widget.CardView

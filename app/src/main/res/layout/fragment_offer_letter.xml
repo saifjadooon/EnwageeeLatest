@@ -22,19 +22,21 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/TISelectTemplate"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:minHeight="60dp"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/ccStartdate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ccOfferedSalary"
+                app:layout_constraintTop_toBottomOf="@+id/ccLinkExpiryDate">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerSelectTemplate"
@@ -50,10 +52,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ccStartdate"
+                android:id="@+id/ccLinkExpiryDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:minHeight="60dp"
                 app:boxBackgroundMode="outline"
@@ -61,21 +64,97 @@
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusTopStart="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/TISelectTemplate"
-                app:layout_constraintTop_toTopOf="@+id/TISelectTemplate">
+                app:layout_constraintEnd_toStartOf="@+id/ccJoiningDate"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <AutoCompleteTextView
                     android:id="@+id/tvExpiryDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:minHeight="60dp"
                     android:backgroundTint="@color/white"
                     android:drawableRight="@drawable/ic_calendar"
                     android:drawablePadding="2dp"
                     android:gravity="center|left"
                     android:inputType="none"
+                    android:minHeight="60dp"
+
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ccJoiningDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:minHeight="60dp"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ccLinkExpiryDate"
+                app:layout_constraintTop_toTopOf="@+id/ccLinkExpiryDate">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tvJoiningDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/ic_calendar"
+                    android:drawablePadding="2dp"
+                    android:gravity="center|left"
+                    android:inputType="none"
+                    android:minHeight="60dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ccOfferedSalary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:minHeight="60dp"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:layout_constraintEnd_toStartOf="@+id/TISelectTemplate"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TISelectTemplate">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tvOfferedsalary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/white"
+                    android:drawablePadding="2dp"
+                    android:gravity="center|left"
+                    android:hint="Offered salary"
+                    android:minHeight="60dp"
+                    android:inputType="number"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:textSize="13sp"
@@ -89,14 +168,14 @@
                 android:id="@+id/cc_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/descriptionbg"
                 android:minHeight="400dp"
                 android:padding="12dp"
-                app:layout_constraintEnd_toEndOf="@+id/ccStartdate"
+                app:layout_constraintEnd_toEndOf="@+id/ccJoiningDate"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/TISelectTemplate"
-                app:layout_constraintTop_toBottomOf="@+id/TISelectTemplate">
+                app:layout_constraintStart_toStartOf="@+id/ccLinkExpiryDate"
+                app:layout_constraintTop_toBottomOf="@+id/ccOfferedSalary">
 
                 <jp.wasabeef.richeditor.RichEditor
                     android:id="@+id/et_description"
@@ -281,10 +360,21 @@
                 android:id="@+id/ccexpdate"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ccStartdate"
-                app:layout_constraintEnd_toEndOf="@+id/ccStartdate"
-                app:layout_constraintStart_toStartOf="@+id/ccStartdate"
-                app:layout_constraintTop_toTopOf="@+id/ccStartdate">
+                app:layout_constraintBottom_toBottomOf="@+id/ccLinkExpiryDate"
+                app:layout_constraintEnd_toEndOf="@+id/ccLinkExpiryDate"
+                app:layout_constraintStart_toStartOf="@+id/ccLinkExpiryDate"
+                app:layout_constraintTop_toTopOf="@+id/ccLinkExpiryDate">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ccjoiningdate"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ccJoiningDate"
+                app:layout_constraintEnd_toEndOf="@+id/ccJoiningDate"
+                app:layout_constraintStart_toStartOf="@+id/ccJoiningDate"
+                app:layout_constraintTop_toTopOf="@+id/ccJoiningDate">
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

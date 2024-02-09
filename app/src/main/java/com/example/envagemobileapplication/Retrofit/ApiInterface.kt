@@ -611,7 +611,10 @@ public interface ApiInterface {
         @Part poweredby: MultipartBody.Part,
         @Part clientpoc: MultipartBody.Part,
         @Part offerletterlink: MultipartBody.Part,
-        @Part validtill: MultipartBody.Part
+        @Part validtill: MultipartBody.Part,
+        @Part joiningDate: MultipartBody.Part,
+        @Part offeredsalary: MultipartBody.Part
+
     ): Call<GenerateOFferLetterResponse>
 
     @GET("api/v1/Job/get-job-by-id/{jobGUID}")

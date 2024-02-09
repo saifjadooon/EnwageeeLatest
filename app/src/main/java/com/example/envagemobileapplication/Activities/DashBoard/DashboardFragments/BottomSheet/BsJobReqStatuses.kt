@@ -20,7 +20,6 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobReqUpdateStatusResp.JobReqUpdateStatusResp
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
-import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.ClientSummaryViewModel
 import com.example.envagemobileapplication.databinding.BsJobreqStatusesBinding
@@ -30,7 +29,6 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class BsJobReqStatuses : BottomSheetDialogFragment() {
     private var json: String? = ""
@@ -93,8 +91,13 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         binding.btnsave.setOnClickListener {
             var remarks = binding.etRemarks.text.toString()
             var statusid = clickedStatusId
-            var jobRequestid =
-                Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestId
+
+            var jobRequestid = 0
+            for (i in 0 until  global.jobreqlist.size) {
+                jobRequestid =
+                    global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
+            }
+
             var statusname = clickedjobRequestStatusName
 
             if (remarks.isNotEmpty()) {
@@ -117,7 +120,6 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
     ) {
 
         val gson = Gson()
-
         var jobskilllist = global.skilllistJobReq
         val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
             linkedMapOf(
@@ -182,8 +184,12 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
     private fun callApproveJobReqApi() {
         var remarks = binding.etRemarks.text.toString()
         var statusid = clickedStatusId
-        var jobRequestid =
-            Constants.jobReqData!!.records.get(global.jobRequisitonPosition).jobRequestId
+        var jobRequestid = 0
+        for (i in 0 until global.jobreqlist.size) {
+            jobRequestid =
+                global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
+        }
+
         var statusname = clickedjobRequestStatusName
 
         val gson = Gson()

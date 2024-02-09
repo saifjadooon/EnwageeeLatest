@@ -35,7 +35,6 @@ class JobSalaryDetails : Fragment() {
         if (isAdded) {
             networkCalls()
         }
-
         return binding.root
     }
 
@@ -59,7 +58,7 @@ class JobSalaryDetails : Fragment() {
                         if (response.body() != null) {
                             global.getjobbyjoid = response.body()!!
 
-                            if (response.body()!!.data.billingDetails!=null){
+                            if (response.body()!!.data.billingDetails != null) {
                                 if (response.body()!!.data.billingDetails.markup != null) {
                                     try {
                                         binding.tvMarkupPercentage.setText(response.body()!!.data.billingDetails.markup.toString())
@@ -174,7 +173,10 @@ class JobSalaryDetails : Fragment() {
                                 }
 
                                 if (response.body()!!.data.billingDetails.doubletimeMultiplier != null) {
-                                    if (response.body()!!.data.billingDetails.doubletimeType.equals("None")) {
+                                    if (response.body()!!.data.billingDetails.doubletimeType.equals(
+                                            "None"
+                                        )
+                                    ) {
                                         binding.tvDtMultiplier.setText("-")
                                     } else {
                                         binding.tvDtMultiplier.setText(response.body()!!.data.billingDetails.doubletimeMultiplier.toString())

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryActivity
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetStatusFragment
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants
@@ -50,13 +50,41 @@ class ClientsMainAdapter(
     }
 
     private fun initViews(holder: MyViewHolder, position: Int) {
+        try {
+            if (dataList[position].branch != null) {
+                holder.tvBranch.text = "Branch: " + dataList[position].branch
+            } else {
+                holder.tvBranch.text = "Not provided"
+            }
+        } catch (e: java.lang.Exception) {
+        }
+
+        try {
+            if (dataList[position].jobCount != null) {
+                holder.tvJobCount.text = "Job Count: " + dataList[position].jobCount
+            } else {
+                holder.tvJobCount.text = "Not provided"
+            }
+        } catch (e: java.lang.Exception) {
+        }
+
+        try {
+            if (dataList[position].groupName != null) {
+                holder.tvGroupName.text = "Group Name: " + dataList[position].groupName
+            } else {
+                holder.tvGroupName.text = "Not provided"
+            }
+        } catch (e: java.lang.Exception) {
+        }
+
         Constants.onBoardingStatusList = statusList
         try {
             val name = dataList.get(position).name.replace("\"", "")
             holder.tv_Name.text = name
         } catch (e: java.lang.Exception) {
         }
-        try {dataList.get(position).industryName.equals("<null>")
+        try {
+            dataList.get(position).industryName.equals("<null>")
             if (dataList[position].industryName != null && !dataList[position].industryName.equals("")) {
                 holder.tv_company_category.text = dataList.get(position).industryName.toString()
             } else {
@@ -276,6 +304,9 @@ class ClientsMainAdapter(
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_Name: TextView = itemView.findViewById(R.id.tv_Name)
         var tv_company_category: TextView = itemView.findViewById(R.id.tv_company_category)
+        var tvGroupName: TextView = itemView.findViewById(R.id.tvGroupName)
+        var tvBranch: TextView = itemView.findViewById(R.id.tvBranch)
+        var tvJobCount: TextView = itemView.findViewById(R.id.tvJobCount)
         var tv_company_owner_name: TextView = itemView.findViewById(R.id.tv_company_owner_name)
         var tv_contact: TextView = itemView.findViewById(R.id.tv_contact)
         var tv_adress: TextView = itemView.findViewById(R.id.tv_adress)

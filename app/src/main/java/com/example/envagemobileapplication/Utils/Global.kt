@@ -19,6 +19,7 @@ import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestMod
 import com.example.envagemobileapplication.Models.RequestModels.JobSkill
 import com.example.envagemobileapplication.Models.RequestModels.SkillsRequestModels
 import com.example.envagemobileapplication.Models.RequestModels.skillmodelforJobreq
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.CandidateJobsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteJobRsp.CandidateJobGetJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllSkillsResponse.GetAllSkillsResponse
@@ -36,6 +37,8 @@ public class Global {
     companion object {
 
 
+        var candidatesJobResp: CandidateJobsResponse? = null
+        var jobfrequency: String? = ""
         var skilllistJobReq: ArrayList<skillmodelforJobreq>? = null
         var htmlcontent: String = ""
         var jobreqlist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.Record> = ArrayList()

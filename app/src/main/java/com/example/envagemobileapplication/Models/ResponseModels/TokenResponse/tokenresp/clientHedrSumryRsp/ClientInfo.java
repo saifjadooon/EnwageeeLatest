@@ -225,8 +225,32 @@ public class ClientInfo {
     @Expose
     private String systemDefaultDate;
     @SerializedName("isSystemDefault")
+
+    @Expose
+    private String groupName;
+    @SerializedName("groupName")
+
+    @Expose
+    private String branch;
+    @SerializedName("branch")
     @Expose
     private Boolean isSystemDefault;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
     public Integer getClientId() {
         return clientId;
