@@ -65,7 +65,7 @@ class CandidateSalaryDetails : Fragment() {
             loader.hide()
             if (it.data != null) {
 
-                if(it.data.message!="Error: You are not allowed to create an employee more than the head count of job."){
+                if (it.data.message != "Error: You are not allowed to create an employee more than the head count of job.") {
                     try {
                         Toast.makeText(
                             requireContext(),
@@ -76,13 +76,13 @@ class CandidateSalaryDetails : Fragment() {
                         val delayMillis = 1000L // Delay between transitions in milliseconds
                         val handler = Handler()
                         handler.postDelayed({
-                            val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
+                            val intent =
+                                Intent(requireContext(), CandidateProfileSummary::class.java)
                             requireActivity().finish()
                             startActivity(intent)
-                            }, delayMillis)
+                        }, delayMillis)
 
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                         Toast.makeText(
                             requireContext(),
                             "Candidate status updated Successfully",
@@ -92,16 +92,16 @@ class CandidateSalaryDetails : Fragment() {
                         val delayMillis = 1000L // Delay between transitions in milliseconds
                         val handler = Handler()
                         handler.postDelayed({
-                            val intent = Intent(requireContext(), CandidateProfileSummary::class.java)
+                            val intent =
+                                Intent(requireContext(), CandidateProfileSummary::class.java)
                             requireActivity().finish()
                             startActivity(intent)
                         }, delayMillis)
                     }
-                }
-
-                else {
+                } else {
                     val rootView = binding.root
-                    val message = "You are not allowed to create an employee more than the headcount"
+                    val message =
+                        "You are not allowed to create an employee more than the headcount"
                     val duration = Snackbar.LENGTH_SHORT
 
                     val snackbar = Snackbar.make(rootView, message, duration)
@@ -175,6 +175,7 @@ class CandidateSalaryDetails : Fragment() {
         } catch (e: Exception) {
         }
     }
+
     private fun clicklisteners() {
         binding.etPayRate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -198,10 +199,10 @@ class CandidateSalaryDetails : Fragment() {
                         var markup = global.getjobbyjoid.data.billingDetails.markup
                         var billrate = calculateBillRate(markup.toDouble(), payrate.toDouble())
                         binding.etbillrate.setText(billrate.toString())
-                       /* var otPayrate = payrate.toInt() * overtimeMultiplier
-                        binding.etovertimePayrate.setText(otPayrate.toString())
-                        var dtPayrate = payrate.toInt() * doubletimeMultiplier
-                        binding.etdoubletimePayrate.setText(dtPayrate.toString())*/
+                        /* var otPayrate = payrate.toInt() * overtimeMultiplier
+                         binding.etovertimePayrate.setText(otPayrate.toString())
+                         var dtPayrate = payrate.toInt() * doubletimeMultiplier
+                         binding.etdoubletimePayrate.setText(dtPayrate.toString())*/
 
                     } else {
                         binding.etbillrate.setText("")
@@ -235,8 +236,7 @@ class CandidateSalaryDetails : Fragment() {
                         otPayrate = binding.etovertimePayrate.text.toString().toDouble()
                         otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
                         binding.etovertimeBillRate.setText(otBillRate.toString())
-                    }
-                    else {
+                    } else {
                         binding.etovertimeBillRate.setText("")
                     }
                 } catch (e: Exception) {
@@ -268,9 +268,7 @@ class CandidateSalaryDetails : Fragment() {
                         dtPayrate = binding.etdoubletimePayrate.text.toString().toDouble()
                         dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
                         binding.etdoubletimeBillRate.setText(dtBillRate.toString())
-                    }
-
-                    else {
+                    } else {
                         binding.etdoubletimeBillRate.setText("")
                     }
                 } catch (e: Exception) {
@@ -296,12 +294,16 @@ class CandidateSalaryDetails : Fragment() {
 
             binding.etovertimePayrate.setText(otPayrate.toString())
 
-          /*  try {
-                otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
+            try {
+                var otmp = binding.etotMarkupPercentage.text.toString()
+                if (otmp != null || otmp != "") {
+                    otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
+                    binding.etovertimeBillRate.setText(otBillRate.toString())
+                }
 
-                binding.etovertimeBillRate.setText(otBillRate.toString())
             } catch (e: Exception) {
-            }*/
+
+            }
 
 
         }
@@ -321,13 +323,16 @@ class CandidateSalaryDetails : Fragment() {
 
             binding.etovertimePayrate.setText(otPayrate.toString())
 
-          /*  try {
-                otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
+            try {
+                var otmp = binding.etotMarkupPercentage.text.toString()
+                if (otmp != null || otmp != "") {
+                    otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
+                    binding.etovertimeBillRate.setText(otBillRate.toString())
+                }
 
-                binding.etovertimeBillRate.setText(otBillRate.toString())
             } catch (e: Exception) {
 
-            }*/
+            }
 
 
         }
@@ -346,12 +351,18 @@ class CandidateSalaryDetails : Fragment() {
             var dtPayrate = payrate.toInt() * doubletimeMultiplier
 
             binding.etdoubletimePayrate.setText(dtPayrate.toString())
-
             try {
-               /* dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                binding.etdoubletimeBillRate.setText(dtBillRate.toString())*/
+                var dtmp = binding.etDoubletimeMarkupPercentage.text.toString()
+                if (dtmp != null || dtmp != "") {
+                    dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
+                    binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+                }
+
             } catch (e: Exception) {
+
             }
+
+
 
         }
         binding.ivPlusdbltime.setOnClickListener {
@@ -371,8 +382,12 @@ class CandidateSalaryDetails : Fragment() {
             binding.etdoubletimePayrate.setText(dtPayrate.toString())
 
             try {
-               /* dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                binding.etdoubletimeBillRate.setText(dtBillRate.toString())*/
+                var dtmp = binding.etDoubletimeMarkupPercentage.text.toString()
+                if (dtmp != null || dtmp != "") {
+                    dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
+                    binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+                }
+
             } catch (e: Exception) {
 
             }

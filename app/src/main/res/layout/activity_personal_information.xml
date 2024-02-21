@@ -385,8 +385,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="100"
+                    android:inputType="number"
+                    android:maxLength="12"
                     android:minHeight="60dp"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>

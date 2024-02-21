@@ -121,7 +121,6 @@ class BSheetAddjobClientList : BottomSheetDialogFragment() {
                             // Call your API with newText as the search query
                             fetchData(newText)
                         }, 500)
-
                     }
                 }
                 return true

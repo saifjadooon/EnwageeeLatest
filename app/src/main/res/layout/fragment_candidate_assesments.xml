@@ -6,15 +6,34 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Activities.Candidates.CandidateFragments.CandidateAssesmentsF">
+    <SearchView
+        android:id="@+id/searchView2"
+        style="@style/searchViewTextField"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/searchbg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
+        app:defaultQueryHint="Search"
+        app:iconifiedByDefault="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search"
+        android:queryBackground="@null"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutforemp"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/searchView2">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCandidateAssesments"

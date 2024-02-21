@@ -10,6 +10,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Ticlient"
         android:layout_width="0dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
@@ -33,7 +34,7 @@
             android:backgroundTint="@color/white"
             android:drawableRight="@drawable/ic_spinnerdropdown"
             android:drawablePadding="12dp"
-
+            android:inputType="text"
             android:minHeight="60dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp" />
@@ -42,12 +43,14 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Tijob"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_height="63dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Pay Group"
+        android:hint="Jobs"
         android:minHeight="60dp"
+        android:maxHeight="60dp"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -172,7 +175,6 @@
             android:queryBackground="@null"
             app:defaultQueryHint="Search"
             app:iconifiedByDefault="true"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

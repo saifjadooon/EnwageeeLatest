@@ -26,6 +26,8 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobByJobIdResponse.GetJobByJobIdResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobHeaderSummary.GetJobHeaderSummary
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.Data
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchClientByNameResp.SearchClientByNameResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchJobsClientsResp.SearchJobsClientsResp
 import okhttp3.MultipartBody
 import java.io.File
 import java.io.FileWriter
@@ -37,6 +39,9 @@ public class Global {
     companion object {
 
 
+        var searchedJobData: SearchJobsClientsResp ?= null
+        var searchedclientdata: SearchClientByNameResp? = null
+        var datalistt: ArrayList<String> = ArrayList()
         var candidatesJobResp: CandidateJobsResponse? = null
         var jobfrequency: String? = ""
         var skilllistJobReq: ArrayList<skillmodelforJobreq>? = null

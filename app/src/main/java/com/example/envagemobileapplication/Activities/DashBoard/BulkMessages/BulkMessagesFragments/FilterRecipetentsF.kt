@@ -25,10 +25,13 @@ import com.example.envagemobileapplication.Models.RequestModels.GetFltrDtaBulkMs
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getBulkMsgFilterdResp.GetBulkMsgFilterdResp
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.Loader
+import com.example.envagemobileapplication.Utils.SearchableSpinnerJobs
+import com.example.envagemobileapplication.Utils.SearchableSpinnerNew
 import com.example.envagemobileapplication.ViewModels.BulkMessagesViewModel
 import com.example.envagemobileapplication.databinding.FragmentFilterRecipetentsBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
 import com.google.android.material.snackbar.Snackbar
+import com.leo.searchablespinner.interfaces.OnItemSelectListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +62,10 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     var statusList: ArrayList<String> = ArrayList()
     private var isLoading = false
     private var currentPage = 1
+    var isTextInputLayoutClicked: Boolean = false
+    lateinit var clientsearchableSpinner: SearchableSpinnerNew
+    lateinit var jobssearchableSpinner: SearchableSpinnerJobs
+
     var spinnercandidatelist: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
@@ -67,6 +74,61 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     ): View? {
 
         binding = FragmentFilterRecipetentsBinding.inflate(inflater, container, false)
+
+        clientsearchableSpinner = SearchableSpinnerNew(requireContext())
+        jobssearchableSpinner = SearchableSpinnerJobs(requireContext())
+
+
+        clientsearchableSpinner.onItemSelectListener = object : OnItemSelectListener {
+            override fun setOnItemSelectListener(position: Int, selectedString: String) {
+
+                var selectedText = clientsearchableSpinner.selectedItem
+                binding.Ticlient.error = null
+                var clientid = 0
+                for (i in 0 until clientList.size) {
+                    if (selectedText.equals(clientList.get(i).name)) {
+                        clientid = clientList.get(i).clientId
+                        global.clietidforBulkMsg = clientid
+                    }
+                }
+                if (clientid.equals(0)) {
+                    for (i in 0 until global.searchedclientdata!!.data.size) {
+                        if (selectedText.equals(global.searchedclientdata!!.data.get(i).name)) {
+                            clientid = global.searchedclientdata!!.data.get(i).clientId
+                            global.clietidforBulkMsg = clientid
+                        }
+                    }
+                }
+                viewModel.getclientJobs(requireContext(), token, clientid)
+                if (isTextInputLayoutClicked)
+                    binding.Ticlient.editText?.setText(selectedString)
+                else
+                    binding.spinnerClient.setText(selectedString)
+            }
+        }
+        jobssearchableSpinner.onItemSelectListener = object : OnItemSelectListener {
+            override fun setOnItemSelectListener(position: Int, selectedString: String) {
+
+                var selectedText = jobssearchableSpinner.selectedItem
+
+                for (i in 0 until clientJobList.size) {
+
+                    if (clientJobList.get(i).positionName.equals(selectedText)) {
+
+                        selectedJobid = clientJobList.get(i).jobId
+                        global.selectedJObGuid = clientJobList.get(i).guid
+                    }
+                }
+                binding.Tijob.error = null
+                viewModel.getCandidateJobStatuses(requireContext(), token)
+                if (isTextInputLayoutClicked)
+                    binding.Tijob.editText?.setText(selectedString)
+                else
+                    binding.spinnerjobs.setText(selectedString)
+            }
+        }
+
+
         initviews()
         clicklisteners()
         observers()
@@ -96,13 +158,20 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                 }
 
                 try {
-                    val adapter = customadapter(
+                    /*val adapter = customadapter(
                         requireContext(),
                         R.layout.simple_spinner_item,
                         items
                     )
                     binding.spinnerClient.setAdapter(adapter)
-                    binding.spinnerClient.setSelection(0)
+                    binding.spinnerClient.setSelection(0)*/
+
+                    clientsearchableSpinner.setSpinnerListItems(items)
+                    binding.Ticlient.editText?.keyListener = null
+                    binding.Ticlient.editText?.setOnClickListener {
+                        isTextInputLayoutClicked = true
+                        clientsearchableSpinner.show()
+                    }
 
                 } catch (e: Exception) {
 
@@ -127,19 +196,26 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
 
                 try {
-                    val adapter = customadapter(
-                        requireContext(),
-                        R.layout.simple_spinner_item,
-                        items
-                    )
-                    binding.spinnerjobs.setAdapter(adapter)
-                    binding.spinnerjobs.setSelection(0)
+                    /*  val adapter = customadapter(
+                          requireContext(),
+                          R.layout.simple_spinner_item,
+                          items
+                      )
+                      binding.spinnerjobs.setAdapter(adapter)
+                      binding.spinnerjobs.setSelection(0)*/
+
+                    jobssearchableSpinner.setSpinnerListItems(items)
+                    binding.Tijob.editText?.keyListener = null
+                    binding.Tijob.editText?.setOnClickListener {
+                        isTextInputLayoutClicked = true
+                        jobssearchableSpinner.show()
+                    }
 
                 } catch (e: Exception) {
 
                 }
 
-                binding.spinnerjobs.setOnItemClickListener { _, _, position, _ ->
+               /* binding.spinnerjobs.setOnItemClickListener { _, _, position, _ ->
 
                     var selectedText = binding.spinnerjobs.text.toString()
 
@@ -147,38 +223,29 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
                         if (clientJobList.get(i).positionName.equals(selectedText)) {
 
-
                             selectedJobid = clientJobList.get(i).jobId
                             global.selectedJObGuid = clientJobList.get(i).guid
                         }
                     }
                     binding.Tijob.error = null
                     viewModel.getCandidateJobStatuses(requireContext(), token)
-
-                }
+                }*/
             }
         }
         viewModel.LDgetCandidateJobStatuses.observe(requireActivity()) {
             loader.hide()
-
             jobstatusesList = ArrayList()
             if (it.data != null) {
-
                 jobstatusesList =
                     ArrayList()
                 for (i in 0 until it.data.size) {
                     jobstatusesList.add(it.data.get(i))
                 }
-
                 var items: ArrayList<String> = ArrayList()
-
                 for (i in 0 until jobstatusesList.size) {
                     items.add(jobstatusesList.get(i).statusName)
                 }
-
-
                 try {
-
                     statusAdapter = StatusAdapterWithCheckbox(
                         requireContext(),
                         com.example.envagemobileapplication.R.layout.status_with_checkbox_item,
@@ -186,25 +253,18 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
                     )
                     statusAdapter.onItemSelectedListener = this
                     binding.spinnerStatus.setAdapter(statusAdapter)
-
                     binding.spinnerStatus.setOnItemClickListener { _, _, position, _ ->
                         val selectedItemText = statusAdapter.getItem(position)
                         // Handle the selected item as needed
-
-
                         binding.Tijob.error = null
                     }
-
                     // Example: Get selected items when needed (e.g., on a button click)
                     val selectedItems = statusAdapter.getSelectedItems()
                     for (item in selectedItems) {
                         // Handle each selected item as needed
                         Log.i("Selected Item", item)
                     }
-
-
                 } catch (e: Exception) {
-
                 }
             }
         }
@@ -295,28 +355,28 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
 
         }
 
-        binding.spinnerClient.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerClient.isPopupShowing) {
-                binding.spinnerClient.dismissDropDown()
-            } else {
-                binding.spinnerClient.showDropDown()
-            }
-            false
-        })
+        /*      binding.spinnerClient.setOnTouchListener(View.OnTouchListener { v, event ->
+                  if (binding.spinnerClient.isPopupShowing) {
+                      binding.spinnerClient.dismissDropDown()
+                  } else {
+                      binding.spinnerClient.showDropDown()
+                  }
+                  false
+              })
 
-        binding.spinnerClient.setOnItemClickListener { _, _, position, _ ->
-            var selectedText = binding.spinnerClient.text.toString()
-            binding.Ticlient.error = null
-            var clientid = 0
-            for (i in 0 until clientList.size) {
-                if (selectedText.equals(clientList.get(i).name)) {
-                    clientid = clientList.get(i).clientId
-                    global.clietidforBulkMsg = clientid
-                }
-            }
-            viewModel.getclientJobs(requireContext(), token, clientid)
-        }
-
+              binding.spinnerClient.setOnItemClickListener { _, _, position, _ ->
+                  var selectedText = binding.spinnerClient.text.toString()
+                  binding.Ticlient.error = null
+                  var clientid = 0
+                  for (i in 0 until clientList.size) {
+                      if (selectedText.equals(clientList.get(i).name)) {
+                          clientid = clientList.get(i).clientId
+                          global.clietidforBulkMsg = clientid
+                      }
+                  }
+                  viewModel.getclientJobs(requireContext(), token, clientid)
+              }
+      */
         binding.spinnerjobs.setOnTouchListener(View.OnTouchListener { v, event ->
             if (binding.spinnerjobs.isPopupShowing) {
                 binding.spinnerjobs.dismissDropDown()
@@ -518,7 +578,10 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     fun replaceFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(com.example.envagemobileapplication.R.id.nav_bulk_messages, fragment)
+        transaction.replace(
+            com.example.envagemobileapplication.R.id.nav_bulk_messages,
+            fragment
+        )
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -567,7 +630,8 @@ class FilterRecipetentsF : Fragment(), StatusAdapterWithCheckbox.OnItemSelectedL
     private fun updateConcatenatedString() {
 
 
-        val concatenatedString = statusList.joinToString(", ") // Customize the separator if needed
+        val concatenatedString =
+            statusList.joinToString(", ") // Customize the separator if needed
         Log.i("Concatenated String", concatenatedString)
         concatinatedStatusString = concatenatedString
 

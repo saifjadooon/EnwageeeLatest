@@ -420,12 +420,18 @@ class JobDetailF : Fragment() {
                                 }
                             }
                             loader.hide()
-                            val adapter = customadapter(
-                                requireContext(),
-                                android.R.layout.simple_spinner_item,
-                                jobStatuslist
-                            )
-                            binding.spinnerJobStatus.setAdapter(adapter)
+                            try {
+                                val adapter = customadapter(
+                                    requireContext(),
+                                    android.R.layout.simple_spinner_item,
+                                    jobStatuslist
+                                )
+                                binding.spinnerJobStatus.setAdapter(adapter)
+                            }
+                            catch (e:Exception){
+
+                            }
+
                         }
                     }
 

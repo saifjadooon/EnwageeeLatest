@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.example.envagemobileapplication.Activities.HiredDetails.HiredDetailsFragments.CandidateSalaryDetails
 import com.example.envagemobileapplication.Activities.HiredDetails.HiredDetailsFragments.JobSalaryDetails
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteJobRsp.CandidateJobGetJobResponse
@@ -83,8 +81,6 @@ class HiredDetailsActivity : BaseActivity() {
 
     private fun getjobbyJobId() {
         try {
-
-
             var jobid = Constants.jobId.toString()
             loader.show()
             ApiUtils.getAPIService(this).GetJobbyJobId(
@@ -178,29 +174,29 @@ class HiredDetailsActivity : BaseActivity() {
 
             textView.text = itemText
 
-           /* itemView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View) {
-                    // Reset the background of the previously selected item
-                    selectedItem?.setBackgroundResource(R.drawable.btn_white_radius)
+            /* itemView.setOnClickListener(object : View.OnClickListener {
+                 override fun onClick(v: View) {
+                     // Reset the background of the previously selected item
+                     selectedItem?.setBackgroundResource(R.drawable.btn_white_radius)
 
-                    itemView.setBackgroundResource(R.drawable.ic_bg_underline)
-                    selectedItem = itemView
+                     itemView.setBackgroundResource(R.drawable.ic_bg_underline)
+                     selectedItem = itemView
 
-                    val clickedText = itemText
+                     val clickedText = itemText
 
-                    val left = itemView.left
+                     val left = itemView.left
 
-                    binding.horizontalScrollView.scrollTo(left, 0)
+                     binding.horizontalScrollView.scrollTo(left, 0)
 
-                    itemView.requestFocus()
+                     itemView.requestFocus()
 
-                    if (clickedText == "Job Salary Detail") {
-                        replaceFragment(JobSalaryDetails())
-                    } else if (clickedText.equals("Salary Details")) {
-                        replaceFragment(CandidateSalaryDetails())
-                    }
-                }
-            })*/
+                     if (clickedText == "Job Salary Detail") {
+                         replaceFragment(JobSalaryDetails())
+                     } else if (clickedText.equals("Salary Details")) {
+                         replaceFragment(CandidateSalaryDetails())
+                     }
+                 }
+             })*/
 
 
             itemView.setOnClickListener(object : View.OnClickListener {

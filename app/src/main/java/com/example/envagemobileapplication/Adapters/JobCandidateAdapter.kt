@@ -61,18 +61,19 @@ class JobCandidateAdapter(
             true
         }
 
-        if (onlineApplicantsDataList.get(position).profileImage != "") {
-
-
-            Picasso.get().load(onlineApplicantsDataList.get(position).profileImage)
-                .placeholder(R.drawable.upload_pic_bg)
-                .transform(CircleTransformation()).into(holder.iv_profile_pic)
-        } else {
-            Picasso.get().load(R.drawable.upload_pic_bg)
-                .transform(CircleTransformation()).into(holder.iv_profile_pic)
+        try {
+            if (onlineApplicantsDataList.get(position).profileImage != "") {
+                Picasso.get().load(onlineApplicantsDataList.get(position).profileImage)
+                    .placeholder(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic)
+            } else {
+                Picasso.get().load(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic)
+            }
+        } catch (e: Exception) {
         }
 
-        if (!onlineApplicantsDataList.get(position).firstName .isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).firstName.isNullOrEmpty()) {
             holder.tv_Name.setText(
                 onlineApplicantsDataList.get(position).firstName + " " + onlineApplicantsDataList.get(
                     position
@@ -82,7 +83,7 @@ class JobCandidateAdapter(
             holder.tv_Name.text = "Not Provided"
         }
 
-        if (!onlineApplicantsDataList.get(position).primaryEmail .isNullOrEmpty()) {
+        if (!onlineApplicantsDataList.get(position).primaryEmail.isNullOrEmpty()) {
             holder.tvEmail.setText(onlineApplicantsDataList.get(position).primaryEmail)
         } else {
             holder.tvEmail.text = "Not Provided"
@@ -108,16 +109,38 @@ class JobCandidateAdapter(
             holder.tv_contact_phone.text = "Not Provided"
         }
 
-        if (!onlineApplicantsDataList.get(position).source.isNullOrEmpty()) {
-           var jobidd =  com.example.envagemobileapplication.Utils.Global.GlobalJobID
+
+        var jobidd = com.example.envagemobileapplication.Utils.Global.GlobalJobID
+        for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
+            if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId) {
+                holder.tv_type.setText(
+                    onlineApplicantsDataList.get(position).candidateJobs.get(
+                        i
+                    ).status
+                )
+            }
+        }
+
+        holder.tv_type.setOnLongClickListener {
+            var jobidd = com.example.envagemobileapplication.Utils.Global.GlobalJobID
             for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
-                if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId){
-                    holder.tv_type.setText(onlineApplicantsDataList.get(position).candidateJobs.get(i).status)
+                if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId) {
+
+                    val toast = Toast.makeText(
+                        context,
+                        onlineApplicantsDataList.get(position).candidateJobs.get(
+                            i
+                        ).status,
+                        Toast.LENGTH_LONG
+                    )
+
+                    toast.show()
                 }
             }
-        } else {
-            holder.tv_type.text = "Not Provided"
+
+            true
         }
+
 
         holder.iv_menu.setOnClickListener {
             Constants.AssessmentCandidateId = onlineApplicantsDataList.get(position).candidateId

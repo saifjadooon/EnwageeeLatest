@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BSheetAddjobClientList
 import com.example.envagemobileapplication.Activities.Jobs.AddJob.AddJobActivity
 import com.example.envagemobileapplication.Adapters.customadapter
-import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BSheetAddjobClientList
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobBasicDetailRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.PaygroupRequestModel
 import com.example.envagemobileapplication.Models.RequestModels.getCustomTemplateRequestModel
@@ -572,9 +572,18 @@ class AddjobBasicDetailF() : Fragment() {
             var paygroup = binding.spinnerPaygroup.text.toString()
             var industry = binding.spinnerIndustry.text.toString()
 
+
+
             for (i in 0 until customTemplateList.size) {
-                if (customTemplateList.get(i).clientName == clientname) {
+                var clientidicustomtemplate = customTemplateList.get(i).clientName
+                if (clientidicustomtemplate == clientname) {
                     clientidFinal = customTemplateList.get(i).clientId
+                } else {
+
+                    for (i in 0 until payGroupListresponse.size) {
+                        clientidFinal = payGroupListresponse.get(i).clientId
+                    }
+
                 }
             }
 
@@ -626,7 +635,6 @@ class AddjobBasicDetailF() : Fragment() {
                 replaceFragment(AddjobJobDetailF())
 
             } else {
-
 
                 if (positioname.isNullOrEmpty()) {
                     binding.TIposition.error = "Position name is Required."

@@ -136,48 +136,50 @@ class JobDroppedCandidateAdapter(
 
             holder.tvCReason.text = "Reason: "+onlineApplicantsDataList.get(position).candidateNotes.get(0).reason
 
-            holder.iv_menu.setOnClickListener {
-                Constants.AssessmentCandidateId = onlineApplicantsDataList.get(position).candidateId
-                var candidateid = onlineApplicantsDataList.get(position).candidateId
-                var jobid = ""
-                for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
 
-                    jobid = onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId.toString()
-                    var jobGuid = onlineApplicantsDataList.get(position).guid
-                    global.candidateIdForOfferLetter = candidateid
-                    global.jobidForOfferLetter = jobid
-                    global.jobGuidforOfferLetter = jobGuid.toString()
-                    global.firstnameforofferletter =
-                        onlineApplicantsDataList.get(position).firstName
-
-                    var firstnameeeee = onlineApplicantsDataList.get(position).firstName
-                    global.fn = firstnameeeee
-                    var lastnameee = onlineApplicantsDataList.get(position).lastName
-                    global.ln = lastnameee
-
-                    global.lastnameforofferletter =
-                        onlineApplicantsDataList.get(position).lastName
-                    global.candidateEmailAdress = onlineApplicantsDataList.get(position).primaryEmail
-
-                    var statusid = onlineApplicantsDataList.get(position).candidateJobs.get(i).statusId
-
-                    try {
-                        var phonenumber = onlineApplicantsDataList.get(position).phoneNumber
-                        global.composeMessagePhoneNumber = phonenumber
-                    } catch (e: Exception) {
-                    }
-
-                    viewmodel.showJobCandidateDropKebabmenuBottomSheet(true)
-
-                    if (statusid == Constants.candidateInterviewdId) {
-                        viewmodel.showJobCandidateDropKebabmenuBottomSheet(true)
-                    } else {
-                        viewmodel.showJobCandidateDropKebabmenuBottomSheet(false)
-                    }
-                }
-            }
         }catch (e:Exception){
             Log.d("Exceptioninmosam",e.toString())
+        }
+
+        holder.iv_menu.setOnClickListener {
+            Constants.AssessmentCandidateId = onlineApplicantsDataList.get(position).candidateId
+            var candidateid = onlineApplicantsDataList.get(position).candidateId
+            var jobid = ""
+            for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
+
+                jobid = onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId.toString()
+                var jobGuid = onlineApplicantsDataList.get(position).guid
+                global.candidateIdForOfferLetter = candidateid
+                global.jobidForOfferLetter = jobid
+                global.jobGuidforOfferLetter = jobGuid.toString()
+                global.firstnameforofferletter =
+                    onlineApplicantsDataList.get(position).firstName
+
+                var firstnameeeee = onlineApplicantsDataList.get(position).firstName
+                global.fn = firstnameeeee
+                var lastnameee = onlineApplicantsDataList.get(position).lastName
+                global.ln = lastnameee
+
+                global.lastnameforofferletter =
+                    onlineApplicantsDataList.get(position).lastName
+                global.candidateEmailAdress = onlineApplicantsDataList.get(position).primaryEmail
+
+                var statusid = onlineApplicantsDataList.get(position).candidateJobs.get(i).statusId
+
+                try {
+                    var phonenumber = onlineApplicantsDataList.get(position).phoneNumber
+                    global.composeMessagePhoneNumber = phonenumber
+                } catch (e: Exception) {
+                }
+
+                viewmodel.showJobCandidateDropKebabmenuBottomSheet(true)
+
+                if (statusid == Constants.candidateInterviewdId) {
+                    viewmodel.showJobCandidateDropKebabmenuBottomSheet(true)
+                } else {
+                    viewmodel.showJobCandidateDropKebabmenuBottomSheet(false)
+                }
+            }
         }
 
 

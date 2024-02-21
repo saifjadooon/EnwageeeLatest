@@ -91,12 +91,9 @@ class SalaryDetailF : Fragment() {
                         requireActivity().finish()
                     }, delayMillis)
                 } catch (e: Exception) {
-                    loader.hide()
-                    val delayMillis = 1000L // Delay between transitions in milliseconds
-                    val handler = Handler()
-                    handler.postDelayed({
-                        requireActivity().finish()
-                    }, delayMillis)
+                   /* loader.hide()
+                    Toast.makeText(requireContext(), "Job Updated Successfully", Toast.LENGTH_LONG)
+                        .show()*/
 
                 }
             }
@@ -320,6 +317,7 @@ class SalaryDetailF : Fragment() {
                 R.id.rbPaidandBilledOvertime -> {
                     overtimeType = "Paid and Billed"
                     if (binding.rbPaidandBilledOvertime.isChecked) {
+                        global.jobReqbyJobid!!.billingDetails.overtimeType = "Paid and Billed"
                         binding.constraintLayout10.visibility = View.VISIBLE
                         binding.TIovertimeMarkupPercentage.visibility = View.VISIBLE
                         if (!overtimemarkupPercentageGlobal.isNullOrEmpty()) {
@@ -339,7 +337,7 @@ class SalaryDetailF : Fragment() {
 
                     overtimeType = "Paid not Billed"
                     if (binding.rbPaidNotBilledOvertime.isChecked) {
-
+                        global.jobReqbyJobid!!.billingDetails.overtimeType = "Paid not Billed"
                         binding.etovertimeBillRate.setText(overtimePayRateGlobal.toString())
                         binding.etovertimePayrate.setText(overtimePayRateGlobal.toString())
                         binding.TIovertimeMarkupPercentage.visibility = View.GONE
@@ -351,6 +349,7 @@ class SalaryDetailF : Fragment() {
                 R.id.rbNoneOvertime -> {
                     overtimeType = "None"
                     if (binding.rbNoneOvertime.isChecked) {
+                        global.jobReqbyJobid!!.billingDetails.overtimeType = "None"
                         binding.TIovertimeMarkupPercentage.visibility = View.VISIBLE
                         binding.constraintLayout10.visibility = View.GONE
                         binding.TIovertimeMarkupPercentage.isEnabled = false
@@ -371,7 +370,7 @@ class SalaryDetailF : Fragment() {
 
                     doubletimeType = "Paid and Billed"
                     if (binding.rbPaidandBilledDoubletime.isChecked) {
-
+                        global.jobReqbyJobid!!.billingDetails.doubletimeType = "Paid and Billed"
 
                         if (!doubleTimePayRateGlobal.isNullOrEmpty()) {
 
@@ -397,17 +396,19 @@ class SalaryDetailF : Fragment() {
 
                     doubletimeType = "Paid not Billed"
                     if (binding.rbPaidNotBilledDoubletime.isChecked) {
+
+                        global.jobReqbyJobid!!.billingDetails.doubletimeType = "Paid not Billed"
                         binding.etdoubletimePayrate.setText(doubleTimePayRateGlobal)
                         binding.etdoubletimeBillRate.setText(doubleTimePayRateGlobal)
                         binding.TIdoubletimeMarkupPercentage.visibility = View.GONE
                         binding.ccDoubletimeMultiplier.visibility = View.VISIBLE
-                    } else {
 
                     }
                 }
                 R.id.rbNonerbDoubletime -> {
                     doubletimeType = "None"
                     if (binding.rbNonerbDoubletime.isChecked) {
+                        global.jobReqbyJobid!!.billingDetails.doubletimeType = "None"
                         binding.TIdoubletimeMarkupPercentage.visibility = View.VISIBLE
                         binding.ccDoubletimeMultiplier.visibility = View.GONE
                         binding.TIdoubletimeMarkupPercentage.isEnabled = false
@@ -424,151 +425,168 @@ class SalaryDetailF : Fragment() {
         })
 
         binding.ivMinusdbltime.setOnClickListener {
-            doubletimeMultiplier -= 0.1f
-            // Ensure the value is not less than 0
-            doubletimeMultiplier = maxOf(0f, doubletimeMultiplier)
 
-            // Round to one digit after the decimal point
-            doubletimeMultiplier = round(doubletimeMultiplier * 10) / 10
+            if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("No")) {
+
+            } else {
+                doubletimeMultiplier -= 0.1f
+                // Ensure the value is not less than 0
+                doubletimeMultiplier = maxOf(0f, doubletimeMultiplier)
+
+                // Round to one digit after the decimal point
+                doubletimeMultiplier = round(doubletimeMultiplier * 10) / 10
 
 
-            binding.tvHeadCountdbltime.text = doubletimeMultiplier.toString()
+                binding.tvHeadCountdbltime.text = doubletimeMultiplier.toString()
 
 
-            var doubletimex = doubletimeMultiplier
+                var doubletimex = doubletimeMultiplier
 
-            if (!targetPayrate.isNullOrEmpty()) {
-                var doubleTimePayrate =
-                    calculateOvertimePayRate(
-                        targetPayrate.toDouble(),
-                        doubletimex.toString().toDouble()
-                    )
+                if (!targetPayrate.isNullOrEmpty()) {
+                    var doubleTimePayrate =
+                        calculateOvertimePayRate(
+                            targetPayrate.toDouble(),
+                            doubletimex.toString().toDouble()
+                        )
 
-                doubleTimePayRateGlobal = doubleTimePayrate.toString()
-                binding.etdoubletimePayrate.setText(doubleTimePayrate.toString())
-                var markupPercentage = binding.etMarkupPErcentage.text
-                try {
-                    val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
-                    var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
-                    Log.i("markupot", markupOT.toString())
-                    var doubletimeBillRate = markupOT + doubleTimePayrate
-                    doubletimBillRateGlobal = doubletimeBillRate.toString()
-                    binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
-                } catch (e: Exception) {
+                    doubleTimePayRateGlobal = doubleTimePayrate.toString()
+                    binding.etdoubletimePayrate.setText(doubleTimePayrate.toString())
+                    var markupPercentage = binding.etMarkupPErcentage.text
+                    try {
+                        val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
+                        var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
+                        Log.i("markupot", markupOT.toString())
+                        var doubletimeBillRate = markupOT + doubleTimePayrate
+                        doubletimBillRateGlobal = doubletimeBillRate.toString()
+                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                    } catch (e: Exception) {
+
+                    }
 
                 }
-
             }
+
         }
         binding.ivPlusdbltime.setOnClickListener {
+            if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("No")) {
 
-            doubletimeMultiplier += 0.1f
+            } else {
+                doubletimeMultiplier += 0.1f
 
-            // Ensure the value is not less than 0
-            doubletimeMultiplier = maxOf(0f, doubletimeMultiplier)
+                // Ensure the value is not less than 0
+                doubletimeMultiplier = maxOf(0f, doubletimeMultiplier)
 
-            // Round to one digit after the decimal point
-            doubletimeMultiplier = round(doubletimeMultiplier * 10) / 10
-
-
-            binding.tvHeadCountdbltime.text = doubletimeMultiplier.toString()
+                // Round to one digit after the decimal point
+                doubletimeMultiplier = round(doubletimeMultiplier * 10) / 10
 
 
-            var doubletimex = doubletimeMultiplier
+                binding.tvHeadCountdbltime.text = doubletimeMultiplier.toString()
 
-            if (!targetPayrate.isNullOrEmpty()) {
-                var doubleTimePayrate =
-                    calculateOvertimePayRate(
-                        targetPayrate.toDouble(),
-                        doubletimex.toString().toDouble()
-                    )
-                doubleTimePayRateGlobal = doubleTimePayrate.toString()
-                binding.etdoubletimePayrate.setText(doubleTimePayrate.toString())
-                var markupPercentage = binding.etMarkupPErcentage.text
-                try {
-                    val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
-                    var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
-                    Log.i("markupot", markupOT.toString())
-                    var doubletimeBillRate = markupOT + doubleTimePayrate
-                    doubletimBillRateGlobal = doubletimeBillRate.toString()
-                    binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
-                } catch (e: Exception) {
+
+                var doubletimex = doubletimeMultiplier
+
+                if (!targetPayrate.isNullOrEmpty()) {
+                    var doubleTimePayrate =
+                        calculateOvertimePayRate(
+                            targetPayrate.toDouble(),
+                            doubletimex.toString().toDouble()
+                        )
+                    doubleTimePayRateGlobal = doubleTimePayrate.toString()
+                    binding.etdoubletimePayrate.setText(doubleTimePayrate.toString())
+                    var markupPercentage = binding.etMarkupPErcentage.text
+                    try {
+                        val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
+                        var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
+                        Log.i("markupot", markupOT.toString())
+                        var doubletimeBillRate = markupOT + doubleTimePayrate
+                        doubletimBillRateGlobal = doubletimeBillRate.toString()
+                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                    } catch (e: Exception) {
+                    }
+
                 }
-
             }
+
         }
 
         binding.ivMinusOvertime.setOnClickListener {
+            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("No")) {
 
-            currentMultiplier -= 0.1f
+            } else {
+                currentMultiplier -= 0.1f
 
-            // Ensure the value is not less than 0
-            currentMultiplier = maxOf(0f, currentMultiplier)
+                // Ensure the value is not less than 0
+                currentMultiplier = maxOf(0f, currentMultiplier)
 
-            // Round to one digit after the decimal point
-            currentMultiplier = round(currentMultiplier * 10) / 10
-
-
-            binding.tvHeadCountOvertime.text = currentMultiplier.toString()
+                // Round to one digit after the decimal point
+                currentMultiplier = round(currentMultiplier * 10) / 10
 
 
-            var ovettimeMultiplur = currentMultiplier
+                binding.tvHeadCountOvertime.text = currentMultiplier.toString()
 
-            if (!targetPayrate.isNullOrEmpty()) {
-                var overTimePayrate =
-                    calculateOvertimePayRate(
-                        targetPayrate.toDouble(),
-                        ovettimeMultiplur.toString().toDouble()
-                    )
 
-                overtimePayRateGlobal = overTimePayrate.toString()
-                binding.etovertimePayrate.setText(overTimePayrate.toString())
-                var markupPercentage = binding.etMarkupPErcentage.text
-                try {
-                    val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
-                    var markupOT = overTimePayrate * (markuppercentagedouble / 100)
-                    Log.i("markupot", markupOT.toString())
-                    var overtimeBillRate = markupOT + overTimePayrate
-                    overTimeBillRateGlobal = overtimeBillRate.toString()
-                    binding.etovertimeBillRate.setText(overtimeBillRate.toString())
-                } catch (e: Exception) {
+                var ovettimeMultiplur = currentMultiplier
+
+                if (!targetPayrate.isNullOrEmpty()) {
+                    var overTimePayrate =
+                        calculateOvertimePayRate(
+                            targetPayrate.toDouble(),
+                            ovettimeMultiplur.toString().toDouble()
+                        )
+
+                    overtimePayRateGlobal = overTimePayrate.toString()
+                    binding.etovertimePayrate.setText(overTimePayrate.toString())
+                    var markupPercentage = binding.etMarkupPErcentage.text
+                    try {
+                        val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
+                        var markupOT = overTimePayrate * (markuppercentagedouble / 100)
+                        Log.i("markupot", markupOT.toString())
+                        var overtimeBillRate = markupOT + overTimePayrate
+                        overTimeBillRateGlobal = overtimeBillRate.toString()
+                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                    } catch (e: Exception) {
+                    }
                 }
             }
 
+
         }
         binding.ivPlusOvertime.setOnClickListener {
+            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("No")) {
 
-            currentMultiplier += 0.1f
+            } else {
+                currentMultiplier += 0.1f
+                // Ensure the value is not less than 0
+                currentMultiplier = maxOf(0f, currentMultiplier)
 
-            // Ensure the value is not less than 0
-            currentMultiplier = maxOf(0f, currentMultiplier)
-
-            // Round to one digit after the decimal point
-            currentMultiplier = round(currentMultiplier * 10) / 10
-            binding.tvHeadCountOvertime.text = currentMultiplier.toString()
+                // Round to one digit after the decimal point
+                currentMultiplier = round(currentMultiplier * 10) / 10
+                binding.tvHeadCountOvertime.text = currentMultiplier.toString()
 
 
-            var ovettimeMultiplur = currentMultiplier
+                var ovettimeMultiplur = currentMultiplier
 
-            if (!targetPayrate.isNullOrEmpty()) {
-                var overTimePayrate =
-                    calculateOvertimePayRate(
-                        targetPayrate.toDouble(),
-                        ovettimeMultiplur.toString().toDouble()
-                    )
-                overtimePayRateGlobal = overTimePayrate.toString()
-                binding.etovertimePayrate.setText(overTimePayrate.toString())
-                var markupPercentage = binding.etMarkupPErcentage.text
-                try {
-                    val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
-                    var markupOT = overTimePayrate * (markuppercentagedouble / 100)
-                    Log.i("markupot", markupOT.toString())
-                    var overtimeBillRate = markupOT + overTimePayrate
-                    overTimeBillRateGlobal = overtimeBillRate.toString()
-                    binding.etovertimeBillRate.setText(overtimeBillRate.toString())
-                } catch (e: Exception) {
+                if (!targetPayrate.isNullOrEmpty()) {
+                    var overTimePayrate =
+                        calculateOvertimePayRate(
+                            targetPayrate.toDouble(),
+                            ovettimeMultiplur.toString().toDouble()
+                        )
+                    overtimePayRateGlobal = overTimePayrate.toString()
+                    binding.etovertimePayrate.setText(overTimePayrate.toString())
+                    var markupPercentage = binding.etMarkupPErcentage.text
+                    try {
+                        val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
+                        var markupOT = overTimePayrate * (markuppercentagedouble / 100)
+                        Log.i("markupot", markupOT.toString())
+                        var overtimeBillRate = markupOT + overTimePayrate
+                        overTimeBillRateGlobal = overtimeBillRate.toString()
+                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                    } catch (e: Exception) {
+                    }
+
+
                 }
-
 
             }
 
@@ -821,9 +839,11 @@ class SalaryDetailF : Fragment() {
                     global.jobReqbyJobid!!.billingDetails.targetPayRate.toString()
                 )
             }
-            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("None")) {
+            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("No")) {
                 overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbNoneOvertime.isChecked = true
+
+
             } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
                 overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbPaidNotBilledOvertime.isChecked = true
@@ -867,9 +887,10 @@ class SalaryDetailF : Fragment() {
                 )
             }
 
-            if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("None")) {
+            if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("No")) {
                 doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbNonerbDoubletime.isChecked = true
+
             } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
                 doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbPaidNotBilledDoubletime.isChecked = true

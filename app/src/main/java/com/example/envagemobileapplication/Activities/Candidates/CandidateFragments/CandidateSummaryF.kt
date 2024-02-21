@@ -512,7 +512,8 @@ class CandidateSummaryF : Fragment() {
                         if (response.body() != null) {
                             loader.hide()
 
-                            com.example.envagemobileapplication.Utils.Global.candidatesJobResp = response.body()
+                            com.example.envagemobileapplication.Utils.Global.candidatesJobResp =
+                                response.body()
                             var arraylist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CandidateSummaryJobsRes.Datum> =
                                 ArrayList()
                             response?.body()?.data?.let { arraylist.addAll(it) }

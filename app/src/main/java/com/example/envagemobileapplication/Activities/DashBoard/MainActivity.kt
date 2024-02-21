@@ -47,6 +47,7 @@ class MainActivity : BaseActivity() {
 
     companion object {
         lateinit var ctx: Context
+        lateinit var binding: ActivityMainBinding
     }
 
     var global = com.example.envagemobileapplication.Utils.Global
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity() {
     val viewModel: MainActivityViewModel by viewModels()
     lateinit var tokenManager: TokenManager
     private lateinit var navController: NavController
-    lateinit var binding: ActivityMainBinding
+
     lateinit var outer: ConstraintLayout
 
     lateinit var bundle: Bundle

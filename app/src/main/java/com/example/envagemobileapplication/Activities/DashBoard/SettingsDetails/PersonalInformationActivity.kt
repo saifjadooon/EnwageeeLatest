@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.DrawableCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
 import com.example.envagemobileapplication.Adapters.customadapter
 import com.example.envagemobileapplication.BuildConfig
 import com.example.envagemobileapplication.Models.RequestModels.UpdateStatusPayload
@@ -57,14 +58,12 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class PersonalInformationActivity : AppCompatActivity() {
-    private var imageadded: Boolean = false
     lateinit var bodyofpf: MultipartBody.Part
     lateinit var loader: Loader
     private val GALLERY_REQUEST_CODE = 101
     private val CAMERA_REQUEST_CODE = 102
     lateinit var currentPhotoPath: String
     lateinit var imagefilforapi: File
-
     lateinit var payloadList: MutableList<UpdateStatusPayload>
     var global = com.example.envagemobileapplication.Utils.Global
     lateinit var binding: ActivityPersonalInformationBinding
@@ -76,6 +75,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.RECORD_AUDIO
     )
+    lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +86,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         clickListeners()
         setContentView(binding.root)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -201,6 +202,7 @@ class PersonalInformationActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun clickListeners() {
         binding.spinnergender.setOnClickListener {
             if (binding.spinnergender.isPopupShowing) {
@@ -302,8 +304,13 @@ class PersonalInformationActivity : AppCompatActivity() {
         binding.ivCross.setOnClickListener {
             global.showDialog(this, this)
         }
+        binding.ivCancel.setOnClickListener {
+            global.showDialog(this, this)
+        }
     }
+
     private fun initViews() {
+        tokenManager = TokenManager(this)
         loader = Loader(this)
         payloadList = ArrayList()
         genderlist = ArrayList()
@@ -343,6 +350,17 @@ class PersonalInformationActivity : AppCompatActivity() {
             if (global.loggedinuserDetails!!.roleName != null) {
                 binding.etRole.setText(global.loggedinuserDetails!!.roleName)
             }
+            if (global.loggedinuserDetails!!.imagePath != null) {
+                try {
+                    Picasso.get().load(global.loggedinuserDetails!!.imagePath)
+                        .into(binding.ivProfilePic)
+                }
+                catch (e:Exception){
+
+                }
+
+            }
+
         }
 
         val adapter = customadapter(
@@ -362,6 +380,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         binding.TIDesignation.isEnabled = false
         binding.TIRole.isEnabled = false
     }
+
     private fun callUpdateClientApi() {
         try {
 
@@ -432,6 +451,7 @@ class PersonalInformationActivity : AppCompatActivity() {
             Log.i("exceptionddsfdsfds", ex.toString())
         }
     }
+
     fun getLoggedinUserDetils() {
 
         try {
@@ -468,6 +488,7 @@ class PersonalInformationActivity : AppCompatActivity() {
             Log.i("exceptionddsfdsfds", ex.toString())
         }
     }
+
     private fun checkPermissions(): Boolean {
 
         if (Build.VERSION.SDK_INT >= 33) {
@@ -499,6 +520,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         }
         return true
     }
+
     private fun openCamera() {
         val pictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file: File = getImageFile()
@@ -516,6 +538,7 @@ class PersonalInformationActivity : AppCompatActivity() {
             startActivityForResult(pictureIntent, CAMERA_REQUEST_CODE)
         }
     }
+
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         galleryIntent.type = "image/*"
@@ -524,6 +547,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE)
 
     }
+
     private fun getImageFile(): File {
         val imageFileName = "JPEG_" + System.currentTimeMillis() + "_"
         val storageDir: File = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -541,6 +565,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         currentPhotoPath = "file:" + file.absolutePath
         return file
     }
+
     fun getStreamByteFromImage(imageFile: File): ByteArray? {
         var photoBitmap = BitmapFactory.decodeFile(imageFile.path)
         val stream = ByteArrayOutputStream()
@@ -549,6 +574,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
         return stream.toByteArray()
     }
+
     fun createTempImageFile(imageByteArray: ByteArray): File {
         val tempFile = File.createTempFile("temp_image", ".jpg", this.cacheDir)
         try {
@@ -560,6 +586,7 @@ class PersonalInformationActivity : AppCompatActivity() {
         }
         return tempFile
     }
+
     private fun getImageRotation(imageFile: File): Int {
         var exif: ExifInterface? = null
         var exifRotation = 0
@@ -574,15 +601,18 @@ class PersonalInformationActivity : AppCompatActivity() {
         }
         return if (exif == null) 0 else exifToDegrees(exifRotation)
     }
+
     private fun getBitmapRotatedByDegree(bitmap: Bitmap, rotationDegree: Int): Bitmap {
         val matrix = Matrix()
         matrix.preRotate(rotationDegree.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
+
     private fun exifToDegrees(rotation: Int): Int {
         if (rotation == ExifInterface.ORIENTATION_ROTATE_90) return 90 else if (rotation == ExifInterface.ORIENTATION_ROTATE_180) return 180 else if (rotation == ExifInterface.ORIENTATION_ROTATE_270) return 270
         return 0
     }
+
     private fun UpdateProfilePic(bodyofpf: MultipartBody.Part) {
         loader.show()
 
@@ -612,6 +642,14 @@ class PersonalInformationActivity : AppCompatActivity() {
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
+
+                                tokenManager.saveProfiepic(response.body()!!.data.blob.uri.toString())
+                                try {
+                                    Picasso.get().load(tokenManager.getProfilePic())
+                                        .into(MainActivity.binding.leftDrawerMenu.ivProfile)
+                                } catch (e: Exception) {
+                                }
+                                binding.cvCameragallery.visibility = View.GONE
                             }
                         }
 
@@ -639,6 +677,7 @@ class PersonalInformationActivity : AppCompatActivity() {
 
 
     }
+
     @SuppressLint("Range")
     fun uriToFile(contentResolver: ContentResolver, uri: Uri): File? {
         try {
@@ -724,7 +763,6 @@ class PersonalInformationActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
 }

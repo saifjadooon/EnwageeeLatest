@@ -17,7 +17,6 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSmryEtiondRes.CandidateSummaryEducationRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CndidteSumryExpRes.CandidateSummaryExperienceRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.GetCompanyOnboardingStatusResponse
-import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ConvertCandidateResponse.ConvertCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CustomTemplateResponse.CustomTemplateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.DropCandidateResponse.DropCandidateResponse
@@ -58,11 +57,14 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.MessageTemplatesRes.MessageTemplatesRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.OnlineApplicantsResponse.OnlineApplicantsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.PayGroupResponse.PayGroupResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ReConsiderCandidateResponse.ReConsiderCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchClientByNameResp.SearchClientByNameResp
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchJobsClientsResp.SearchJobsClientsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendAssessmentResponse.SendAssessmentResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCJobStatusRes.UpdateCJobStatusRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCandidateResponse.UpdateCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateJobsStatusResponse.UpdateJobsStatusResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdatePasswordResp.UpdatePasswordResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateProfileResultResponse.UpdateProfileResultResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateStatusResponse.UpdateStatusResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ZipCodeResponse.ZipCodeResponse
@@ -126,7 +128,7 @@ public interface ApiInterface {
     ): Call<GetClientContactsResponse>
 
 
-   @POST("api/v1/JobRequest/update-status")
+    @POST("api/v1/JobRequest/update-status")
     fun updateJobReqStatus(
         @Body requestPayload: JobReqUpdateModel,
         @Header("x-access-token") authorization: String
@@ -326,7 +328,6 @@ public interface ApiInterface {
     ): Call<JobRequsitionStatusResp>
 
 
-
     //    @GET("api/v1/Job/get-Client-list-by-name/a")
     @GET("api/v1/Job/get-Client-list-by-name/{searchName}")
     fun getClientNames(
@@ -349,13 +350,11 @@ public interface ApiInterface {
     ): Call<JobSkillsResponse>
 
 
-
-
     @Multipart
     @POST("api/v1/Job/add-job")
     fun AddJob(
         @Header("x-access-token") authorization: String,
-      /*  @Part jobDescription: MultipartBody.Part,*/
+        /*  @Part jobDescription: MultipartBody.Part,*/
         @Part positionName: MultipartBody.Part,
         @Part clientId: MultipartBody.Part,
         @Part payrollPayGroupId: MultipartBody.Part,
@@ -464,7 +463,7 @@ public interface ApiInterface {
         @Part frequency: MultipartBody.Part,
         @Part jobRequestId: MultipartBody.Part,
 
-    ): Call<EditJobReqResponse>
+        ): Call<EditJobReqResponse>
 
 
     @POST("api/v1/Applicant/get-all")
@@ -545,14 +544,30 @@ public interface ApiInterface {
     ): Call<UpdateCandidateResponse>
 
 
-   @GET("api/v1/Client/search-client-by-name?searchText=")
+    @GET("api/v1/Client/search-client-by-name?searchText=")
     fun SearchClientbyName(
         @Header("x-access-token") authorization: String
     ): Call<SearchClientByNameResp>
 
+    @GET("api/v1/Client/search-client-by-name")
+    fun SearchClientbyNamewithquery(
+        @Header("x-access-token") authorization: String,
+        @Query("searchText") searchname: String,
+        @Query("isMain") main: Boolean
 
-   @GET("api/v1/Job/get-client-jobs/{clientId}")
-        fun getClientJobs(
+    ): Call<SearchClientByNameResp>
+
+    @GET("api/v1/Job/search-jobs-client/{clientId}/{searchText}")
+    fun SearchClientJobswithquery(
+        @Header("x-access-token") authorization: String,
+        @Path("clientId") clientId: Int,
+        @Path("searchText") searchText: String
+
+    ): Call<SearchJobsClientsResp>
+
+
+    @GET("api/v1/Job/get-client-jobs/{clientId}")
+    fun getClientJobs(
         @Header("x-access-token") authorization: String,
         @Path("clientId") clientId: Int
     ): Call<GetClientJobsResp>
@@ -587,7 +602,7 @@ public interface ApiInterface {
     ): Call<MessageTemplatesRes>
 
 
-   @GET("api/v1/ApplicationForms/get-candidate-message-templates")
+    @GET("api/v1/ApplicationForms/get-candidate-message-templates")
     fun getCandidateMessagesTemplate(
         @Header("Authorization") authorization: String,
     ): Call<MessageTemplatesRes>
@@ -633,6 +648,7 @@ public interface ApiInterface {
         @Body payload: List<AssignJobRequestModel>,
         @Header("x-access-token") authorization: String
     ): Call<AssignJobResponse>
+
     @Multipart
     @POST("api/v1/Candidate/candidates-offer-letter-and-email")
     fun SendEmailOfferLetter(
@@ -794,5 +810,11 @@ public interface ApiInterface {
         @Query("page") page: String,
         @Query("token") token: String
     ): Call<GetAllSmsResp>
+
+    @POST("api/v1/User/change-userpassword")
+    fun updatePassword(
+        @Header("Authorization") authorization: String,
+        @Body requestPayload: ChangePasswordRequest
+    ): Call<UpdatePasswordResp>
 
 }

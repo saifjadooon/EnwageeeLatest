@@ -100,13 +100,16 @@ class CandidateAssesmentsAdapter(
         }
 
         if (dataList.get(position).passed != null) {
-            if (!dataList.get(position).passed.equals("true")) {
+            if (dataList.get(position).passed.equals("true")) {
                 val jobtypehexcolor = "#0D824B"
                 holder.tvtestresultstatus.setTextColor(Color.parseColor(jobtypehexcolor))
                 parseBackgroundColor(holder.tvtestresultstatus, jobtypehexcolor)
                 holder.tvtestresultstatus.setText("Passed")
             } else {
-                holder.tvtestresultstatus.visibility = View.GONE
+                val jobtypehexcolor = "#AA4A44"
+                holder.tvtestresultstatus.setTextColor(Color.parseColor(jobtypehexcolor))
+                parseBackgroundColor(holder.tvtestresultstatus, jobtypehexcolor)
+                holder.tvtestresultstatus.setText("Failed")
             }
         } else {
             holder.tvtestresultstatus.visibility = View.GONE
