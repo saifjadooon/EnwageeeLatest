@@ -104,18 +104,23 @@ class CandidateAdapter(
             )
         }
 
-        if (dataList.get(position).profileImage != null || dataList.get(position).profileImage != "") {
-            try {
-                Picasso.get().load(dataList.get(position).profileImage)
+        try{
+            var profileImageLink = dataList.get(position).profileImage
+
+            if (profileImageLink != "") {
+                Picasso.get().load(profileImageLink)
                     .placeholder(R.drawable.upload_pic_bg)
-                    .transform(CircleTransformation()).into(holder.iv_profile_pic)
-            }catch (e:Exception){
-
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic);
+            } else {
+                Picasso.get().load(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic);
             }
-
-
-        } else {
         }
+        catch (e:Exception){
+
+        }
+
+
         if (!dataList.get(position).status.isNullOrEmpty()) {
             holder.iv_deal_status.setText(dataList.get(position).status)
         }

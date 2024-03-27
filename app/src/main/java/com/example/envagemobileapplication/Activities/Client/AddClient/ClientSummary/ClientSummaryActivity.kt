@@ -116,6 +116,10 @@ class ClientSummaryActivity : BaseActivity() {
                         // navController.navigateUp()
                         //   navController.navigate(R.id.clientSummaryContactsFragment);
                         replaceFragment(ClientSummaryJobRequisitionF())
+                    }else if (clickedText.equals("Guests")) {
+                        // navController.navigateUp()
+                        //   navController.navigate(R.id.clientSummaryContactsFragment);
+                        replaceFragment(ClientSummaryJobRequisitionF())
                     }
                 }
             })

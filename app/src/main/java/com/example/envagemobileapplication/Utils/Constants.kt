@@ -26,6 +26,8 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 class Constants {
 
     companion object {
+        var offerLetterUrl: String?  = ""
+        var offerLetterId: Int? =  0
         var jobRequestid: Int? = 0
         var jobReqData:  Data?= null
         var CandidateJobSelectedStatus: String? = ""

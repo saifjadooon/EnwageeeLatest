@@ -48,11 +48,19 @@ class ClientJobsAdapter(
         try {
             if (!dataList.get(position).jobStatus.isNullOrEmpty()) {
                 holder.iv_job_status.text = dataList.get(position).jobStatus
+                var jobstatus = dataList.get(position).jobStatus
+                if (dataList.get(position).isPublish.equals(true)){
+                    holder.iv_published.visibility = View.VISIBLE
+                }
+                else {
+                    holder.iv_published.visibility = View.GONE
+                }
             } else {
                 holder.iv_job_status.visibility = View.GONE
             }
 
-        } catch (e: java.lang.Exception) {
+        } catch
+            (e: java.lang.Exception) {
         }
         try {
             if (!dataList.get(position).jobNature.isNullOrEmpty()) {
@@ -158,6 +166,7 @@ class ClientJobsAdapter(
         var tv_jobs_type: TextView = itemView.findViewById(R.id.tv_jobs_type)
         var jobs_menu: ImageView = itemView.findViewById(R.id.jobs_menu)
         var tv_dropdown: ImageView = itemView.findViewById(R.id.tv_dropdown)
+        var iv_published: ImageView = itemView.findViewById(R.id.iv_published)
 
 
     }

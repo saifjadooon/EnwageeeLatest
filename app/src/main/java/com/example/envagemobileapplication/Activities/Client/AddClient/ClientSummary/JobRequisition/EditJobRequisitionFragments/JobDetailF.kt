@@ -31,6 +31,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobSkillsResponse.JobSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobStatusResponse.GetJobStatusResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
+import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.DatePickerHelper
 import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
@@ -50,7 +51,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class JobDetailF : Fragment() {
-    var editreqjobSkills : ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequestSkills.Datum> = ArrayList()
+    var editreqjobSkills: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobRequestSkills.Datum> =
+        ArrayList()
     var jobStatuslist: ArrayList<String> = ArrayList()
     lateinit var jobtypeList: ArrayList<String>
     val viewModel: AddJobsSharedViewModel by activityViewModels()
@@ -104,7 +106,7 @@ class JobDetailF : Fragment() {
         if (global.jobReqbyJobid!!.jobType != null) {
 
             binding.spinnerJobType.setText(global.jobReqbyJobid!!.jobType)
-            binding.spinnerJobType
+
         }
 
         if (global.jobReqbyJobid!!.startDate != null) {
@@ -145,7 +147,7 @@ class JobDetailF : Fragment() {
         }
 
         getjobRequsetsSkills()
-        if (global.jobReqbyJobid!!.jobDescription!=null){
+        if (global.jobReqbyJobid!!.jobDescription != null) {
 
             var filename =
                 global.jobReqbyJobid!!.jobDescription.toString()
@@ -155,7 +157,7 @@ class JobDetailF : Fragment() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     loadJobDescriptionContent(baseurlnew)
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
             }
         }
     }
@@ -203,32 +205,33 @@ class JobDetailF : Fragment() {
     private fun getjobRequsetsSkills() {
 
         try {
-            var jobid= 1263
+            var jobid = Constants.jobRequestid
             loader.show()
             ApiUtils.getAPIService(requireContext()).GetJobRequestSkillsbyjobid(
-                token, jobid
+                token, jobid!!
             )
                 .enqueue(object : Callback<JobRequestSkills> {
                     override fun onResponse(
                         call: Call<JobRequestSkills>,
                         response: Response<JobRequestSkills>
-                    ) {    loader.hide()
+                    ) {
+                        loader.hide()
 
-                        if (response!=null){
+                        if (response != null) {
 
-                            for (i in 0 until response.body()!!.data.size){
+                            for (i in 0 until response.body()!!.data.size) {
                                 editreqjobSkills.add(response.body()!!.data.get(i))
                             }
 
-                           global.editreqjobSkills = editreqjobSkills
+                            global.editreqjobSkills = editreqjobSkills
 
-                            if (editreqjobSkills.size>0){
+                            if (editreqjobSkills.size > 0) {
                                 val selectedCount = editreqjobSkills.size
                                 if (selectedCount >= 1) {
-                                      binding.tvskillllstext.visibility = View.VISIBLE
-                                      binding.tvskillllstext.text = "$selectedCount Skills Selected"
+                                    binding.tvskillllstext.visibility = View.VISIBLE
+                                    binding.tvskillllstext.text = "$selectedCount Skills Selected"
                                 } else {
-                                     binding.tvskillllstext.visibility = View.GONE
+                                    binding.tvskillllstext.visibility = View.GONE
                                 }
                             }
 
@@ -327,7 +330,7 @@ class JobDetailF : Fragment() {
                         }
 
                         // Add newly selected items
-                        for (i in jobskillList) {
+                            for (i in jobskillList) {
                             if (!arraylistskills.any { it.skillId == i.skillId }) {
                                 val jobskill =
                                     JobSkill(i.skillId, i.name, "1", false, 0)
@@ -427,8 +430,7 @@ class JobDetailF : Fragment() {
                                     jobStatuslist
                                 )
                                 binding.spinnerJobStatus.setAdapter(adapter)
-                            }
-                            catch (e:Exception){
+                            } catch (e: Exception) {
 
                             }
 
@@ -651,8 +653,7 @@ class JobDetailF : Fragment() {
                 if (selectedWeekdays.size == 0) {
                     binding.TIweekdays.visibility = View.VISIBLE
                     binding.tvWeekdaysconcaatinated.visibility = View.GONE
-                }
-                else {
+                } else {
                     binding.TIweekdays.visibility = View.INVISIBLE
                     binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
                 }
@@ -666,11 +667,15 @@ class JobDetailF : Fragment() {
                 binding.spinnerWeekdays.dismissDropDown()
             } else {
                 val adapternew =
-                    CustomSpinnerAdapterForWeekdays(requireContext(), weekdays) { selectedWeekdays ->
+                    CustomSpinnerAdapterForWeekdays(
+                        requireContext(),
+                        weekdays
+                    ) { selectedWeekdays ->
                         for (selectedWeekday in selectedWeekdays) {
                             if (selectedWeekdays.size >= 1) {
                                 binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
-                                val concatenatedNames = selectedWeekdays.joinToString(",") { it.name }
+                                val concatenatedNames =
+                                    selectedWeekdays.joinToString(",") { it.name }
                                 concatenatedNamesfinal = concatenatedNames
                                 Log.i("concatednatedstring", concatenatedNames.toString())
                                 binding.tvWeekdaysconcaatinated.setText(concatenatedNames.toString())
@@ -714,8 +719,7 @@ class JobDetailF : Fragment() {
                         if (selectedWeekdays.size == 0) {
                             binding.TIweekdays.visibility = View.VISIBLE
                             binding.tvWeekdaysconcaatinated.visibility = View.GONE
-                        }
-                        else {
+                        } else {
                             binding.TIweekdays.visibility = View.INVISIBLE
                             binding.tvWeekdaysconcaatinated.visibility = View.VISIBLE
                         }
@@ -805,6 +809,7 @@ class JobDetailF : Fragment() {
                 viewModel.isStartDateFieldEnabled = true
                 binding.ccEnddate.isEnabled = false
                 viewModel.isEndDateFieldEnabled = false
+                binding.tvEndDate.setText("")
                 binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
             } else {
                 binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
@@ -869,32 +874,32 @@ class JobDetailF : Fragment() {
             }
         }
 
-       /* binding.spinnerJobType.setOnClickListener{
-            if (binding.spinnerJobType.isPopupShowing) {
-                binding.spinnerJobType.dismissDropDown()
-            }
-            else {
+        /* binding.spinnerJobType.setOnClickListener{
+             if (binding.spinnerJobType.isPopupShowing) {
+                 binding.spinnerJobType.dismissDropDown()
+             }
+             else {
 
-                jobtypeList = ArrayList()
-                jobtypeList.add("Full Time")
-                jobtypeList.add("Part Time")
-                jobtypeList.add("Temporary")
-                jobtypeList.add("Freelance")
-                jobtypeList.add("Internship")
-                jobtypeList.add("Contractor")
-                jobtypeList.add("Consultancy")
+                 jobtypeList = ArrayList()
+                 jobtypeList.add("Full Time")
+                 jobtypeList.add("Part Time")
+                 jobtypeList.add("Temporary")
+                 jobtypeList.add("Freelance")
+                 jobtypeList.add("Internship")
+                 jobtypeList.add("Contractor")
+                 jobtypeList.add("Consultancy")
 
-                global.jobtypelist = jobtypeList
-                val adapter = customadapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    jobtypeList
-                )
-                binding.spinnerJobType.setAdapter(adapter)
-                binding.spinnerJobType.showDropDown()
-            }
+                 global.jobtypelist = jobtypeList
+                 val adapter = customadapter(
+                     requireContext(),
+                     android.R.layout.simple_spinner_item,
+                     jobtypeList
+                 )
+                 binding.spinnerJobType.setAdapter(adapter)
+                    .showDropDown()
+             }
 
-        }*/
+         }*/
 
         binding.spinnerJobType.setOnClickListener {
             if (binding.spinnerJobType.isPopupShowing) {
@@ -926,30 +931,30 @@ class JobDetailF : Fragment() {
             }
         }
 
-      /*   binding.TIJobtype.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerJobType.isPopupShowing) {
-                binding.spinnerJobType.dismissDropDown()
-            } else {
-                jobtypeList = ArrayList()
-                jobtypeList.add("Full Time")
-                jobtypeList.add("Part Time")
-                jobtypeList.add("Temporary")
-                jobtypeList.add("Freelance")
-                jobtypeList.add("Internship")
-                jobtypeList.add("Contractor")
-                jobtypeList.add("Consultancy")
+        /*   binding.TIJobtype.setOnTouchListener(View.OnTouchListener { v, event ->
+              if (binding.spinnerJobType.isPopupShowing) {
+                  binding.spinnerJobType.dismissDropDown()
+              } else {
+                  jobtypeList = ArrayList()
+                  jobtypeList.add("Full Time")
+                  jobtypeList.add("Part Time")
+                  jobtypeList.add("Temporary")
+                  jobtypeList.add("Freelance")
+                  jobtypeList.add("Internship")
+                  jobtypeList.add("Contractor")
+                  jobtypeList.add("Consultancy")
 
-                global.jobtypelist = jobtypeList
-                val adapter = customadapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_item,
-                    jobtypeList
-                )
-                binding.spinnerJobType.setAdapter(adapter)
-                binding.spinnerJobType.showDropDown()
-            }
-            false
-        })*/
+                  global.jobtypelist = jobtypeList
+                  val adapter = customadapter(
+                      requireContext(),
+                      android.R.layout.simple_spinner_item,
+                      jobtypeList
+                  )
+                  binding.spinnerJobType.setAdapter(adapter)
+                  binding.spinnerJobType.showDropDown()
+              }
+              false
+          })*/
 
 
 

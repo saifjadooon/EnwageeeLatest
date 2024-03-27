@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_btnsave" />
-                            <entry key="sourceFile" value="C:\Users\saif\Downloads\btnsave.svg" />
+                            <entry key="outputName" value="ic_lognbtn" />
+                            <entry key="sourceFile" value="C:\Users\saif\Downloads\lognbtn.svg" />
                           </map>
                         </option>
                       </PersistentState>

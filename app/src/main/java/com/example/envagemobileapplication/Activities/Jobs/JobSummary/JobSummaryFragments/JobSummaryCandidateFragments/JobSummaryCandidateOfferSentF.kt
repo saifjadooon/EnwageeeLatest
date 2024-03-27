@@ -162,7 +162,7 @@ class JobSummaryCandidateOfferSentF : Fragment() {
 
             adapter = OfferLetterAdapter(
                 requireContext(),
-                onlineApplicantsList, viewModel
+                onlineApplicantsList, viewModel,childFragmentManager
             )
 
 

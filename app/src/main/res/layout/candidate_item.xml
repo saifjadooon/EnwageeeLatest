@@ -33,8 +33,10 @@
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
+            android:layout_marginBottom="8dp"
 
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/upload_pic_bg" />
@@ -62,6 +64,7 @@
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxWidth="150dp"
+
             android:maxLength="30"
             android:maxLines="1"
             android:text="Information Technology"
@@ -106,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
+            android:visibility="gone"
             android:drawableLeft="@drawable/ic_owner_location"
             android:drawablePadding="2dp"
             android:ellipsize="end"
@@ -125,6 +129,7 @@
             android:id="@+id/tv_home_adresss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="4dp"
             android:drawableLeft="@drawable/ic_owner_home"
             android:drawablePadding="2dp"
@@ -143,6 +148,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             app:cardCornerRadius="12dp"
+            android:visibility="gone"
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
             app:layout_constraintStart_toEndOf="@+id/tv_Name"

@@ -3,6 +3,8 @@ package com.example.envagemobileapplication.Activities.DashBoard.DashboardFragme
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class BsJobReqStatuses : BottomSheetDialogFragment() {
-    private var json: String? = ""
+    private var isApprovedPillSelected: Boolean = false
     val viewModel: ClientSummaryViewModel by activityViewModels()
     private var clickedjobRequestStatusName: String? = ""
     private var clickedStatusId: Int? = 0
@@ -40,6 +42,7 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
     lateinit var tokenManager: TokenManager
     lateinit var loader: Loader
     lateinit var token: String
+    lateinit var radioButton: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,23 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = BsJobreqStatusesBinding.inflate(inflater, container, false)
+
+        binding.etRemarks.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is not used in this example.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                binding.textinputUsername.error = null
+                // This method is not used in this example.
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+
+            }
+        })
         return binding.root
     }
 
@@ -63,6 +83,11 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         clicklisteners()
         setupHorizontalScrollView()
         val gson = Gson()
+
+
+        val hint = "Remarks *"
+        val formattedHint = global.formatHintWithRedAsterisk(hint)
+        binding.textinputUsername.hint = formattedHint
 
         var jobskilllist = global.skilllistJobReq
         val listOfLinkedHashMaps = jobskilllist?.map { jobSkill ->
@@ -89,27 +114,40 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
         }
 
         binding.btnsave.setOnClickListener {
+
             var remarks = binding.etRemarks.text.toString()
             var statusid = clickedStatusId
 
             var jobRequestid = 0
-            for (i in 0 until  global.jobreqlist.size) {
+            for (i in 0 until global.jobreqlist.size) {
                 jobRequestid =
                     global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
             }
 
             var statusname = clickedjobRequestStatusName
 
+
             if (remarks.isNotEmpty()) {
-                if (statusname!!.equals("Approved")) {
-                    checkmarkuppercentage(token, remarks, statusid, jobRequestid, statusname)
+
+                if (isApprovedPillSelected) {
+                    isApprovedPillSelected = false
+                    callApproveJobReqApi()
                 } else {
                     updateJobReqStatus(token, remarks, statusid, jobRequestid, statusname)
                 }
+                /*if (statusname!!.equals("Approved")) {
+                    checkmarkuppercentage(token, remarks, statusid, jobRequestid, statusname)
+                } else {
+                    updateJobReqStatus(token, remarks, statusid, jobRequestid, statusname)
+                }*/
+            } else {
+                binding.textinputUsername.setError("Remarks can't be emtpy");
+                binding.textinputUsername.setErrorIconDrawable(null)// Set the error message
+                binding.textinputUsername.setErrorTextAppearance(R.style.ErrorText);
             }
-
         }
     }
+
 
     private fun checkmarkuppercentage(
         token: String,
@@ -158,8 +196,15 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
                                     "Please define the Markup Percentage for the job first.",
                                     Toast.LENGTH_LONG
                                 ).show()
+                                dismiss()
                             } else {
-                                callApproveJobReqApi()
+                                /*callApproveJobReqApi()*/
+
+
+                                binding.tvHeading.text = "Approved"
+                                binding.ccRemarks.visibility = View.VISIBLE
+                                binding.ccList.visibility = View.INVISIBLE
+
                             }
 
                         }
@@ -211,7 +256,7 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
             statusId = statusid!!,
             jobRequestStatusName = statusname!!,
             remarks = remarks,
-            jobSkills = json // Assuming jobSkills is a list of strings
+            jobSkills = "[]" // Assuming jobSkills is a list of strings
         )
 
         // Create an instance of JobPublishSetting
@@ -225,13 +270,15 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
             showType = false,
             showSkills = false,
             showShift = false,
-            isPublish = false
+            isPublish = false,
+            description = statusname
         )
 
         // Create an instance of JobRequest and set the jobStatus and jobPublishSetting
         val jobRequest = JobReqApprovedReqModel(
             jobStatus = jobStatus,
-            jobPublishSetting = jobPublishSetting
+            jobPublishSetting = jobPublishSetting,
+            "\"\""
         )
 
         try {
@@ -304,6 +351,7 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
                         loader.hide()
                         if (response.body() != null) {
 
+                            binding.etRemarks.setText("")
                             viewModel.closeChangeStatusBottomsheet(statusname)
 
                         }
@@ -338,7 +386,7 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
             val colore = Color.parseColor(hexColorCode)
             val textView = itemView.findViewById<TextView>(R.id.tvTitle)
             val textViewdescription = itemView.findViewById<TextView>(R.id.tvDescription)
-            val radioButton = itemView.findViewById<RadioButton>(R.id.radioButton)
+            radioButton = itemView.findViewById<RadioButton>(R.id.radioButton)
             textView.text = itemText.statusName
             textView.setTextColor(colore)
             if (itemText.statusName.equals("Require More Detail")) {
@@ -361,30 +409,65 @@ class BsJobReqStatuses : BottomSheetDialogFragment() {
             itemView.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View) {
 
-                    val clickedText = itemText
-                    binding.tvHeading.text = clickedText.statusName
-                    binding.ccRemarks.visibility = View.VISIBLE
-                    binding.ccList.visibility = View.INVISIBLE
-                    val left = itemView.left
-                    binding.horizontalScrollView.scrollTo(left, 0)
-                    itemView.requestFocus()
-                    clickedStatusId = itemText.jobRequestStatusId
-                    clickedjobRequestStatusName = itemText.statusName
+                    val clickedText = itemText.statusName
 
+                    if (clickedText.equals("Approved")) {
+                        isApprovedPillSelected = true
+                        var remarks = binding.etRemarks.text.toString()
+
+                        clickedStatusId = itemText.jobRequestStatusId
+                        var statusid = clickedStatusId
+                        var jobRequestid = 0
+                        for (i in 0 until global.jobreqlist.size) {
+                            jobRequestid =
+                                global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
+                        }
+                        clickedjobRequestStatusName = clickedText
+                        var statusname = clickedText
+                        checkmarkuppercentage(token, remarks, statusid, jobRequestid, statusname)
+                    } else {
+
+
+                        binding.tvHeading.text = clickedText
+                        binding.ccRemarks.visibility = View.VISIBLE
+                        binding.ccList.visibility = View.INVISIBLE
+                        val left = itemView.left
+                        binding.horizontalScrollView.scrollTo(left, 0)
+                        itemView.requestFocus()
+                        clickedStatusId = itemText.jobRequestStatusId
+                        clickedjobRequestStatusName = itemText.statusName
+                    }
                 }
             })
 
             radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    val clickedText = itemText
-                    binding.tvHeading.text = clickedText.statusName
-                    binding.ccRemarks.visibility = View.VISIBLE
-                    binding.ccList.visibility = View.INVISIBLE
-                    val left = radioButton.left
-                    binding.horizontalScrollView.scrollTo(left, 0)
-                    radioButton.requestFocus()
-                    clickedStatusId = itemText.jobRequestStatusId
-                    clickedjobRequestStatusName = itemText.statusName
+                    val clickedText = itemText.statusName
+                    if (clickedText.equals("Approved")) {
+                        isApprovedPillSelected = true
+                        var remarks = binding.etRemarks.text.toString()
+                        clickedStatusId = itemText.jobRequestStatusId
+                        var statusid = clickedStatusId
+
+                        var jobRequestid = 0
+                        for (i in 0 until global.jobreqlist.size) {
+                            jobRequestid =
+                                global.jobreqlist.get(global.jobRequisitonPosition).jobRequestId
+                        }
+
+                        clickedjobRequestStatusName = clickedText
+                        var statusname = clickedText
+                        checkmarkuppercentage(token, remarks, statusid, jobRequestid, statusname)
+                    } else {
+                        binding.tvHeading.text = clickedText
+                        binding.ccRemarks.visibility = View.VISIBLE
+                        binding.ccList.visibility = View.INVISIBLE
+                        val left = radioButton.left
+                        binding.horizontalScrollView.scrollTo(left, 0)
+                        radioButton.requestFocus()
+                        clickedStatusId = itemText.jobRequestStatusId
+                        clickedjobRequestStatusName = clickedText
+                    }
                 }
             }
 

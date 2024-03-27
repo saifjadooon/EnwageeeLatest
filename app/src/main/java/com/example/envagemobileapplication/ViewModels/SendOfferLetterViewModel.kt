@@ -230,7 +230,8 @@ class SendOfferLetterViewModel : ViewModel() {
 
                                 MLDSendMessage.postValue(response.body())
 
-                            } else {
+                            }
+                            else {
                                 val errorBody = response.errorBody()?.string()
 
                                 if (errorBody!!.contains("Invalid 'To' Phone Number:")){

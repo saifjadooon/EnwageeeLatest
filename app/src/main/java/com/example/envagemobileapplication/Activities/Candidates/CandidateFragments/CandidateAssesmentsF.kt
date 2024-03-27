@@ -359,7 +359,7 @@ class CandidateAssesmentsF : Fragment() {
             try {
 
                 loader.show()
-                assesmentsList = ArrayList()
+
                 ApiUtils.getAPIService(requireContext()).getCandidateAssesmentForms(
                     tokenManager.getAccessToken().toString(),
                     model,
@@ -375,7 +375,7 @@ class CandidateAssesmentsF : Fragment() {
 
                                 if (response.body()!!.data != null) {
 
-
+                                    assesmentsList = ArrayList()
                                     for (i in 0 until response.body()!!.data.records.size) {
 
                                         assesmentsList.add(response.body()!!.data.records.get(i))

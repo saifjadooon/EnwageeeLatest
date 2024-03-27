@@ -47,24 +47,32 @@ class CandidateAssesmentsAdapter(
 
 
         holder.tv_Name.setOnLongClickListener {
-            val toast = Toast.makeText(
-                context,
-                dataList.get(position).client.name.toString(),
-                Toast.LENGTH_LONG
-            )
+            if (dataList.get(position).client != null) {
+                val toast = Toast.makeText(
+                    context,
+                    dataList.get(position).client.name.toString(),
+                    Toast.LENGTH_LONG
+                )
 
-            toast.show()
+                toast.show()
+            }
+
             true
         }
 
         holder.tvJobName.setOnLongClickListener {
-            val toast = Toast.makeText(
-                context,
-                dataList.get(position).job.positionName.toString(),
-                Toast.LENGTH_LONG
-            )
 
-            toast.show()
+
+            if (dataList.get(position).job != null) {
+                val toast = Toast.makeText(
+                    context,
+                    dataList.get(position).job.positionName.toString(),
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
             true
         }
 
@@ -78,29 +86,41 @@ class CandidateAssesmentsAdapter(
             toast.show()
             true
         }
-        if (!dataList.get(position).job.positionName.isNullOrEmpty()) {
 
-            holder.tvJobName.text = dataList.get(position).job.positionName
-        } else {
-            holder.tvJobName.setText("Not provided")
+        if (dataList.get(position).job != null) {
+            if (!dataList.get(position).job.positionName.isNullOrEmpty()) {
+
+                holder.tvJobName.text = dataList.get(position).job.positionName
+            } else {
+                holder.tvJobName.setText("Not provided")
+            }
         }
+
         if (!dataList.get(position).clientAssessmentForm.name.isNullOrEmpty()) {
             holder.tvtestname.setText(dataList.get(position).clientAssessmentForm.name)
         } else {
             holder.tvtestname.setText("Not provided")
         }
 
-        if (dataList.get(position).achievedMarks != null || dataList.get(position).achievedMarks.toString() != "null") {
-            val jobtypehexcolor = "#0D824B"
-            holder.tvachievedmarks.setTextColor(Color.parseColor(jobtypehexcolor))
-            parseBackgroundColor(holder.tvachievedmarks, jobtypehexcolor)
-            holder.tvachievedmarks.setText("Achieved marks:" + dataList.get(position).achievedMarks.toString())
+        if (dataList.get(position).achievedMarks != null) {
+            if (dataList.get(position).achievedMarks >= dataList.get(position).passingCriteria) {
+                val jobtypehexcolor = "#0D824B"
+                holder.tvachievedmarks.setTextColor(Color.parseColor(jobtypehexcolor))
+                parseBackgroundColor(holder.tvachievedmarks, jobtypehexcolor)
+                holder.tvachievedmarks.setText("Achieved marks:" + dataList.get(position)?.achievedMarks.toString())
+            } else {
+                val jobtypehexcolor = "#AA4A44"
+                holder.tvachievedmarks.setTextColor(Color.parseColor(jobtypehexcolor))
+                parseBackgroundColor(holder.tvachievedmarks, jobtypehexcolor)
+                holder.tvachievedmarks.setText("Achieved marks:" + dataList.get(position)?.achievedMarks.toString())
+            }
+
         } else {
             holder.tvachievedmarks.visibility = View.GONE
         }
 
         if (dataList.get(position).passed != null) {
-            if (dataList.get(position).passed.equals("true")) {
+            if (dataList.get(position).passed.equals(true)) {
                 val jobtypehexcolor = "#0D824B"
                 holder.tvtestresultstatus.setTextColor(Color.parseColor(jobtypehexcolor))
                 parseBackgroundColor(holder.tvtestresultstatus, jobtypehexcolor)
@@ -114,12 +134,16 @@ class CandidateAssesmentsAdapter(
         } else {
             holder.tvtestresultstatus.visibility = View.GONE
         }
-        if (!dataList.get(position).client.profilePicture.isNullOrEmpty()) {
-            Picasso.get().load(dataList.get(position).client.profilePicture)
-                .placeholder(R.drawable.upload_pic_bg)
-                .transform(CircleTransformation()).into(holder.iv_profile_pic)
 
+        if (dataList.get(position).client != null) {
+            if (!dataList.get(position).client.profilePicture.isNullOrEmpty()) {
+                Picasso.get().load(dataList.get(position).client.profilePicture)
+                    .placeholder(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic)
+
+            }
         }
+
         if (!dataList.get(position).status.isNullOrEmpty()) {
             holder.tvtesttime.setText("Test Time:" + dataList.get(position).clientAssessmentForm.urlExpiryTime)
         } else {

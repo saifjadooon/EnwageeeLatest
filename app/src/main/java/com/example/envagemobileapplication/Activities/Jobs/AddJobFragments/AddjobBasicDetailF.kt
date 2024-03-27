@@ -30,6 +30,7 @@ import com.example.envagemobileapplication.ViewModels.AddJobsSharedViewModel
 import com.example.envagemobileapplication.databinding.FragmentAddjobBasicDetailBinding
 
 class AddjobBasicDetailF() : Fragment() {
+    private var clientidFinalafterBs: Int = 0
     val filter = InputFilter { source, start, end, dest, dstart, dend ->
         if (dstart == 0 && end > start && source[start] == ' ') {
             // Block leading space
@@ -328,6 +329,8 @@ class AddjobBasicDetailF() : Fragment() {
         }
         viewModel.LDdismissBottomsheet.observe(requireActivity()) {
             if (it != null) {
+                clientidFinalafterBs = it.clientId
+
                 binding.Ticlient.error = null
                 binding.spinnerClient.setText(it.clientName)
                 var model = PaygroupRequestModel(it.clientId!!, "a")
@@ -506,12 +509,12 @@ class AddjobBasicDetailF() : Fragment() {
             )
         binding.Ticlient.hint = formatedclientname
 
-        val paygrouphint = "Pay Group *"
+        val paygrouphint = "Pay Group"
         val formatedpaygroup =
             com.example.envagemobileapplication.Utils.Constants.formatHintWithRedAsterisk(
                 paygrouphint
             )
-        binding.TIpaygroup.hint = formatedpaygroup
+        binding.TIpaygroup.hint = paygrouphint
 
 
         var jobNatureList: ArrayList<String> = ArrayList()
@@ -576,6 +579,7 @@ class AddjobBasicDetailF() : Fragment() {
 
             for (i in 0 until customTemplateList.size) {
                 var clientidicustomtemplate = customTemplateList.get(i).clientName
+                var clientidicustomtemplatee = clientidicustomtemplate
                 if (clientidicustomtemplate == clientname) {
                     clientidFinal = customTemplateList.get(i).clientId
                 } else {
@@ -587,7 +591,10 @@ class AddjobBasicDetailF() : Fragment() {
                 }
             }
 
+            if (clientidFinal==0){
 
+                clientidFinal = clientidFinalafterBs
+            }
 
             for (i in 0 until payGroupListresponse.size) {
                 var paygroupfinal =
@@ -629,7 +636,7 @@ class AddjobBasicDetailF() : Fragment() {
             )
 
             com.example.envagemobileapplication.Utils.Global.basicDetailReqModel = basicDetailsRM
-            if (!positioname.isNullOrEmpty() && !clientname.isNullOrEmpty() && !paygroup.isNullOrEmpty()) {
+            if (!positioname.isNullOrEmpty() && !clientname.isNullOrEmpty()/* && !paygroup.isNullOrEmpty()*/) {
 
                 AddJobActivity.binding.ivOne.setImageDrawable(requireContext().getDrawable(com.example.envagemobileapplication.R.drawable.ic_basic_detail_done))
                 replaceFragment(AddjobJobDetailF())
@@ -647,11 +654,11 @@ class AddjobBasicDetailF() : Fragment() {
                     binding.Ticlient.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
                 }
 
-                if (paygroup.isNullOrEmpty()) {
-                    binding.TIpaygroup.error = "Paygroup is Required.."
-                    binding.TIpaygroup.errorIconDrawable = null// Set the error message
-                    binding.TIpaygroup.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
-                }
+                /*  if (paygroup.isNullOrEmpty()) {
+                      binding.TIpaygroup.error = "Paygroup is Required.."
+                      binding.TIpaygroup.errorIconDrawable = null// Set the error message
+                      binding.TIpaygroup.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+                  }*/
             }
         }
 

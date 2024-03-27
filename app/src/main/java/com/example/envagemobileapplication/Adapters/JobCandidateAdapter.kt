@@ -118,6 +118,10 @@ class JobCandidateAdapter(
                         i
                     ).status
                 )
+
+                global.jobStatusid = onlineApplicantsDataList.get(position).candidateJobs.get(
+                    i
+                ).statusId
             }
         }
 
@@ -143,6 +147,14 @@ class JobCandidateAdapter(
 
 
         holder.iv_menu.setOnClickListener {
+            for (i in 0 until onlineApplicantsDataList.get(position).candidateJobs.size) {
+                if (jobidd == onlineApplicantsDataList.get(position).candidateJobs.get(i).jobId) {
+
+                    global.jobStatusid = onlineApplicantsDataList.get(position).candidateJobs.get(
+                        i
+                    ).statusId
+                }
+            }
             Constants.AssessmentCandidateId = onlineApplicantsDataList.get(position).candidateId
             var candidateid = onlineApplicantsDataList.get(position).candidateId
             var jobid = ""
@@ -165,7 +177,9 @@ class JobCandidateAdapter(
                     onlineApplicantsDataList.get(position).lastName
                 global.candidateEmailAdress = onlineApplicantsDataList.get(position).primaryEmail
 
+                var positionn = position.toString()
                 var statusid = onlineApplicantsDataList.get(position).candidateJobs.get(i).statusId
+
 
                 try {
                     var phonenumber = onlineApplicantsDataList.get(position).phoneNumber
@@ -173,11 +187,13 @@ class JobCandidateAdapter(
                 } catch (e: Exception) {
                 }
 
-                if (statusid == Constants.candidateInterviewdId) {
+                if (global.jobStatusid == Constants.candidateInterviewdId) {
 
                     viewmodel.showJobCandidateKebabmenuBottomSheet(true)
+
                 } else {
                     viewmodel.showJobCandidateKebabmenuBottomSheet(false)
+
                 }
             }
         }

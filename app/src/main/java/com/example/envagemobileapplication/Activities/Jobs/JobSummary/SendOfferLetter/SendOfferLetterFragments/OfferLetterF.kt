@@ -32,7 +32,6 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.Utils.DatePickerHelper
-import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.SendOfferLetterViewModel
 import com.example.envagemobileapplication.databinding.FragmentOfferLetterBinding
@@ -53,6 +52,7 @@ import java.text.SimpleDateFormat
 
 
 class OfferLetterF : Fragment() {
+    val percentageRegex = "^(?!0\\d)(\\d{1,3}|0)(\\.\\d{0,2})?\$".toRegex()
 
     private var clientHeaderSummaryResp: ClientHeaderSummaryResponse? = null
     var descriptiontext: String = ""
@@ -132,7 +132,7 @@ class OfferLetterF : Fragment() {
 
         val hintOfferedSalary = "Offered Salary *"
         val formattedhintOfferedSalary = formatHintWithRedAsterisk(hintOfferedSalary)
-        binding.ccOfferedSalary.hint = formattedhintOfferedSalary
+      //  binding.ccOfferedSalary.hint = formattedhintOfferedSalary
 
         binding.ccLinkExpiryDate.setOnTouchListener(View.OnTouchListener { v, event ->
             datePickerHelper.attachDatePicker(binding.ccLinkExpiryDate, binding.tvExpiryDate)
@@ -258,115 +258,132 @@ class OfferLetterF : Fragment() {
         datePickerHelper = DatePickerHelper(requireContext())
         setUpRtf()
 
-        try {
-            if (senderName != null) {
-                senderName =
-                    global.loggedinuserDetails!!.firstName + " " + global.loggedinuserDetails!!.lastName
-            }
+        if (senderName != null) {
+            senderName =
+                global.loggedinuserDetails!!.firstName + " " + global.loggedinuserDetails!!.lastName
+        }
 
-            if (senderDesignation != null) {
-                senderDesignation =
-                    global.loggedinuserDetails!!.designation.designationName.toString()
-            }
+        if (global.loggedinuserDetails!!.designation != null) {
+            senderDesignation =
+                global.loggedinuserDetails!!.designation.designationName.toString()
+        }
 
-            if (positionname != null) {
+        if (global.jobHeaderSummary!!.data.jobInfo != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.positionName != null) {
                 positionname = global.jobHeaderSummary!!.data.jobInfo.positionName
             }
 
-            if (jobIndustry != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.industryName != null) {
                 jobIndustry = global.jobHeaderSummary!!.data.jobInfo.industryName.toString()
             }
 
-            if (jobType != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.jobType != null) {
                 jobType = global.jobHeaderSummary!!.data.jobInfo.jobType
             }
 
-            if (jobType != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.jobNature != null) {
                 jobNature = global.jobHeaderSummary!!.data.jobInfo.jobNature
             }
 
-            if (jobFrequency != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.jobFrequency != null) {
                 jobFrequency = global.jobHeaderSummary!!.data.jobInfo.jobFrequency
             }
 
-            if (jobaddress != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.address1 != null) {
                 jobaddress =
                     global.jobHeaderSummary!!.data.jobInfo.address1 + " " + global.jobHeaderSummary!!.data.jobInfo.address2
             }
 
 
-            if (jobcity != null) {
+            if (global.jobHeaderSummary!!.data.client.city != null) {
                 jobcity = global.jobHeaderSummary!!.data.jobInfo.city.toString()
             }
 
 
-            if (jobstate != null) {
+            if (global.jobHeaderSummary!!.data.client.state != null) {
                 jobstate = global.jobHeaderSummary!!.data.jobInfo.state.toString()
             }
 
 
-            if (joblocation != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.location != null) {
                 joblocation = global.jobHeaderSummary!!.data.jobInfo.location.toString()
             }
 
-
-            firstname = global.fn.toString() + ""
-            lastname = global.ln.toString() + ""
-            offerletterlink = "offer letter link"
-            clientFacebook = "www.facebook.com"
-            clientInstagram = "www.instagram.com"
-            clientLinkedin = "www.facebook.com"
-            if (jobCountry != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.country != null) {
                 jobCountry = global.jobHeaderSummary!!.data.jobInfo.country.toString()
             }
 
-            if (jobzipcode != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.zipcode != null) {
                 jobzipcode = global.jobHeaderSummary!!.data.jobInfo.zipcode.toString()
             }
-        } catch (e: Exception) {
         }
+
+
+
+
+
+        firstname = global.fn + ""
+        lastname = global.ln + ""
+        offerletterlink = "offer letter link"
+        clientFacebook = "www.facebook.com"
+        clientInstagram = "www.instagram.com"
+        clientLinkedin = "www.facebook.com"
+
 
     }
 
     private fun clicklisteners() {
+        val frequency =   global.jobfrequency.toString()
+        binding.tvfreq.setText(" /"+frequency)
 
-        binding.tvOfferedsalary.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed in this case
-            }
+        binding.tvOfferedsalary.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not needed in this case
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val text = s.toString()
-
-                if (text.isNotEmpty() && !text.matches("^\\$\\d+\\/[a-zA-Z]+\$".toRegex())) {
-                    // Preserve only the numeric value and add "$" and dynamic frequency
-                    val numericValue = text.replace(Regex("[^\\d]"), "")
-                    val frequency = text.replace(Regex("[^a-zA-Z]"), Global.jobfrequency.toString())
-
-                    binding.tvOfferedsalary.removeTextChangedListener(this)
-
-                    if (numericValue.isNotEmpty()) {
-                        binding.tvOfferedsalary.setText("$" + numericValue + "/" + frequency)
-                        binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length - frequency.length - 1) // Adjust the index
-                    } else {
-                        binding.tvOfferedsalary.setText("") // Set to empty if numericValue is empty
-                    }
-
-                    binding.tvOfferedsalary.addTextChangedListener(this)
-                } else if (text.endsWith("$") && text.length > 1) {
-                    // Handle backspace by removing the last character when it is a "$"
-                    binding.tvOfferedsalary.removeTextChangedListener(this)
-                    binding.tvOfferedsalary.setText(text.substring(0, text.length - 1))
-                    binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length)
-                    binding.tvOfferedsalary.addTextChangedListener(this)
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
                 }
-            }
-        })
+            })
+           /* binding.tvOfferedsalary.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Not needed in this case
+                }
 
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // Not needed in this case
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val text = s.toString()
+
+                    if (text.isNotEmpty() && !text.matches("^\\$\\d+\\/[a-zA-Z]+\$".toRegex())) {
+                        // Preserve only the numeric value and add "$" and dynamic frequency
+                        val numericValue = text.replace(Regex("[^\\d]"), "")
+                        val frequency = text.replace(Regex("[^a-zA-Z]"), global.jobfrequency.toString())
+
+                        binding.tvOfferedsalary.removeTextChangedListener(this)
+
+                        if (numericValue.isNotEmpty()) {
+                            binding.tvOfferedsalary.setText("$" + numericValue + "/" + frequency)
+                            binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length - frequency.length - 1) // Adjust the index
+                        } else {
+                            binding.tvOfferedsalary.setText("") // Set to empty if numericValue is empty
+                        }
+
+                        binding.tvOfferedsalary.addTextChangedListener(this)
+                    } else if (text.endsWith("$") && text.length > 1) {
+                        // Handle backspace by removing the last character when it is a "$"
+                        binding.tvOfferedsalary.removeTextChangedListener(this)
+                        binding.tvOfferedsalary.setText(text.substring(0, text.length - 1))
+                        binding.tvOfferedsalary.setSelection(binding.tvOfferedsalary.text.length)
+                        binding.tvOfferedsalary.addTextChangedListener(this)
+                    }
+                }
+            })*/
 
         binding.etDescription!!.setOnTextChangeListener { text ->
             if (text.contains("<")) {
@@ -407,8 +424,14 @@ class OfferLetterF : Fragment() {
 
                 global.offerlettlink = description
 
-                var candidateid = MultipartBody.Part.createFormData("CandidateId", global.candidateIdForOfferLetter.toString())
-                var JobId = MultipartBody.Part.createFormData("JobId", global.jobidForOfferLetter.toString())
+                var candidateid = MultipartBody.Part.createFormData(
+                    "CandidateId",
+                    global.candidateIdForOfferLetter.toString()
+                )
+                var JobId = MultipartBody.Part.createFormData(
+                    "JobId",
+                    global.jobidForOfferLetter.toString()
+                )
                 var TemplateId = MultipartBody.Part.createFormData("TemplateId", templateId)
                 var ClientLogo = MultipartBody.Part.createFormData("ClientLogo", "false")
                 var ClientName = MultipartBody.Part.createFormData("ClientName", "false")
@@ -420,14 +443,26 @@ class OfferLetterF : Fragment() {
                 var ClientTwitter = MultipartBody.Part.createFormData("ClientTwitter", "false")
                 var PoweredBy = MultipartBody.Part.createFormData("PoweredBy", "false")
                 var ClientPoc = MultipartBody.Part.createFormData("ClientPoc", "false")
-                var OfferLetterLink = MultipartBody.Part.createFormData("OfferLetterLink", description.toString())
-                var validTill = MultipartBody.Part.createFormData("validTill", binding.tvExpiryDate.text.toString())
-                var offeredsalary = MultipartBody.Part.createFormData("OfferedSalary", binding.tvOfferedsalary.text.toString())
-                var joiningDate = MultipartBody.Part.createFormData("JoiningDate", binding.tvOfferedsalary.text.toString())
+                var OfferLetterLink =
+                    MultipartBody.Part.createFormData("OfferLetterLink", description.toString())
+                var validTill = MultipartBody.Part.createFormData(
+                    "validTill",
+                    binding.tvExpiryDate.text.toString()
+                )
+                var offeredsalary = MultipartBody.Part.createFormData(
+                    "OfferedSalary",
+                    binding.tvOfferedsalary.text.toString()
+                )
+                var joiningDate = MultipartBody.Part.createFormData(
+                    "JoiningDate",
+                    binding.tvOfferedsalary.text.toString()
+                )
 
                 var spinersleectTemplatetext = binding.spinnerSelectTemplate.text.toString()
 
 
+                global.offerLetterLinkExpiryDate = binding.tvExpiryDate.text.toString()
+                global.offeredSalary = binding.tvOfferedsalary.text.toString()
                 if (!spinersleectTemplatetext.isNullOrBlank() && !binding.tvExpiryDate.text.isNullOrEmpty()) {
                     try {
                         loader.show()
@@ -472,7 +507,7 @@ class OfferLetterF : Fragment() {
 
                                             Toast.makeText(
                                                 requireContext(),
-                                                "Offer Letter ink Generated successfully",
+                                                "Offer Letter link Generated successfully",
                                                 Toast.LENGTH_LONG
                                             ).show()
                                             replaceFragment(SendEmailF())
@@ -525,7 +560,7 @@ class OfferLetterF : Fragment() {
             var joiningDate = binding.tvJoiningDate.text.toString()
             var offeredsalary = binding.tvOfferedsalary.text.toString()
             Log.i("dfdsfdsf", expirydate + joiningDate + offeredsalary)
-            if (expirydate.isNotEmpty()&& joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()){
+            if (expirydate.isNotEmpty() && joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()) {
                 if (binding.spinnerSelectTemplate.isPopupShowing) {
                     binding.spinnerSelectTemplate.dismissDropDown()
                 } else {
@@ -543,7 +578,7 @@ class OfferLetterF : Fragment() {
             var joiningDate = binding.tvJoiningDate.text.toString()
             var offeredsalary = binding.tvOfferedsalary.text.toString()
             Log.i("dfdsfdsf", expirydate + joiningDate + offeredsalary)
-            if (expirydate.isNotEmpty()&& joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()){
+            if (expirydate.isNotEmpty() && joiningDate.isNotEmpty() && offeredsalary.isNotEmpty()) {
                 if (binding.spinnerSelectTemplate.isPopupShowing) {
                     binding.spinnerSelectTemplate.dismissDropDown()
                 } else {
@@ -738,12 +773,19 @@ class OfferLetterF : Fragment() {
         var expirydate = binding.tvExpiryDate.text.toString()
         var offeredSalary = binding.tvOfferedsalary.text.toString()
         var joiningDateeee = binding.tvJoiningDate.text.toString()
+        global.joiningDate =joiningDateeee
         // Replace placeholders with your desired values
         var replacedContent = htmlContent
             .replace("[First Name]", if (firstname.isNotEmpty()) firstname else "[First Name]")
             .replace("[Last Name]", if (lastname.isNotEmpty()) lastname else "[Last Name]")
-            .replace("[Offered Salary]", if (offeredSalary.isNotEmpty()) offeredSalary else "[Offered Salary]")
-            .replace("[Link Expiry Date]", if (expirydate.isNotEmpty()) expirydate else "[Link Expiry Date]")
+            .replace(
+                "[Offered Salary]",
+                if (offeredSalary.isNotEmpty()) offeredSalary else "[Offered Salary]"
+            )
+            .replace(
+                "[Link Expiry Date]",
+                if (expirydate.isNotEmpty()) expirydate else "[Link Expiry Date]"
+            )
             .replace(
                 "[Joining Date]",
                 if (joiningDateeee.isNotEmpty()) joiningDateeee else "[Joining Date]"
@@ -901,28 +943,58 @@ class OfferLetterF : Fragment() {
                             if (response.body() != null) {
                                 loader.hide()
                                 clientHeaderSummaryResp = response.body()!!
-                                try {
-                                    clientname = clientHeaderSummaryResp!!.data.clientInfo.name
-                                    clientindustry =
-                                        clientHeaderSummaryResp!!.data.clientInfo.industryName
-                                    clientwebsite =
-                                        clientHeaderSummaryResp!!.data.clientInfo.websiteUrl
-                                    clientAddress =
-                                        clientHeaderSummaryResp!!.data.clientInfo.primaryAddress1 + " " + clientHeaderSummaryResp!!.data.clientInfo.primaryAddress2
-                                    clientLocation =
-                                        clientHeaderSummaryResp!!.data.clientInfo.location
-                                    clientCountry =
-                                        clientHeaderSummaryResp!!.data.clientInfo.country
-                                    clientCity =
-                                        clientHeaderSummaryResp!!.data.clientInfo.primaryAddressCity
-                                    clientState =
-                                        clientHeaderSummaryResp!!.data.clientInfo.primaryAddressState
-                                    clientZipCode =
-                                        clientHeaderSummaryResp!!.data.clientInfo.primaryAddressZipcode
-                                    clientPhoneNumber =
-                                        clientHeaderSummaryResp!!.data.clientInfo.phone
-                                } catch (e: Exception) {
+
+                                if (clientHeaderSummaryResp!!.data != null) {
+                                    if (clientHeaderSummaryResp!!.data.clientInfo != null) {
+
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.name != null) {
+                                            clientname =
+                                                clientHeaderSummaryResp!!.data.clientInfo.name
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.industryName != null) {
+                                            clientindustry =
+                                                clientHeaderSummaryResp!!.data.clientInfo.industryName
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.websiteUrl != null) {
+
+                                            clientwebsite =
+                                                clientHeaderSummaryResp!!.data.clientInfo.websiteUrl
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddress1 != null) {
+                                            clientAddress =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddress1 + " " + clientHeaderSummaryResp!!.data.clientInfo.primaryAddress2
+                                        }
+
+
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressLocation != null) {
+                                            clientLocation =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressLocation
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.country != null) {
+                                            clientCountry =
+                                                clientHeaderSummaryResp!!.data.clientInfo.country
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressCity != null) {
+                                            clientCity =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressCity
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressState != null) {
+                                            clientState =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressState
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressZipcode != null) {
+                                            clientZipCode =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressZipcode
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.phone != null) {
+
+                                            clientPhoneNumber =
+                                                clientHeaderSummaryResp!!.data.clientInfo.phone
+                                        }
+
+                                    }
                                 }
+
 
                             }
                         }

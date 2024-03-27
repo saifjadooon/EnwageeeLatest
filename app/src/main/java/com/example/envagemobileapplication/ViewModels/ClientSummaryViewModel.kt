@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionClientContacts
+import com.example.envagemobileapplication.Models.RequestModels.SortDirectionGetOnlineCandidate
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobRequisition
 import com.example.envagemobileapplication.Models.RequestModels.SortDirectionJobs
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.GetAllOfferLetterResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientContactsResponse.GetClientContactsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetIndustryListResponse.GetIndustryListResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobRequests.GetJobRequests
@@ -24,7 +26,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ClientSummaryViewModel : ViewModel() {
+    val LDgetOfferLetters: LiveData<GetAllOfferLetterResp>
+        get() = MLDgetOfferLetters
 
+    private val MLDgetOfferLetters = MutableLiveData<GetAllOfferLetterResp>()
     val LDgetContacts: LiveData<GetClientContactsResponse>
         get() = MLDGetContacts
 
@@ -66,6 +71,39 @@ class ClientSummaryViewModel : ViewModel() {
 
     //--------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<///
 
+    fun getallOfferLetters(
+        context: Activity,
+        accessToken: String?,
+        sortDirection: SortDirectionGetOnlineCandidate
+    ) {
+        viewModelScope.launch {
+            try {
+                ApiUtils.getAPIService(context).getAllOfferLetters(
+                    sortDirection,
+                    accessToken.toString(),
+                )
+                    .enqueue(object : Callback<GetAllOfferLetterResp> {
+                        override fun onResponse(
+                            call: Call<GetAllOfferLetterResp>,
+                            response: Response<GetAllOfferLetterResp>
+                        ) {
+                            if (response.body() != null) {
+
+                                MLDgetOfferLetters.postValue(response.body())
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<GetAllOfferLetterResp>, t: Throwable) {
+                            Log.i("exceptionddsfdsfds", t.toString())
+
+                        }
+                    })
+            } catch (ex: java.lang.Exception) {
+                Log.i("exceptionddsfdsfds", ex.toString())
+            }
+        }
+    }
     fun getJobs(
         context: Activity,
         accessToken: String?,

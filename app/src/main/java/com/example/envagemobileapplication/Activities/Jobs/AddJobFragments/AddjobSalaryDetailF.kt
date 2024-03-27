@@ -3,10 +3,7 @@ package com.example.envagemobileapplication.Activities.Jobs.AddJobFragments
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
+import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +17,7 @@ import com.example.envagemobileapplication.Activities.Jobs.AddJob.AddJobActivity
 import com.example.envagemobileapplication.Adapters.customadapter
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.Global
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.AddJobsSharedViewModel
 import com.example.envagemobileapplication.databinding.FragmentAddjobSalaryDetailBinding
@@ -37,6 +35,8 @@ import java.io.IOException
 import kotlin.math.round
 
 class AddjobSalaryDetailF : Fragment() {
+    val percentageRegex = "^(?!0\\d)(\\d{1,3}|0)(\\.\\d{0,4})?\$".toRegex()
+
     private var frequeny: String = ""
     val viewModel: AddJobsSharedViewModel by activityViewModels()
     var global = com.example.envagemobileapplication.Utils.Global
@@ -78,6 +78,135 @@ class AddjobSalaryDetailF : Fragment() {
         clickListeners()
         networkCalls()
         observers()
+        binding.etMarkupPErcentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etMaxPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etTargetPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etOvertimeMarkupPercentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etDoubletimeMarkupPercentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+   /*     binding.etovertimePayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+ /*       binding.etovertimeBillRate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+      /*  binding.etdoubletimePayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+/*        binding.etdoubletimeBillRate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
     }
 
     override fun onResume() {
@@ -90,11 +219,16 @@ class AddjobSalaryDetailF : Fragment() {
             binding.etMaxBillRate.setText(viewModel.maxbillrate)
             binding.etTargetPayrate.setText(viewModel.targetPayrate)
             binding.etTargetBillRate.setText(viewModel.targetbillrate)
-            binding.tvHeadCountOvertime.setText(viewModel.overtimemultiplier)
+            binding.tvHeadCountOvertime.text = viewModel.overtimemultiplier
             binding.etOvertimeMarkupPercentage.setText(viewModel.overtimemarkuppercentage)
             binding.etovertimePayrate.setText(viewModel.ovetimepayrate)
             binding.etovertimeBillRate.setText(viewModel.overtimebillrate)
-            binding.tvHeadCountdbltime.setText(viewModel.doubletimeMultiplier)
+            if (viewModel.doubletimeMultiplier != "") {
+                binding.tvHeadCountdbltime.text = viewModel.doubletimeMultiplier
+            } else {
+                binding.tvHeadCountdbltime.text = "2.0"
+            }
+
             binding.etDoubletimeMarkupPercentage.setText(viewModel.doubletimeMarkupPercentage)
             binding.etdoubletimePayrate.setText(viewModel.doubletimepayrate)
             binding.etdoubletimeBillRate.setText(viewModel.doubletimebillrate)
@@ -127,19 +261,21 @@ class AddjobSalaryDetailF : Fragment() {
 
                 try {
                     binding.btnnext.isEnabled = true
+                    Global.isbackfromjobsummary = true
                     Toast.makeText(requireContext(), "Job created Successfully", Toast.LENGTH_LONG)
                         .show()
 
-                    val delayMillis = 3000L // Delay between transitions in milliseconds
+                    val delayMillis = 1000L // Delay between transitions in milliseconds
                     val handler = Handler()
                     handler.postDelayed({
                         requireActivity().finish()
                     }, delayMillis)
 
                 } catch (e: Exception) {
+                    Global.isbackfromjobsummary = true
                     Toast.makeText(requireContext(), "Job created Successfully", Toast.LENGTH_LONG)
                         .show()
-                    val delayMillis = 3000L // Delay between transitions in milliseconds
+                    val delayMillis = 1000L // Delay between transitions in milliseconds
                     val handler = Handler()
                     handler.postDelayed({
                         requireActivity().finish()
@@ -157,7 +293,6 @@ class AddjobSalaryDetailF : Fragment() {
     private fun clickListeners() {
 
         binding.btnback.setOnClickListener {
-
             viewModel.markuppercentage = binding.etMarkupPErcentage.text.toString()
             viewModel.minpayrate = binding.etPayrate.text.toString()
             viewModel.minbillrate = binding.etMinBillRate.text.toString()
@@ -194,7 +329,18 @@ class AddjobSalaryDetailF : Fragment() {
 
                 var description = global.addJobDetailModel?.description
                 var clientid = global.basicDetailReqModel?.clientId
-                var payrollPayGroupid = global.basicDetailReqModel?.payrollPayGroupId
+                var payrollPayGroupid = ""
+                if (global.basicDetailReqModel?.payrollPayGroupId != null) {
+                    if (global.basicDetailReqModel?.payrollPayGroupId != 0) {
+                        payrollPayGroupid =
+                            global.basicDetailReqModel?.payrollPayGroupId!!.toString()
+                    } else {
+                        payrollPayGroupid = ""
+                    }
+                } else {
+                    payrollPayGroupid = ""
+                }
+
                 var jobid = global.basicDetailReqModel?.jobId
                 var industryid = global.basicDetailReqModel?.industryId
                 var jobnature = global.basicDetailReqModel?.jobNature
@@ -284,7 +430,7 @@ class AddjobSalaryDetailF : Fragment() {
                             global.basicDetailReqModel?.positionName.toString()
                         )
                             .addFormDataPart("clientId", clientid.toString())
-                            .addFormDataPart("payrollPayGroupId", payrollPayGroupid.toString())
+                            .addFormDataPart("payrollPayGroupId", payrollPayGroupid)
                             .addFormDataPart("jobId", jobid.toString())
                             .addFormDataPart("industryId", industryid.toString())
                             .addFormDataPart("jobNature", jobnature.toString())
@@ -307,7 +453,7 @@ class AddjobSalaryDetailF : Fragment() {
                             .addFormDataPart("WorkingDays", workingdays.toString())
                             .addFormDataPart("jobStatusId", jobstatusID.toString())
                             .addFormDataPart("jobSkills", json.toString())
-                            .addFormDataPart("experienceRequired", "2")
+                            .addFormDataPart("experienceRequired", global.headcountexprequired)
                             .addFormDataPart(
                                 "useTemplate",
                                 global.basicDetailReqModel?.useTemplate.toString()
@@ -356,28 +502,46 @@ class AddjobSalaryDetailF : Fragment() {
                         val responseBody = response.body?.string()
                         Log.i("respdfdfdfd", responseBody ?: "Empty response")
                         val jsonResponse = JSONObject(responseBody)
-                        val message = jsonResponse.getJSONObject("data").getString("message")
+                        try {
+                            val message = jsonResponse.getJSONObject("data").getString("message")
 
-                        requireActivity().runOnUiThread {
-                            if (message == "Item has been created successfully.") {
-                                loader.hide()
+                            requireActivity().runOnUiThread {
+                                if (message == "Item has been created successfully.") {
+
+                                    Global.isbackfromjobsummary = true
+                                    loader.hide()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Job created Successfully",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                    val delayMillis =
+                                        3000L // Delay between transitions in milliseconds
+                                    val handler = Handler()
+                                    handler.postDelayed({
+                                        requireActivity().finish()
+                                    }, delayMillis)
+                                } else {
+                                    // Show the message from the response
+                                    loader.hide()
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG)
+                                        .show()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            requireActivity().runOnUiThread {
                                 Toast.makeText(
                                     requireContext(),
-                                    "Job created Successfully",
+                                    "An error occured while creating job.",
                                     Toast.LENGTH_LONG
                                 ).show()
-
-                                val delayMillis = 3000L // Delay between transitions in milliseconds
-                                val handler = Handler()
-                                handler.postDelayed({
-                                    requireActivity().finish()
-                                }, delayMillis)
-                            } else {
-                                // Show the message from the response
+                                binding.btnnext.isEnabled = true
                                 loader.hide()
-                                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
                             }
+
                         }
+
                     } catch (e: IOException) {
                         e.printStackTrace()
                         loader.hide()
@@ -475,6 +639,7 @@ class AddjobSalaryDetailF : Fragment() {
 
                     overtimeType = "Paid and Billed"
                     if (binding.rbPaidandBilledOvertime.isChecked) {
+                        binding.TIovertimeMarkupPercentage.isEnabled = true
                         binding.constraintLayout10.visibility = View.VISIBLE
                         binding.TIovertimeMarkupPercentage.visibility = View.VISIBLE
                         if (!overtimemarkupPercentageGlobal.isNullOrEmpty()) {
@@ -493,7 +658,7 @@ class AddjobSalaryDetailF : Fragment() {
 
                     overtimeType = "Paid not Billed"
                     if (binding.rbPaidNotBilledOvertime.isChecked) {
-
+                        binding.TIovertimeMarkupPercentage.isEnabled = false
                         binding.etovertimeBillRate.setText(overtimePayRateGlobal.toString())
                         binding.etovertimePayrate.setText(overtimePayRateGlobal.toString())
                         binding.TIovertimeMarkupPercentage.visibility = View.GONE
@@ -505,6 +670,7 @@ class AddjobSalaryDetailF : Fragment() {
                 R.id.rbNoneOvertime -> {
                     overtimeType = "None"
                     if (binding.rbNoneOvertime.isChecked) {
+
                         binding.TIovertimeMarkupPercentage.visibility = View.VISIBLE
                         binding.constraintLayout10.visibility = View.GONE
                         binding.TIovertimeMarkupPercentage.isEnabled = false
@@ -525,32 +691,27 @@ class AddjobSalaryDetailF : Fragment() {
 
                     doubletimeType = "Paid and Billed"
                     if (binding.rbPaidandBilledDoubletime.isChecked) {
-
-
                         if (!doubleTimePayRateGlobal.isNullOrEmpty()) {
-
                             binding.etdoubletimePayrate.setText(doubleTimePayRateGlobal)
                         }
-
                         if (!doubletimBillRateGlobal.isNullOrEmpty()) {
 
                             binding.etdoubletimeBillRate.setText(doubletimBillRateGlobal)
                         }
-
                         if (!doubleTimeMarkupPErcentage.isNullOrEmpty()) {
                             binding.etDoubletimeMarkupPercentage.text = doubleTimeMarkupPErcentage
                         }
-
                         binding.ccDoubletimeMultiplier.visibility = View.VISIBLE
                         binding.TIdoubletimeMarkupPercentage.visibility = View.VISIBLE
-                    } else {
-
+                        binding.TIdoubletimeMarkupPercentage.isEnabled = true
                     }
+                    else {}
                 }
                 R.id.rbPaidNotBilledDoubletime -> {
 
                     doubletimeType = "Paid not Billed"
                     if (binding.rbPaidNotBilledDoubletime.isChecked) {
+                        binding.TIdoubletimeMarkupPercentage.isEnabled = false
                         binding.etdoubletimePayrate.setText(doubleTimePayRateGlobal)
                         binding.etdoubletimeBillRate.setText(doubleTimePayRateGlobal)
                         binding.TIdoubletimeMarkupPercentage.visibility = View.GONE
@@ -562,6 +723,7 @@ class AddjobSalaryDetailF : Fragment() {
                 R.id.rbNonerbDoubletime -> {
                     doubletimeType = "None"
                     if (binding.rbNonerbDoubletime.isChecked) {
+                        binding.TIdoubletimeMarkupPercentage.isEnabled = false
                         binding.TIdoubletimeMarkupPercentage.visibility = View.VISIBLE
                         binding.ccDoubletimeMultiplier.visibility = View.GONE
                         binding.TIdoubletimeMarkupPercentage.isEnabled = false
@@ -605,9 +767,15 @@ class AddjobSalaryDetailF : Fragment() {
                     val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
                     var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
                     Log.i("markupot", markupOT.toString())
-                    var doubletimeBillRate = markupOT + doubleTimePayrate
+
+                    var doubletimeBillRate =  "%.4f".format(markupOT + doubleTimePayrate).toDouble()
                     doubletimBillRateGlobal = doubletimeBillRate.toString()
-                    binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                    if (doubletimeType.equals("Paid not Billed")) {
+                        binding.etdoubletimeBillRate.setText(doubleTimePayrate.toString())
+                    } else {
+                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                    }
+
                 } catch (e: Exception) {
 
                 }
@@ -643,9 +811,15 @@ class AddjobSalaryDetailF : Fragment() {
                     val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
                     var markupOT = doubleTimePayrate * (markuppercentagedouble / 100)
                     Log.i("markupot", markupOT.toString())
-                    var doubletimeBillRate = markupOT + doubleTimePayrate
+                    var doubletimeBillRate =  "%.4f".format(markupOT + doubleTimePayrate).toDouble()
                     doubletimBillRateGlobal = doubletimeBillRate.toString()
-                    binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+
+
+                    if (doubletimeType.equals("Paid not Billed")) {
+                        binding.etdoubletimeBillRate.setText(doubleTimePayrate.toString())
+                    } else {
+                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                    }
                 } catch (e: Exception) {
                 }
 
@@ -682,9 +856,15 @@ class AddjobSalaryDetailF : Fragment() {
                     val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
                     var markupOT = overTimePayrate * (markuppercentagedouble / 100)
                     Log.i("markupot", markupOT.toString())
-                    var overtimeBillRate = markupOT + overTimePayrate
+                    var overtimeBillRate = "%.4f".format(markupOT + overTimePayrate).toDouble()
                     overTimeBillRateGlobal = overtimeBillRate.toString()
                     binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+
+                    if (overtimeType.equals("Paid not Billed")) {
+                        binding.etovertimeBillRate.setText(overTimePayrate.toString())
+                    } else {
+                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                    }
                 } catch (e: Exception) {
                 }
             }
@@ -717,9 +897,14 @@ class AddjobSalaryDetailF : Fragment() {
                     val markuppercentagedouble: Double = markupPercentage.toString().toDouble()
                     var markupOT = overTimePayrate * (markuppercentagedouble / 100)
                     Log.i("markupot", markupOT.toString())
-                    var overtimeBillRate = markupOT + overTimePayrate
+                    var overtimeBillRate = "%.4f".format(markupOT + overTimePayrate).toDouble()
                     overTimeBillRateGlobal = overtimeBillRate.toString()
-                    binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                    if (overtimeType.equals("Paid not Billed")) {
+                        binding.etovertimeBillRate.setText(overTimePayrate.toString())
+                    } else {
+                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                    }
+
                 } catch (e: Exception) {
                 }
 
@@ -887,13 +1072,79 @@ class AddjobSalaryDetailF : Fragment() {
 
             override fun afterTextChanged(editable: Editable?) {
 
+
                 val enteredText = editable.toString()
-                overtimemarkupPercentageGlobal = binding.etMarkupPErcentage.text
-                doubleTimeMarkupPErcentage = overtimemarkupPercentageGlobal
-                binding.etOvertimeMarkupPercentage.setText(enteredText)
-                binding.etDoubletimeMarkupPercentage.setText(enteredText)
+
+                if (enteredText.length > 0) {
+                    if (enteredText.toDouble() > 100.9999) {
+                        binding.TImarkupPercentage.error = "Max length limit reached"
+                    } else {
+                        overtimemarkupPercentageGlobal = binding.etMarkupPErcentage.text
+                        doubleTimeMarkupPErcentage = overtimemarkupPercentageGlobal
+                        binding.etOvertimeMarkupPercentage.setText(enteredText)
+                        binding.etDoubletimeMarkupPercentage.setText(enteredText)
+                    }
+                }
+
+
             }
         })
+        binding.etOvertimeMarkupPercentage.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is not used in this example.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // This method is not used in this example.
+                binding.TImarkupPercentage.error = null
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+
+                val enteredText = editable.toString()
+
+                if (enteredText.length > 0) {
+                    if (enteredText.toDouble() > 100.9999) {
+                        binding.TIovertimeMarkupPercentage.error = "Max length limit reached"
+                    }
+
+                    else {
+                        binding.TIovertimeMarkupPercentage.error = null
+                    }
+                }
+
+
+            }
+        })
+        binding.etDoubletimeMarkupPercentage.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is not used in this example.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // This method is not used in this example.
+                binding.TIdoubletimeMarkupPercentage.error = null
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+
+
+                val enteredText = editable.toString()
+
+                if (enteredText.length > 0) {
+                    if (enteredText.toDouble() > 100.9999) {
+                        binding.TIdoubletimeMarkupPercentage.error = "Max length limit reached"
+                    } else {
+                        binding.TIdoubletimeMarkupPercentage.error = null
+                    }
+                }
+
+
+            }
+        })
+
+
     }
 
 
@@ -905,7 +1156,8 @@ class AddjobSalaryDetailF : Fragment() {
     private fun calculateOvertimePayRate(targetPayrate: Double, ovettimeMultiplur: Double): Double {
 
         var overTimeePayRate = targetPayrate * ovettimeMultiplur
-        return overTimeePayRate
+        return "%.4f".format(overTimeePayRate).toDouble()
+       // return overTimeePayRate
     }
 
     private fun calculateDoubletimePayRate(

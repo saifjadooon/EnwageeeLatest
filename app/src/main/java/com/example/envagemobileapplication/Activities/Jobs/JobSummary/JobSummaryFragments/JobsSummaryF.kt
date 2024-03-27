@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat
 
 class JobsSummaryFragment : Fragment() {
     data class KeyValueData(val key: String, val value: String)
+
     private var weekdaysList: List<String> = ArrayList()
     private var isExpanded = false
     val viewModel: JobSummaryViewModel by activityViewModels()

@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetStatusFragment : BottomSheetDialogFragment() {
 
+    var global = com.example.envagemobileapplication.Utils.Global
     val sharedViewModel: MainActivityViewModel by viewModels()
     lateinit var binding: FragmentBottomSheetBinding
     var statusList: ArrayList<Datum> = ArrayList()
@@ -26,6 +27,7 @@ class BottomSheetStatusFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +38,19 @@ class BottomSheetStatusFragment : BottomSheetDialogFragment() {
                 requireArguments().getSerializable("statusListData") as ArrayList<Datum>*/
 
         setUpDatAdapter()
+
+
+            sharedViewModel.LDdismissbs.observe(requireActivity()) {
+                if (global.changeStatusClicked) {
+                    if (it.equals("dismiss")) {
+                        dismiss()
+                        global.changeStatusClicked = false
+                    }
+                }
+
+            }
+
+
 
         return binding.root
     }

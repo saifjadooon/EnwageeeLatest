@@ -29,6 +29,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AddJobsSharedViewModel : ViewModel() {
+    var headcountExperience: String = ""
     var estimatedhours: String = ""
     var jobstatius: String = ""
     var jobtype: String = ""

@@ -30,7 +30,7 @@ class BottomsheetJobCandidatesDropOptions : BottomSheetDialogFragment() {
     lateinit var token: String
     lateinit var loader: Loader
 
-    var StatusName:String = ""
+    var StatusName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,17 +55,15 @@ class BottomsheetJobCandidatesDropOptions : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvNewStatus.setOnClickListener{
+        binding.tvNewStatus.setOnClickListener {
             StatusName = "new"
             reconsiderCandidate(StatusName)
         }
 
-        binding.tvLastStatus.setOnClickListener{
+        binding.tvLastStatus.setOnClickListener {
             StatusName = "last"
             reconsiderCandidate(StatusName)
         }
-
-
         viewModel.LDreconsiderCandidateResponse?.observe(viewLifecycleOwner) { response ->
             loader.hide()
             try {
@@ -108,8 +106,6 @@ class BottomsheetJobCandidatesDropOptions : BottomSheetDialogFragment() {
 
 //        dismiss()
     }
-
-
 
 
 }

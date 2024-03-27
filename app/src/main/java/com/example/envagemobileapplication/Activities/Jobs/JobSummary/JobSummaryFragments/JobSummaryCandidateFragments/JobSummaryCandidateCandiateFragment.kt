@@ -127,7 +127,8 @@ class JobSummaryCandidateCandiateFragment : Fragment() {
                             requireActivity().supportFragmentManager,
                             bottomSheetFragment.tag
                         )
-                    } else {
+                    }
+                    else {
                         global.showofferLetter = false
 
                         bottomSheetFragment.show(

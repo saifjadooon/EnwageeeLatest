@@ -1,5 +1,6 @@
 package com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.JobRequisition
 
+import BaseActivity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -15,13 +16,12 @@ import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BsJobReqStatuses
 import com.example.envagemobileapplication.Activities.Jobs.JobSummary.JobSummaryFragments.JobsSummaryFragment
 import com.example.envagemobileapplication.Adapters.BillingDetailJobSummaryAdapter
-import com.example.envagemobileapplication.Models.RequestModels.JobSkill
 import com.example.envagemobileapplication.Models.RequestModels.skillmodelforJobreq
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
@@ -36,7 +36,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 
-class ClientJobReqJobSummaryActivity : AppCompatActivity() {
+
+class ClientJobReqJobSummaryActivity : BaseActivity() {
     private var industryglobal: String = ""
     private var isfromstatuschange: Boolean = false
     var jobCurrentStatus = ""
@@ -68,6 +69,11 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
     }
 
     private fun clicklisteners() {
+
+        binding.ivBack.setOnClickListener {
+
+            finish()
+        }
         binding.tvjobNature.setOnClickListener {
             if (bottomSheetFragment.isAdded()) {
                 return@setOnClickListener
@@ -163,6 +169,23 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                         binding.tvjobNature.setTextColor(Color.parseColor(hexColorCode))
                         parseBackgroundColor(binding.tvjobNature, hexColorCode)
                         binding.tvjobNature.setText(jobCurrentStatus)
+                        val tvJobNature = findViewById<TextView>(R.id.tvjobNature)
+                        val drawable = ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_pilldownarrow
+                        ) // Replace 'this' with your activity or context
+
+                        DrawableCompat.setTint(
+                            drawable!!,
+                            Color.parseColor(hexColorCode)
+                        )
+
+                        tvJobNature.setCompoundDrawablesWithIntrinsicBounds(
+                            null,
+                            null,
+                            drawable,
+                            null
+                        )
                     }
                     statusesList.add(it.data.get(i))
                 }
@@ -376,6 +399,26 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                             "Paid and Billed"
                         )
                     )
+                } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.equals(
+                        "Paid and Billed"
+                    )
+                ) {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Type",
+                            "Paid and Billed"
+                        )
+                    )
+                } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.equals(
+                        "Paid not Billed"
+                    )
+                ) {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Type",
+                            "Paid not Billed"
+                        )
+                    )
                 } else {
                     salaryDetailsData.add(
                         JobsSummaryFragment.KeyValueData(
@@ -394,12 +437,26 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                 )
             }
             if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup != null) {
-                salaryDetailsData.add(
-                    JobsSummaryFragment.KeyValueData(
-                        "Overtime Markup Percentage",
-                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup.toString()
+
+                if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeType.equals(
+                        "Paid not Billed"
                     )
-                )
+                ){
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Markup Percentage",
+                        "-"
+                        )
+                    )
+                }else {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Overtime Markup Percentage",
+                            com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.overtimeMarkup.toString()
+                        )
+                    )
+                }
+
             } else {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(
@@ -452,6 +509,38 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                             "Paid and Billed"
                         )
                     )
+                } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.equals(
+                        "Paid and Billed"
+                    )
+                ) {
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-time Type",
+                            "Paid and Billed"
+                        )
+                    )
+                } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.equals(
+                        "Paid not Billed"
+                    )
+                ) {
+
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-time Type",
+                            "Paid not Billed"
+                        )
+                    )
+                } else if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.equals(
+                        "None"
+                    )
+                ) {
+
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-time Type",
+                            "None"
+                        )
+                    )
                 } else {
                     salaryDetailsData.add(
                         JobsSummaryFragment.KeyValueData(
@@ -471,12 +560,28 @@ class ClientJobReqJobSummaryActivity : AppCompatActivity() {
                 )
             }
             if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup != null) {
-                salaryDetailsData.add(
-                    JobsSummaryFragment.KeyValueData(
-                        "Double-Time Markup Percentage",
-                        com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup.toString()
+
+                if (com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeType.equals(
+                        "Paid not Billed"
                     )
-                )
+                ){
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-Time Markup Percentage",
+                             "-"
+                        )
+                    )
+                }else {
+
+                    salaryDetailsData.add(
+                        JobsSummaryFragment.KeyValueData(
+                            "Double-Time Markup Percentage",
+                            com.example.envagemobileapplication.Utils.Global.jobreqlist.get(global.jobRequisitonPosition).jobRequestBillingDetail.doubletimeMarkup.toString()
+                        )
+                    )
+                }
+
+
             } else {
                 salaryDetailsData.add(
                     JobsSummaryFragment.KeyValueData(

@@ -13,8 +13,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.envagemobileapplication.Activities.DashBoard.BulkMessages.BulkMessagesActivty
 import com.example.envagemobileapplication.Activities.DashBoard.MainActivity
+import com.example.envagemobileapplication.Activities.ForgotPasword.ForgotPasswordActivty
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
 import com.example.envagemobileapplication.SharedPreferences.SSOSharedPreferences
@@ -43,7 +43,6 @@ class LoginFragment : Fragment() {
         null
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,55 +55,37 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        initviews()
+        clicklisteners()
+        observers()
+        binding.tvForgotPassword.setOnClickListener {
+
+            val intent = Intent(requireContext(), ForgotPasswordActivty::class.java)
+
+            activity?.finishAffinity()
+            startActivity(intent)
+
+
+        }
+
+    }
+
+    private fun initviews() {
         loader = Loader(requireContext())
 
         tokenManager = TokenManager(requireContext())
         companyPrefs = SSOSharedPreferences(requireContext())
-        binding.buttonNext.setOnClickListener {
-            /* val username = "jamesMicheal"
-            val password = "Login@786"*/
-            /*    val username = binding.etUsername.text.toString().trimEnd()
-                val password = binding.etPassword.text.toString().trimEnd()*/
 
-            /*   val username = "upshiftuser"
-               val password = "123qweASD&"*/
-/*
-            val username = "upshiftuser"
-            val password = "Test@Zxc756"*/
-            val username = "raja@mailinator.com"
-            val password = "Enwage@786"
+        setupClearErrorOnTextChange(binding.textinputPassword, binding.etPassword)
+        setupClearErrorOnTextChange(binding.textinputUsername, binding.etUsername)
 
- /*           val username = "jamesnunez@mailinator.com"
-            val password = "Pakistan@0011"
-*/
+        binding.etUsername.filters = arrayOf(filter)
+        binding.etPassword.filters = arrayOf(filter)
+    }
 
-            /*val username = "ivar@mailinator.com"
-            val password = "QazWsx123@"*/
-
-            if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
-                if (username.isNullOrEmpty()) {
-                    binding.textinputUsername.setError("Email Address can't be empty") // Set the error message
-                    binding.textinputUsername.setErrorTextAppearance(R.style.ErrorText)
-                    binding.textinputUsername.setErrorIconDrawable(null)// Set the error message
-
-
-                    /*   binding.etUsername.setError("")
-                       binding.etUsername.requestFocus()*/
-                }
-                if (password.isNullOrEmpty()) {
-                    binding.textinputPassword.setError("Password can't be empty");
-                    binding.textinputPassword.setErrorIconDrawable(null)// Set the error message
-                    binding.textinputPassword.setErrorTextAppearance(R.style.ErrorText);
-
-                }
-
-            } else {
-
-                loader.show()
-                sharedViewModel.loginUser(username, password, tokenManager)
-            }
-
-        }
+    private fun observers() {
         sharedViewModel.LDloginUser.observe(viewLifecycleOwner) { data ->
             if (data.equals("UserLoggedinSuccesfully")) {
 
@@ -168,8 +149,10 @@ class LoginFragment : Fragment() {
 
                 SharedPrefs.setFirstTimeLaunch(requireContext(), "isFirstTime", false)
                 SharedPrefs.setUserLogin(requireContext(), "isUserLogin", true)
+                // val intent = Intent(requireContext(), ForgotPasswordActivty::class.java)
                 //val intent = Intent(requireContext(), BulkMessagesActivty::class.java)
                 val intent = Intent(requireContext(), MainActivity::class.java)
+                // val intent = Intent(requireContext(), GuestActivity::class.java)
                 // val intent = Intent(requireContext(), EditJobRequisitionActivity::class.java)
                 // val intent = Intent(requireContext(), AssesmentDetailActivity::class.java)
                 //  val intent = Intent(requireContext(), ComposeMessageActivity::class.java)
@@ -193,6 +176,71 @@ class LoginFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun clicklisteners() {
+
+
+        binding.buttonNext.setOnClickListener {
+            /* val username = "jamesMicheal"
+            val password = "Login@786"*/
+                val username = binding.etUsername.text.toString().trimEnd()
+                val password = binding.etPassword.text.toString().trimEnd()
+
+            /*   val username = "upshiftuser"
+               val password = "123qweASD&"*/
+/*
+            val username = "upshiftuser"
+            val password = "Test@Zxc756"*/
+            /*    val username = "raja@mailinator.com"
+                val password = "Enwage@786"*/
+            /*     val username = "saba@9ostech.com"
+                 val password = "Saba@728"*/
+
+            /*  val username = "amna@9ostech.com"
+              val password = "Amna@123"*/
+
+            /*           val username = "jamesnunez@mailinator.com"
+                       val password = "Pakistan@0011"
+           */
+            /*   val username = "saba@9ostech.com"
+               val password = "Akht@123"
+               */
+       /*     val username = "saif@9ostech.com"
+            val password = "Enwage@786"*/
+
+            /* val username = "yaseen@9ostech.com"
+             val password = "KeyOak@12345"*/
+
+            /*  val username = "ahmad@9ostech.com"
+              val password = "Saba@123"*/
+            /*val username = "ivar@mailinator.com"
+            val password = "QazWsx123@"*/
+
+            if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
+                if (username.isNullOrEmpty()) {
+                    binding.textinputUsername.setError("Email Address can't be empty") // Set the error message
+                    binding.textinputUsername.setErrorTextAppearance(R.style.ErrorText)
+                    binding.textinputUsername.setErrorIconDrawable(null)// Set the error message
+
+
+                    /*   binding.etUsername.setError("")
+                       binding.etUsername.requestFocus()*/
+                }
+                if (password.isNullOrEmpty()) {
+                    binding.textinputPassword.setError("Password can't be empty");
+                    binding.textinputPassword.setErrorIconDrawable(null)// Set the error message
+                    binding.textinputPassword.setErrorTextAppearance(R.style.ErrorText);
+
+                }
+
+            } else {
+
+                loader.show()
+                sharedViewModel.loginUser(username, password, tokenManager)
+            }
+
+        }
         binding.textinputPassword.setEndIconOnClickListener {
             // Toggle password visibility
             if (binding.etPassword.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
@@ -210,11 +258,9 @@ class LoginFragment : Fragment() {
             // Move the cursor to the end of the text
             binding.etPassword.setSelection(binding.etPassword.text!!.length)
         }
-        setupClearErrorOnTextChange(binding.textinputPassword, binding.etPassword)
-        setupClearErrorOnTextChange(binding.textinputUsername, binding.etUsername)
+        binding.tvForgotPassword.setOnClickListener {
 
-        binding.etUsername.filters = arrayOf(filter)
-        binding.etPassword.filters = arrayOf(filter)
+        }
     }
 
     private fun setupClearErrorOnTextChange(

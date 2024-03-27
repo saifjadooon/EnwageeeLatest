@@ -55,7 +55,7 @@
 
         <ImageView
             android:id="@+id/iv_status"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="0dp"
             android:padding="3dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_Name"
@@ -206,18 +206,19 @@
                     android:id="@+id/iv_deal_status"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxWidth="60dp"
+
                     android:maxLength="12"
                     android:maxLines="1"
                     android:paddingLeft="4dp"
-                    android:paddingRight="1dp"
+                    android:paddingRight="4dp"
                     android:text="status"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,6 +228,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="3dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_pilldownarrow"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_deal_status"

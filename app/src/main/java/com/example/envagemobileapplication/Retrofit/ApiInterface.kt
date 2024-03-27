@@ -5,6 +5,7 @@ import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestMod
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddBulkOwnerRsp.AddBulkOwnerResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddClientDescRsp.AddClientDescriptionResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddClientResponse.AddClientResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddGuestResponse.AddGuestResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AddJobResponse.AddJobResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ApprovedjobRespModel.ApprovedjobRespModel
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.AssignJobResponse.AssignJobResponse
@@ -61,6 +62,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchClientByNameResp.SearchClientByNameResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SearchJobsClientsResp.SearchJobsClientsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendAssessmentResponse.SendAssessmentResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.SendEmailForgotPaswordResp.SendEmailForgotPaswordResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCJobStatusRes.UpdateCJobStatusRes
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateCandidateResponse.UpdateCandidateResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateJobsStatusResponse.UpdateJobsStatusResponse
@@ -69,6 +71,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateStatusResponse.UpdateStatusResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.ZipCodeResponse.ZipCodeResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.forgotpasswordResponse.ForgotpasswordResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getBulkMsgFilterdResp.GetBulkMsgFilterdResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getClientJobsResp.GetClientJobsResp
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getEmailTemplateResponse.GetEmailTemplateResponse
@@ -78,6 +81,7 @@ import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.t
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getdbUsersResponse.GetdbUsersResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getjobbyid.Getjobbyid
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.sendMessageResponse.SendMessageResponse
+import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.verifyOtpResponse.VerifyOtpResponse
 import com.example.envagemobileapplication.Models.SocialMediaResponse.SocialMediaResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -242,6 +246,15 @@ public interface ApiInterface {
         @Header("x-access-token") authorization: String,
         @Body payload: List<UpdateStatusPayload>,
         @Path("clientId") clientId: Int
+    ): Call<UpdateJobsStatusResponse>
+
+
+    @PATCH("api/v1/Candidate/patch-candidate-offer-letter/{candidateOfferLetterId}")
+    fun UpdateOfferLetterStatusClient(
+
+        @Header("x-access-token") authorization: String,
+        @Body payload: List<UpdateStatusPayload>,
+        @Path("candidateOfferLetterId") clientId: Int
     ): Call<UpdateJobsStatusResponse>
 
     @PATCH("api/v1/User/patch/{userId}")
@@ -816,5 +829,47 @@ public interface ApiInterface {
         @Header("Authorization") authorization: String,
         @Body requestPayload: ChangePasswordRequest
     ): Call<UpdatePasswordResp>
+
+
+    @POST("api/v1/User/reset-userpassword")
+    fun resetPassword(
+        @Body requestPayload: ForGotPasswordReqmodel
+    ): Call<ForgotpasswordResponse>
+
+    @Multipart
+    @POST("api/v1/ClientGuest/add")
+    fun AddGuest(
+        @Header("x-access-token") authorization: String,
+        @Part description: MultipartBody.Part,
+        @Part clientId: MultipartBody.Part,
+        @Part profileImage: MultipartBody.Part?,
+        @Part firstName: MultipartBody.Part,
+        @Part lastName: MultipartBody.Part,
+        @Part emailAddress: MultipartBody.Part,
+        @Part gender: MultipartBody.Part,
+        @Part department: MultipartBody.Part,
+        @Part phoneNumber: MultipartBody.Part,
+        @Part linkedInUrl: MultipartBody.Part,
+        @Part addressLine1: MultipartBody.Part,
+        @Part addressLine2: MultipartBody.Part,
+        @Part country: MultipartBody.Part,
+        @Part zipCode: MultipartBody.Part,
+        @Part city: MultipartBody.Part,
+        @Part state: MultipartBody.Part,
+        @Part location: MultipartBody.Part
+    ): Call<AddGuestResponse>
+
+    @GET("api/v1/User/send-email")
+    fun sendEmailForotPassword(
+
+        @Query("email") searchname: String
+
+    ): Call<SendEmailForgotPaswordResp>
+
+
+    @POST("api/v1/User/verify-code")
+    fun VerifyCode(
+        @Body payload: VeriftOtpRm,
+    ): Call<VerifyOtpResponse>
 
 }

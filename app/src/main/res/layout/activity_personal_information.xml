@@ -24,6 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
+
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -388,7 +389,8 @@
                     android:inputType="number"
                     android:maxLength="12"
                     android:minHeight="60dp"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

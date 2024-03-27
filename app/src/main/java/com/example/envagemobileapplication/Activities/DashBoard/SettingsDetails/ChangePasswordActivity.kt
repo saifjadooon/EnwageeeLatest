@@ -1,9 +1,13 @@
 package com.example.envagemobileapplication.Activities.DashBoard.SettingsDetails
 
 import BaseActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -23,6 +27,7 @@ import retrofit2.Response
 
 
 class ChangePasswordActivity : BaseActivity() {
+    var isallok = false
     lateinit var binding: ActivityChangePasswordBinding
     lateinit var token: String
     lateinit var tokenManager: TokenManager
@@ -37,6 +42,20 @@ class ChangePasswordActivity : BaseActivity() {
         loader = Loader(this)
         tokenManager = TokenManager(this)
         token = tokenManager.getAccessToken().toString()
+
+        val hintcurrentPassword = "Current Password *"
+        val formattedhintcurrentPassword = formatHintWithRedAsterisk(hintcurrentPassword)
+        binding.TICurrentPassword.hint = formattedhintcurrentPassword
+
+        val hintnewPassword = "New Password *"
+        val formattedhintnewPassword = formatHintWithRedAsterisk(hintnewPassword)
+        binding.TINewPassword.hint = formattedhintnewPassword
+
+        val hintConfirmnewPassword = "Confirm Password *"
+        val formattedhintConfirmnewPassword = formatHintWithRedAsterisk(hintConfirmnewPassword)
+        binding.TIconfirmNewPassword.hint = formattedhintConfirmnewPassword
+
+
         binding.etNewPassword.addTextChangedListener(PasswordTextWatcher())
 
         binding.etConfirmNewPassword.addTextChangedListener(object : TextWatcher {
@@ -51,6 +70,7 @@ class ChangePasswordActivity : BaseActivity() {
             override fun afterTextChanged(editable: Editable?) {
                 val enteredText = editable.toString()
 
+
                 if (enteredText != newpasswordenterd) {
                     binding.btnSave.isClickable = false
                     binding.TIconfirmNewPassword.setError("Password does not match") // Set the error message
@@ -58,18 +78,79 @@ class ChangePasswordActivity : BaseActivity() {
                     binding.TIconfirmNewPassword.setErrorIconDrawable(null)// Set the error message
                     binding.btnSave.visibility = View.INVISIBLE
                 } else {
+                    binding.btnSave.isClickable = true
                     binding.TIconfirmNewPassword.error = null
                     binding.btnSave.visibility = View.VISIBLE
                 }
 
             }
         })
+        binding.etCurrentPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is not used in this example.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                binding.TICurrentPassword.error = null
+                // This method is not used in this example.
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                val enteredText = editable.toString()
+
+
+            }
+        })
+
 
         binding.btnSave.setOnClickListener {
-            var previousPassword = binding.etCurrentPassword.text.toString()
-            var newPassword = binding.etConfirmNewPassword.text.toString()
-            val changePasswordRequest = ChangePasswordRequest(previousPassword, newPassword)
-            callUpdatePasswordApi(changePasswordRequest)
+            var currentPassword = binding.etCurrentPassword.text.toString()
+            var newPassword = binding.etNewPassword.text.toString()
+            var confirmPassword = binding.etConfirmNewPassword.text.toString()
+
+            if (currentPassword == newPassword){
+                val rootView = binding.root
+                val duration = Snackbar.LENGTH_SHORT
+                val snackbar = Snackbar.make(
+                    rootView,
+                    "Your new password cannot be the same as your current password",
+                    duration
+                )
+                snackbar.setActionTextColor(
+                    ContextCompat.getColor(
+                        this@ChangePasswordActivity,
+                        R.color.red
+                    )
+                )
+                snackbar.show()
+            }
+            else {
+                if (currentPassword != "" && newPassword != "" && confirmPassword != "") {
+                    if (isallok) {
+                        var previousPassword = binding.etCurrentPassword.text.toString()
+                        var newPassword = binding.etConfirmNewPassword.text.toString()
+                        val changePasswordRequest = ChangePasswordRequest(previousPassword, newPassword)
+                        callUpdatePasswordApi(changePasswordRequest)
+                    }
+
+                }
+                else {
+
+                    if (currentPassword == "") {
+                        binding.TICurrentPassword.error = "Current Password is Required"
+                    }
+                    if (newPassword == "") {
+                        binding.TINewPassword.error = "New Password is Required"
+                    }
+                    if (confirmPassword == "") {
+                        binding.TIconfirmNewPassword.error = "Confirm Password is Required"
+                    }
+
+                }
+            }
+
+
         }
 
         binding.ivCross4.setOnClickListener {
@@ -162,6 +243,7 @@ class ChangePasswordActivity : BaseActivity() {
             before: Int,
             count: Int
         ) {
+            binding.TINewPassword.error = null
         }
 
         override fun afterTextChanged(editable: Editable?) {
@@ -181,6 +263,15 @@ class ChangePasswordActivity : BaseActivity() {
             updateTextColor(binding.lowerCaseTextView, hasLowerCase)
             updateTextColor(binding.specialCharTextView, hasSpecialChar)
             updateTextColor(binding.numberTextView, hasNumber)
+
+
+            val isAllValid =
+                isLengthValid && hasUpperCase && hasLowerCase && hasSpecialChar && hasNumber
+            if (isAllValid) {
+                isallok = true
+            } else {
+                isallok = false
+            }
         }
 
         private fun updateTextColor(textView: TextView, isValid: Boolean) {
@@ -190,5 +281,21 @@ class ChangePasswordActivity : BaseActivity() {
                 textView.setTextColor(resources.getColor(R.color.red_color))
             }
         }
+    }
+
+    fun formatHintWithRedAsterisk(hint: String): CharSequence {
+        val spannable = SpannableStringBuilder(hint)
+        val indexOfAsterisk = hint.indexOf('*')
+
+        if (indexOfAsterisk >= 0) {
+            spannable.setSpan(
+                ForegroundColorSpan(Color.RED),
+                indexOfAsterisk,
+                indexOfAsterisk + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        return spannable
     }
 }

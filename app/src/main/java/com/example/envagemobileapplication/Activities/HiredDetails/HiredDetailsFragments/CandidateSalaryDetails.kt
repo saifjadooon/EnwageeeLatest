@@ -296,9 +296,19 @@ class CandidateSalaryDetails : Fragment() {
 
             try {
                 var otmp = binding.etotMarkupPercentage.text.toString()
-                if (otmp != null || otmp != "") {
+                if (otmp == null || otmp == "") {
+                    if (global.getjobbyjoid.data.billingDetails.overtimeType.equals("Paid Not Billed")) {
+                        binding.etovertimeBillRate.setText(otPayrate.toString())
+                    }
+                } else {
                     otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
-                    binding.etovertimeBillRate.setText(otBillRate.toString())
+
+                    if (global.getjobbyjoid.data.billingDetails.overtimeType.equals("Paid Not Billed")) {
+                        binding.etovertimeBillRate.setText(otPayrate.toString())
+                    } else {
+                        binding.etovertimeBillRate.setText(otBillRate.toString())
+                    }
+
                 }
 
             } catch (e: Exception) {
@@ -325,9 +335,21 @@ class CandidateSalaryDetails : Fragment() {
 
             try {
                 var otmp = binding.etotMarkupPercentage.text.toString()
-                if (otmp != null || otmp != "") {
+
+                if (otmp == null || otmp == "") {
+                    if (global.getjobbyjoid.data.billingDetails.overtimeType.equals("Paid Not Billed")) {
+                        binding.etovertimeBillRate.setText(otPayrate.toString())
+                    }
+
+                } else {
                     otBillRate = calculateOTBillRate(otmarkupPercentage, otPayrate.toDouble())
-                    binding.etovertimeBillRate.setText(otBillRate.toString())
+
+                    if (global.getjobbyjoid.data.billingDetails.overtimeType.equals("Paid Not Billed")) {
+                        binding.etovertimeBillRate.setText(otPayrate.toString())
+                    } else {
+                        binding.etovertimeBillRate.setText(otBillRate.toString())
+                    }
+
                 }
 
             } catch (e: Exception) {
@@ -353,15 +375,25 @@ class CandidateSalaryDetails : Fragment() {
             binding.etdoubletimePayrate.setText(dtPayrate.toString())
             try {
                 var dtmp = binding.etDoubletimeMarkupPercentage.text.toString()
-                if (dtmp != null || dtmp != "") {
+                if (dtmp == null || dtmp == "") {
+                    if (global.getjobbyjoid.data.billingDetails.doubletimeType.equals("Paid Not Billed")) {
+                        binding.etdoubletimeBillRate.setText(dtPayrate.toString())
+                    }
+                } else {
                     dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                    binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+
+
+                    if (global.getjobbyjoid.data.billingDetails.doubletimeType.equals("Paid Not Billed")) {
+                        binding.etdoubletimeBillRate.setText(dtPayrate.toString())
+                    } else {
+                        binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+
+                    }
                 }
 
             } catch (e: Exception) {
 
             }
-
 
 
         }
@@ -383,9 +415,23 @@ class CandidateSalaryDetails : Fragment() {
 
             try {
                 var dtmp = binding.etDoubletimeMarkupPercentage.text.toString()
-                if (dtmp != null || dtmp != "") {
+
+
+                if (dtmp == null || dtmp == "") {
+
+                    if (global.getjobbyjoid.data.billingDetails.doubletimeType.equals("Paid Not Billed")) {
+                        binding.etdoubletimeBillRate.setText(dtPayrate.toString())
+                    }
+                } else {
                     dtBillRate = calculateDTBillRate(dtmarkupPercentage, dtPayrate.toDouble())
-                    binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+
+
+                    if (global.getjobbyjoid.data.billingDetails.doubletimeType.equals("Paid Not Billed")) {
+                        binding.etdoubletimeBillRate.setText(dtPayrate.toString())
+                    } else {
+                        binding.etdoubletimeBillRate.setText(dtBillRate.toString())
+
+                    }
                 }
 
             } catch (e: Exception) {

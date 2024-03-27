@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
@@ -29,6 +30,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -38,9 +40,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.envagemobileapplication.Activities.Client.AddClient.EditClient.EditClientActivity
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetStatusFragment
 import com.example.envagemobileapplication.Adapters.WcCodesAdapter
 import com.example.envagemobileapplication.BuildConfig
-import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetStatusFragment
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetWcResponse.WcCodeResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.UpdateProfileResultResponse.UpdateProfileResultResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.clientHedrSumryRsp.ClientHeaderSummaryResponse
@@ -66,9 +68,8 @@ class ClientSummaryF : Fragment() {
     companion object {
         lateinit var onboardingStatus: TextView
         lateinit var tvDropdown: ImageView
+        lateinit var clstatus: ConstraintLayout
         lateinit var bottomSheetFragment: BottomSheetStatusFragment
-
-
     }
 
     var permissions = arrayOf(
@@ -78,6 +79,7 @@ class ClientSummaryF : Fragment() {
         Manifest.permission.RECORD_AUDIO
 
     )
+    var global = com.example.envagemobileapplication.Utils.Global
     private val MULTIPLE_PERMISSIONS = 10
     val usaPhoneNumberRegex =
         """^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$""".toRegex()
@@ -103,6 +105,7 @@ class ClientSummaryF : Fragment() {
         bottomSheetFragment = BottomSheetStatusFragment()
         onboardingStatus = binding.onboardingStatus
         tvDropdown = binding.tvDropdown
+        clstatus = binding.clstatus
         return binding.root
     }
 
@@ -313,12 +316,11 @@ class ClientSummaryF : Fragment() {
         }
         val bottomSheetFragment = BottomSheetStatusFragment()
         binding.onboardingStatus.setOnClickListener {
-
-
+            global.changeStatusClicked = false
             if (bottomSheetFragment.isAdded()) {
                 return@setOnClickListener
             } else {
-                Constants.isOnboardingStatusUpdatedfromClientSummaryList = true
+                  Constants.isOnboardingStatusUpdatedfromClientSummaryList = true
                 //     Constants.StatusClickedName = binding.onboardingStatus.text.toString()
                 Constants.StatusClickedClientId = publicResponse.data.clientInfo.clientId
                 bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
@@ -613,8 +615,7 @@ class ClientSummaryF : Fragment() {
                                         ).show()
                                     }
 
-                                }
-                                else {
+                                } else {
                                     binding.tvDescription.text = "No Description to Show"
                                 }
 
@@ -707,29 +708,29 @@ class ClientSummaryF : Fragment() {
                                     binding.clientiIndustry.text = "Not provided"
                                     //    binding.clientiIndustry.visibility = View.GONE
                                 }
-                                
-                                if (response.body()?.data?.clientInfo?.jobCount!=null) {
-                                     
+
+                                if (global.jobCount != "") {
+
                                     binding.jobCount.text =
-                                       "Job Count:" + response.body()?.data?.clientInfo?.jobCount.toString() + ""
+                                        global.jobCount
                                 } else {
                                     binding.jobCount.text = "Job count:0"
                                     //    binding.clientiIndustry.visibility = View.GONE
                                 }
 
-                                if (response.body()?.data?.clientInfo?.groupName!=null) {
+                                if (global.clientGroupname != "") {
 
                                     binding.groupname.text =
-                                       "Group name:" + response.body()?.data?.clientInfo?.groupName.toString() + ""
+                                        global.clientGroupname
                                 } else {
                                     binding.groupname.text = "Group name:Not Provided"
 
                                 }
 
-                                if (response.body()?.data?.clientInfo?.branch!=null) {
+                                if (global.clientbranchName != "") {
 
                                     binding.branchName.text =
-                                       "Branch name:" + response.body()?.data?.clientInfo?.branch.toString() + ""
+                                        global.clientbranchName
                                 } else {
                                     binding.branchName.text = "Branch name:Not Provided"
 
@@ -750,7 +751,18 @@ class ClientSummaryF : Fragment() {
 
                                         binding.tvDropdown.setColorFilter(colore)
 
-                                        binding.onboardingStatus.setTextColor(colore)
+                                        //           binding.onboardingStatus.setTextColor(colore)
+
+                                        val jobtypehexcolor =
+                                            response.body()!!.data.clientInfo.colorCode
+                                        binding.onboardingStatus.setTextColor(
+                                            Color.parseColor(
+                                                jobtypehexcolor
+                                            )
+                                        )
+                                        parseBackgroundColor(binding.clstatus, jobtypehexcolor)
+
+
                                     } catch (e: Exception) {
                                         Toast.makeText(
                                             requireContext(),
@@ -1558,5 +1570,30 @@ class ClientSummaryF : Fragment() {
             e.printStackTrace()
         }
         return tempFile
+    }
+
+    private fun parseBackgroundColor(tvJobstatus: ConstraintLayout, hexColorCode: String) {
+        val currentTextColor = Color.parseColor(hexColorCode)
+
+        // Adjust the alpha component
+        val adjustedAlpha = (Color.alpha(currentTextColor) * 0.1).toInt()
+
+        // Create the new color with adjusted alpha
+        val adjustedColor = Color.argb(
+            adjustedAlpha,
+            Color.red(currentTextColor),
+            Color.green(currentTextColor),
+            Color.blue(currentTextColor)
+        )
+
+        val cornerRadius = 20f // You can adjust this value based on your preference
+
+        // Create a GradientDrawable
+        val gradientDrawable = GradientDrawable()
+        gradientDrawable.cornerRadius = cornerRadius
+        gradientDrawable.setColor(adjustedColor)
+
+        // Set the background drawable with corner radius to the TextView
+        tvJobstatus.background = gradientDrawable
     }
 }

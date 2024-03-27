@@ -69,6 +69,12 @@ class MainActivityViewModel : ViewModel() {
 
     private val MLDgetAllSms = MutableLiveData<GetAllSmsResp>()
 
+
+    val LDdismissbs: LiveData<String>
+        get() = MLDdismissbs
+
+    private val MLDdismissbs = MutableLiveData<String>()
+
     val LDgetCompanyOnBoardingStatus: LiveData<GetCompanyOnboardingStatusResponse>
         get() = MLDgetCompanyOnBoardingStatus
 
@@ -458,6 +464,11 @@ class MainActivityViewModel : ViewModel() {
                 Log.i("exceptionddsfdsfds", ex.toString())
             }
         }
+    }
+
+    fun dismissbottomsheet(s: String) {
+
+        MLDdismissbs.postValue("dismiss")
     }
 
 }

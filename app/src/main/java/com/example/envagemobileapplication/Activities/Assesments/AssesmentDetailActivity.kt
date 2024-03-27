@@ -55,6 +55,7 @@ class AssesmentDetailActivity : BaseActivity() {
                     ) {
                         loader.hide()
                         if (response.body() != null) {
+
                             // Create a ScrollView to wrap the layout
                             val scrollView = ScrollView(this@AssesmentDetailActivity)
                             scrollView.layoutParams = ViewGroup.LayoutParams(

@@ -879,9 +879,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        /* initViews()
-         clickListeners()
-         observers()*/
+
         val fragmentManager: FragmentManager = supportFragmentManager
         Constants.cfm = fragmentManager
         val intentFilter = IntentFilter()

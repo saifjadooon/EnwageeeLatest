@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
+import android.text.InputFilter
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
@@ -29,6 +30,7 @@ import okhttp3.MultipartBody
 import kotlin.math.round
 
 class SalaryDetailF : Fragment() {
+    val percentageRegex = "^(?!0\\d)(\\d{1,3}|0)(\\.\\d{0,4})?\$".toRegex()
     var selectedFragmentTag: String? = null
 
     private var frequeny: String = ""
@@ -72,6 +74,135 @@ class SalaryDetailF : Fragment() {
         clickListeners()
         networkCalls()
         observers()
+        binding.etMarkupPErcentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etMaxPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etTargetPayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etOvertimeMarkupPercentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+        binding.etDoubletimeMarkupPercentage.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })
+
+  /*      binding.etovertimePayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+  /*      binding.etovertimeBillRate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+        /*binding.etdoubletimePayrate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
+
+      /*  binding.etdoubletimeBillRate.filters =
+            arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+                val input = dest.toString().substring(0, dstart) +
+                        source.toString().substring(start, end) +
+                        dest.toString().substring(dend)
+
+                return@InputFilter if (percentageRegex.matches(input)) {
+                    null // Accept the input
+                } else {
+                    ""   // Reject the input
+                }
+            })*/
     }
 
 
@@ -91,9 +222,9 @@ class SalaryDetailF : Fragment() {
                         requireActivity().finish()
                     }, delayMillis)
                 } catch (e: Exception) {
-                   /* loader.hide()
-                    Toast.makeText(requireContext(), "Job Updated Successfully", Toast.LENGTH_LONG)
-                        .show()*/
+                    /* loader.hide()
+                     Toast.makeText(requireContext(), "Job Updated Successfully", Toast.LENGTH_LONG)
+                         .show()*/
 
                 }
             }
@@ -458,7 +589,19 @@ class SalaryDetailF : Fragment() {
                         Log.i("markupot", markupOT.toString())
                         var doubletimeBillRate = markupOT + doubleTimePayrate
                         doubletimBillRateGlobal = doubletimeBillRate.toString()
-                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+/*
+                        if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
+                            binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                        } else {
+                            binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                        }*/
+
+                        if ( global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
+                            binding.etdoubletimeBillRate.setText(doubleTimePayrate.toString())
+                        } else {
+                            binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                        }
+
                     } catch (e: Exception) {
 
                     }
@@ -500,7 +643,21 @@ class SalaryDetailF : Fragment() {
                         Log.i("markupot", markupOT.toString())
                         var doubletimeBillRate = markupOT + doubleTimePayrate
                         doubletimBillRateGlobal = doubletimeBillRate.toString()
-                        binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+
+                       /* if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
+                            binding.etdoubletimeBillRate.setText(
+                                ""
+                            )
+                        } else {
+                            binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                        }*/
+
+                        if ( global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid not Billed")) {
+                            binding.etdoubletimeBillRate.setText(doubleTimePayrate.toString())
+                        } else {
+                            binding.etdoubletimeBillRate.setText(doubletimeBillRate.toString())
+                        }
+
                     } catch (e: Exception) {
                     }
 
@@ -543,7 +700,22 @@ class SalaryDetailF : Fragment() {
                         Log.i("markupot", markupOT.toString())
                         var overtimeBillRate = markupOT + overTimePayrate
                         overTimeBillRateGlobal = overtimeBillRate.toString()
-                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+
+
+                       /* if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                            binding.etovertimeBillRate.setText(
+                                ""
+                            )
+                        } else {
+                            binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                        }*/
+
+                        if ( global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                            binding.etovertimeBillRate.setText(overTimePayrate.toString())
+                        }
+                        else {
+                            binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                        }
                     } catch (e: Exception) {
                     }
                 }
@@ -581,7 +753,21 @@ class SalaryDetailF : Fragment() {
                         Log.i("markupot", markupOT.toString())
                         var overtimeBillRate = markupOT + overTimePayrate
                         overTimeBillRateGlobal = overtimeBillRate.toString()
-                        binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                      /*  if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                            binding.etovertimeBillRate.setText(
+                                ""
+                            )
+                        } else {
+                            binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                        }*/
+
+                        if ( global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                            binding.etovertimeBillRate.setText(overTimePayrate.toString())
+                        } else {
+
+                            binding.etovertimeBillRate.setText(overtimeBillRate.toString())
+                        }
+
                     } catch (e: Exception) {
                     }
 
@@ -844,13 +1030,24 @@ class SalaryDetailF : Fragment() {
                 binding.rbNoneOvertime.isChecked = true
 
 
+            }
+
+            if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("None")) {
+                overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
+                binding.rbNoneOvertime.isChecked = true
+
+
             } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
                 overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbPaidNotBilledOvertime.isChecked = true
             } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid and Billed")) {
                 overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
                 binding.rbPaidandBilledOvertime.isChecked = true
+            } else if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Yes")) {
+                overtimeType = global.jobReqbyJobid!!.billingDetails.overtimeType
+                binding.rbPaidandBilledOvertime.isChecked = true
             }
+
 
             if (global.jobReqbyJobid!!.billingDetails.overtimeMultiplier != null) {
                 try {
@@ -882,12 +1079,23 @@ class SalaryDetailF : Fragment() {
             if (global.jobReqbyJobid!!.billingDetails.overtimeBillRate != null) {
                 overTimeBillRateGlobal =
                     global.jobReqbyJobid!!.billingDetails.overtimeBillRate.toString()
-                binding.etovertimeBillRate.setText(
-                    global.jobReqbyJobid!!.billingDetails.overtimeBillRate.toString()
-                )
+                if (global.jobReqbyJobid!!.billingDetails.overtimeType.equals("Paid not Billed")) {
+                    binding.etovertimeBillRate.setText(
+                        ""
+                    )
+                } else {
+                    binding.etovertimeBillRate.setText(
+                        global.jobReqbyJobid!!.billingDetails.overtimeBillRate.toString()
+                    )
+                }
+
             }
 
             if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("No")) {
+                doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
+                binding.rbNonerbDoubletime.isChecked = true
+
+            } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("None")) {
                 doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbNonerbDoubletime.isChecked = true
 
@@ -897,7 +1105,12 @@ class SalaryDetailF : Fragment() {
             } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Paid and Billed")) {
                 doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
                 binding.rbPaidandBilledDoubletime.isChecked = true
+            } else if (global.jobReqbyJobid!!.billingDetails.doubletimeType.equals("Yes")) {
+                doubletimeType = global.jobReqbyJobid!!.billingDetails.doubletimeType
+                binding.rbPaidandBilledDoubletime.isChecked = true
             }
+
+
 
 
             if (global.jobReqbyJobid!!.billingDetails.doubletimeMarkup != null) {

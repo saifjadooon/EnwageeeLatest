@@ -10,9 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetDownloadOfferLetter
+import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetOfferSent
 import com.example.envagemobileapplication.Oauth.TokenManager
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Loader
 import com.example.envagemobileapplication.ViewModels.JobSummaryCandidateViewModel
 import java.text.SimpleDateFormat
@@ -22,10 +26,13 @@ class OfferLetterAdapter(
     var context: Context,
 
     datalist: ArrayList<com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetAllOfferLetterResp.Record>,
-    viewModel: JobSummaryCandidateViewModel
+    viewModel: JobSummaryCandidateViewModel,
+    childFragmentManager: FragmentManager
 ) :
     RecyclerView.Adapter<OfferLetterAdapter.MyViewHolder>() {
-
+    var cfm = childFragmentManager
+    lateinit var bottomSheetFragment: BottomSheetOfferSent
+    lateinit var bottomSheetdownloadOfferLetterFragment: BottomSheetDownloadOfferLetter
     var global = com.example.envagemobileapplication.Utils.Global
     var loader = Loader(context)
     lateinit var token: String
@@ -45,7 +52,8 @@ class OfferLetterAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
+        bottomSheetFragment = BottomSheetOfferSent()
+        bottomSheetdownloadOfferLetterFragment = BottomSheetDownloadOfferLetter()
         tokenManager = TokenManager(context)
         token = tokenManager.getAccessToken().toString()
 
@@ -63,13 +71,14 @@ class OfferLetterAdapter(
 
         if (!onlineApplicantsDataList.get(position).candidateName.toString().isNullOrEmpty()) {
             holder.tvCandidateName.setText(
-                onlineApplicantsDataList.get(position).candidateName)
+                onlineApplicantsDataList.get(position).candidateName
+            )
         } else {
             holder.tvCandidateName.text = "Not Provided"
         }
 
         if (!onlineApplicantsDataList.get(position).userName.toString().isNullOrEmpty()) {
-            holder.tv_createdby.setText("Created By: "+onlineApplicantsDataList.get(position).userName)
+            holder.tv_createdby.setText("Created By: " + onlineApplicantsDataList.get(position).userName)
         } else {
             holder.tv_createdby.text = "Not Provided"
         }
@@ -97,29 +106,42 @@ class OfferLetterAdapter(
 
         holder.kebabMenu.setOnClickListener {
 
+            Constants.offerLetterUrl = onlineApplicantsDataList.get(position).bodyPath
+            if (bottomSheetdownloadOfferLetterFragment.isAdded()) {
+                return@setOnClickListener
+            } else {
+
+                bottomSheetdownloadOfferLetterFragment.show(cfm, bottomSheetdownloadOfferLetterFragment.tag)
+            }
         }
 
-        holder.itemLayout.setOnClickListener {
+        holder.tvStatus.setOnClickListener {
 
+            Constants.offerLetterId = onlineApplicantsDataList.get(position).candidateOfferLetterId
+            if (bottomSheetFragment.isAdded()) {
+                return@setOnClickListener
+            } else {
+
+                bottomSheetFragment.show(cfm, bottomSheetFragment.tag)
+            }
         }
+
 
         if (!onlineApplicantsDataList.get(position).status.toString().isNullOrEmpty()) {
-            var status  = onlineApplicantsDataList.get(position).status.toString()
+            var status = onlineApplicantsDataList.get(position).status.toString()
 
-            if (status.equals("Pending")){
+            if (status.equals("Pending")) {
                 val jobtypehexcolor = "#48505E"
                 holder.tvStatus.setTextColor(Color.parseColor(jobtypehexcolor))
                 parseBackgroundColor(holder.tvStatus, jobtypehexcolor)
                 holder.tvStatus.text = onlineApplicantsDataList.get(position).status
 
-            }
-            else if(status.equals("Accepted")){
+            } else if (status.equals("Accepted")) {
                 val jobtypehexcolor = "#0D824B"
                 holder.tvStatus.setTextColor(Color.parseColor(jobtypehexcolor))
                 parseBackgroundColor(holder.tvStatus, jobtypehexcolor)
                 holder.tvStatus.text = onlineApplicantsDataList.get(position).status
-            }
-            else if (status.equals("Rejected")){
+            } else if (status.equals("Rejected")) {
                 val jobtypehexcolor = "#AA3028"
                 holder.tvStatus.setTextColor(Color.parseColor(jobtypehexcolor))
                 parseBackgroundColor(holder.tvStatus, jobtypehexcolor)
@@ -132,8 +154,6 @@ class OfferLetterAdapter(
         }
 
     }
-
-
 
 
     override fun getItemCount(): Int {

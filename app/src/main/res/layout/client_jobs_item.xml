@@ -74,13 +74,14 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView5"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_position"
-            app:layout_constraintStart_toEndOf="@+id/tv_position"
+            app:layout_constraintStart_toEndOf="@+id/iv_published"
             app:layout_constraintTop_toTopOf="@+id/tv_position">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,6 +141,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_menu_dots" />
+
+        <ImageView
+            android:id="@+id/iv_published"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_position"
+            app:layout_constraintStart_toEndOf="@+id/tv_position"
+            app:layout_constraintTop_toTopOf="@+id/tv_position"
+            app:srcCompat="@drawable/ic_publishedicon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

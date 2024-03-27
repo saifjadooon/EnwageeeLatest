@@ -279,6 +279,7 @@
                             android:id="@+id/tvjobNature"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:drawableRight="@drawable/ic_pilldownarrow"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxEms="8"
@@ -287,8 +288,6 @@
                             android:paddingLeft="4dp"
                             android:paddingRight="4dp"
                             android:text="Approved"
-                            android:drawableRight="@drawable/ic_pilldownarrow"
-
                             android:textSize="11sp"
                             app:layout_constraintEnd_toStartOf="@+id/onboardingStatuscv"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -628,15 +627,34 @@
                 app:layout_constraintStart_toStartOf="@+id/textView23"
                 app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
-            <WebView
-                android:id="@+id/webView"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ccWebView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/searchbg"
-                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_description">
+
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/searchbg"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
                 android:id="@+id/showmoredescription"
@@ -648,7 +666,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/rvBillingInformation"
                 app:layout_constraintStart_toStartOf="@+id/rvBillingInformation"
-                app:layout_constraintTop_toBottomOf="@+id/webView"
+                app:layout_constraintTop_toBottomOf="@+id/ccWebView"
                 app:srcCompat="@drawable/ic_showmore" />
 
             <TextView
@@ -668,14 +686,12 @@
                 android:id="@+id/flexlayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:flexWrap="wrap"
                 android:visibility="visible"
+                app:flexWrap="wrap"
                 app:layout_constraintEnd_toEndOf="@+id/rvBillingInformation"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView47"
-                app:layout_constraintTop_toBottomOf="@+id/textView47">
-            </com.google.android.flexbox.FlexboxLayout>
-
+                app:layout_constraintTop_toBottomOf="@+id/textView47"></com.google.android.flexbox.FlexboxLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView

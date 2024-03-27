@@ -20,6 +20,8 @@ import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -212,6 +214,7 @@ class PersonalInformationActivity : AppCompatActivity() {
                 binding.spinnergender.showDropDown()
             }
         }
+
         binding.updateRecord.setOnClickListener {
             callUpdateClientApi()
         }
@@ -302,10 +305,23 @@ class PersonalInformationActivity : AppCompatActivity() {
             }
         }
         binding.ivCross.setOnClickListener {
-            global.showDialog(this, this)
+            var hasUserEdits = hasUserMadeEdits()
+            if (hasUserEdits.equals(true)){
+                global.showDialog(this, this)
+            }
+            else {
+                finish()
+            }
+
         }
         binding.ivCancel.setOnClickListener {
-            global.showDialog(this, this)
+            var hasUserEdits = hasUserMadeEdits()
+            if (hasUserEdits.equals(true)){
+                global.showDialog(this, this)
+            }
+            else {
+                finish()
+            }
         }
     }
 
@@ -318,57 +334,129 @@ class PersonalInformationActivity : AppCompatActivity() {
         genderlist.add("Female")
         genderlist.add("Other")
 
+
+        binding.etPhone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed in this case
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not needed in this case
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val phoneNumber = s.toString()
+                val formattedPhoneNumber = formatPhoneNumber(phoneNumber)
+                if (phoneNumber != formattedPhoneNumber) {
+                    binding.etPhone.removeTextChangedListener(this)
+                    binding.etPhone.text =
+                        Editable.Factory.getInstance().newEditable(formattedPhoneNumber)
+                    binding.etPhone.setSelection(formattedPhoneNumber.length)
+                    binding.etPhone.addTextChangedListener(this)
+                }
+            }
+        })
         if (global.loggedinuserDetails != null) {
-            if (global.loggedinuserDetails!!.firstName != null) {
-                binding.etFirstname.setText(global.loggedinuserDetails!!.firstName)
-            }
-            if (global.loggedinuserDetails!!.lastName != null) {
-                binding.etLastname.setText(global.loggedinuserDetails!!.lastName)
-            }
-            if (global.loggedinuserDetails!!.email != null) {
-                binding.etEmail.setText(global.loggedinuserDetails!!.email)
-            }
 
-            if (global.loggedinuserDetails!!.contact != null) {
-                binding.etPhone.setText(global.loggedinuserDetails!!.contact)
-            }
-            if (global.loggedinuserDetails!!.userName != null) {
-                binding.etUsername.setText(global.loggedinuserDetails!!.userName)
-            }
-            if (global.loggedinuserDetails!!.gender != null) {
-                binding.spinnergender.setText(global.loggedinuserDetails!!.gender)
-            }
-            if (global.loggedinuserDetails!!.department.departmentName != null) {
-                binding.etDepartment.setText(global.loggedinuserDetails!!.department.departmentName)
-            }
-            if (global.loggedinuserDetails!!.designation.designationName != null) {
-                binding.etDesignation.setText(global.loggedinuserDetails!!.designation.designationName)
-            }
-            if (global.loggedinuserDetails!!.address != null) {
-                binding.etAddress.setText(global.loggedinuserDetails!!.address)
-            }
-            if (global.loggedinuserDetails!!.roleName != null) {
-                binding.etRole.setText(global.loggedinuserDetails!!.roleName)
-            }
-            if (global.loggedinuserDetails!!.imagePath != null) {
-                try {
-                    Picasso.get().load(global.loggedinuserDetails!!.imagePath)
-                        .into(binding.ivProfilePic)
+
+            try {
+                if (global.loggedinuserDetails!!.firstName != null) {
+                    binding.etFirstname.setText(global.loggedinuserDetails!!.firstName)
                 }
-                catch (e:Exception){
-
+            } catch (e: Exception) {
+            }
+            try {
+                if (global.loggedinuserDetails!!.lastName != null) {
+                    binding.etLastname.setText(global.loggedinuserDetails!!.lastName)
                 }
+            } catch (e: Exception) {
+            }
+            try {
+
+                if (global.loggedinuserDetails!!.email != null) {
+                    binding.etEmail.setText(global.loggedinuserDetails!!.email)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+                if (global.loggedinuserDetails!!.contact != null) {
+                    binding.etPhone.setText(global.loggedinuserDetails!!.contact)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+
+                if (global.loggedinuserDetails!!.userName != null) {
+                    binding.etUsername.setText(global.loggedinuserDetails!!.userName)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+
+                if (global.loggedinuserDetails!!.gender != null) {
+                    binding.spinnergender.setText(global.loggedinuserDetails!!.gender)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+                if (global.loggedinuserDetails?.department?.departmentName != null) {
+                    binding.etDepartment.setText(global.loggedinuserDetails?.department?.departmentName)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+
+                if (global.loggedinuserDetails!!.designation.designationName != null) {
+                    binding.etDesignation.setText(global.loggedinuserDetails!!.designation.designationName)
+                }
+            } catch (e: Exception) {
+            }
+            try {
+
+                if (global.loggedinuserDetails!!.address != null) {
+                    binding.etAddress.setText(global.loggedinuserDetails!!.address)
+                }
+            } catch (e: Exception) {
 
             }
+            try {
+
+                if (global.loggedinuserDetails!!.roleName != null) {
+                    binding.etRole.setText(global.loggedinuserDetails!!.roleName)
+                }
+            } catch (e: Exception) {
+            }
+
+            try {
+
+                if (global.loggedinuserDetails!!.imagePath != null) {
+                    try {
+                        Picasso.get().load(global.loggedinuserDetails!!.imagePath)
+                            .into(binding.ivProfilePic)
+                    } catch (e: Exception) {
+
+                    }
+                }
+
+            } catch (e: Exception) {
+
+            }
+
 
         }
 
-        val adapter = customadapter(
-            this,
-            R.layout.simple_spinner_item,
-            genderlist
-        )
-        binding.spinnergender.setAdapter(adapter)
+        try {
+            val adapter = customadapter(
+                this,
+                R.layout.simple_spinner_item,
+                genderlist
+            )
+            binding.spinnergender.setAdapter(adapter)
+
+        } catch (e: Exception) {
+
+        }
+
 
 
 
@@ -384,8 +472,10 @@ class PersonalInformationActivity : AppCompatActivity() {
     private fun callUpdateClientApi() {
         try {
 
+            var phoneget = binding.etPhone.text.toString()
+            var phoneWithoutDashes  = phoneget.replace("-", "")
             loader.show()
-            val phone = UpdateStatusPayload("add", "/contact", binding.etPhone.text.toString())
+            val phone = UpdateStatusPayload("add", "/contact", phoneWithoutDashes)
             val gender =
                 UpdateStatusPayload("add", "/gender", binding.spinnergender.text.toString())
             val address = UpdateStatusPayload("add", "/address", binding.etAddress.text.toString())
@@ -764,5 +854,58 @@ class PersonalInformationActivity : AppCompatActivity() {
         }
     }
 
+    private fun formatPhoneNumber(phoneNumber: String): String {
+        val cleanedNumber = phoneNumber.replace("\\D".toRegex(), "") // Remove non-digits
+        return if (cleanedNumber.length == 10) {
+            "${cleanedNumber.substring(0, 3)}-${
+                cleanedNumber.substring(
+                    3,
+                    6
+                )
+            }-${cleanedNumber.substring(6)}"
+        } else {
+            cleanedNumber // Return the cleaned number if it doesn't have 10 digits
+        }
+    }
+
+
+    private fun hasUserMadeEdits(): Boolean {
+
+        var orignalPhonenumber = ""
+        var modifiedPhonenumber = binding.etPhone.text.toString()
+        val phoneNumberWithDashes = binding.etPhone.text.toString()
+        val phoneNumberWithoutDashes = removeDashesFromPhoneNumber(phoneNumberWithDashes)
+        var orignalGender = ""
+        var modifiedGender = binding.spinnergender.text.toString()
+
+        var orignalAddress = ""
+        var modifiedAddress = binding.etAddress.text.toString()
+
+        if (global.loggedinuserDetails!!.address != null) {
+            orignalAddress = global.loggedinuserDetails!!.address
+        }
+
+        if (global.loggedinuserDetails!!.gender != null) {
+            orignalGender = global.loggedinuserDetails!!.gender
+        }
+        if (global.loggedinuserDetails!!.contact != null) {
+            orignalPhonenumber = global.loggedinuserDetails!!.contact
+        }
+
+        if (orignalPhonenumber != phoneNumberWithoutDashes ||
+            orignalGender != modifiedGender ||
+            orignalAddress != modifiedAddress
+        ) {
+            return true
+        }
+
+
+        return false
+    }
+
+    fun removeDashesFromPhoneNumber(phoneNumber: String): String {
+        // Use replace to remove dashes
+        return phoneNumber.replace("-", "")
+    }
 
 }

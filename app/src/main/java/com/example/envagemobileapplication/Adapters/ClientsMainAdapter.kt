@@ -3,6 +3,7 @@ package com.example.envagemobileapplication.Adapters
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryActivity
-import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragments.BottomSheet.BottomSheetStatusFragment
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetClientsResponse.Record
 import com.example.envagemobileapplication.R
@@ -31,6 +31,7 @@ class ClientsMainAdapter(
 ) :
     RecyclerView.Adapter<ClientsMainAdapter.MyViewHolder>() {
 
+    var global = com.example.envagemobileapplication.Utils.Global
     lateinit var loader: Loader
     var cfm = childFragmentManager
     var dataList: ArrayList<Record> = onlineList
@@ -53,7 +54,9 @@ class ClientsMainAdapter(
         try {
             if (dataList[position].branch != null) {
                 holder.tvBranch.text = "Branch: " + dataList[position].branch
+
             } else {
+
                 holder.tvBranch.text = "Not provided"
             }
         } catch (e: java.lang.Exception) {
@@ -62,15 +65,20 @@ class ClientsMainAdapter(
         try {
             if (dataList[position].jobCount != null) {
                 holder.tvJobCount.text = "Job Count: " + dataList[position].jobCount
+
             } else {
                 holder.tvJobCount.text = "Not provided"
+
             }
         } catch (e: java.lang.Exception) {
         }
 
         try {
             if (dataList[position].groupName != null) {
+
                 holder.tvGroupName.text = "Group Name: " + dataList[position].groupName
+
+
             } else {
                 holder.tvGroupName.text = "Not provided"
             }
@@ -204,18 +212,27 @@ class ClientsMainAdapter(
     }
 
     private fun clickListeners(holder: MyViewHolder, position: Int) {
+
+        /*val jobtypehexcolor = "#48505E"*/
+        val jobtypehexcolor = dataList.get(position).colorCode
+        holder.iv_deal_status.setTextColor(Color.parseColor(jobtypehexcolor))
+        parseBackgroundColor(holder.iv_deal_status, jobtypehexcolor)
+
         holder.iv_deal_status.setOnClickListener {
             Constants.isOnboardingStatusUpdatedfromClientSummaryList = false
-            val bottomSheetFragment = BottomSheetStatusFragment()
-            Constants.onBoardingStatusList = statusList
-            Constants.StatusClickedName = dataList.get(position).onboardingStatus.toString()
-            Constants.StatusClickedClientId = dataList.get(position).clientId
-            bottomSheetFragment.show(cfm, bottomSheetFragment.tag)
+            /*       val bottomSheetFragment = BottomSheetStatusFragment()
+                   Constants.onBoardingStatusList = statusList
+                   Constants.StatusClickedName = dataList.get(position).onboardingStatus.toString()
+                   Constants.StatusClickedClientId = dataList.get(position).clientId
+                   bottomSheetFragment.show(cfm, bottomSheetFragment.tag)*/
         }
         holder.itemLayout.setOnClickListener {
             Constants.ownerName = dataList.get(position).owner
             Constants.clientid = dataList.get(position).clientId
             Constants.clientName = dataList.get(position).name
+            global.jobCount = "Job Count: " + dataList[position].jobCount
+            global.clientGroupname = "Group Name: " + dataList[position].groupName
+            global.clientbranchName = "Branch: " + dataList[position].branch
             context.startActivity(Intent(context, ClientSummaryActivity::class.java))
         }
         holder.iv_profile_pic.setOnClickListener {
@@ -295,6 +312,40 @@ class ClientsMainAdapter(
 
             true
         }
+
+        holder.tvGroupName.setOnLongClickListener {
+
+            if (dataList[position].groupName != null) {
+
+                val toast = Toast.makeText(
+                    context,
+                    "Group Name: " + dataList[position].groupName,
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+
+            true
+        }
+        holder.tvBranch.setOnLongClickListener {
+            if (dataList[position].branch != null) {
+
+
+                val toast = Toast.makeText(
+                    context,
+                    "Branch: " + dataList[position].branch,
+                    Toast.LENGTH_LONG
+                )
+
+                toast.show()
+            }
+
+
+
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -330,5 +381,30 @@ class ClientsMainAdapter(
             // Return the input as is if it doesn't match the expected format
             return digitsOnly
         }
+    }
+
+    private fun parseBackgroundColor(tvJobstatus: TextView, hexColorCode: String) {
+        val currentTextColor = Color.parseColor(hexColorCode)
+
+        // Adjust the alpha component
+        val adjustedAlpha = (Color.alpha(currentTextColor) * 0.1).toInt()
+
+        // Create the new color with adjusted alpha
+        val adjustedColor = Color.argb(
+            adjustedAlpha,
+            Color.red(currentTextColor),
+            Color.green(currentTextColor),
+            Color.blue(currentTextColor)
+        )
+
+        val cornerRadius = 20f // You can adjust this value based on your preference
+
+        // Create a GradientDrawable
+        val gradientDrawable = GradientDrawable()
+        gradientDrawable.cornerRadius = cornerRadius
+        gradientDrawable.setColor(adjustedColor)
+
+        // Set the background drawable with corner radius to the TextView
+        tvJobstatus.background = gradientDrawable
     }
 }

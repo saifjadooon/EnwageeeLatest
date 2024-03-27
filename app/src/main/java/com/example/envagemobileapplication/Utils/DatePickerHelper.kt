@@ -2,11 +2,13 @@ package com.example.envagemobileapplication.Utils
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
+
 /*
 class DatePickerHelper(private val context: Context) {
 
@@ -69,6 +71,17 @@ class DatePickerHelper(private val context: Context) {
         }
     }
 
+    fun attachDatePickertotextview(
+        button: TextInputLayout,
+        textviewSelectedDate: AutoCompleteTextView
+    ) {
+        textviewSelectedDate.setOnClickListener {
+            if (!isDatePickerOpen) {
+                showDatePickerwithTextinput(textviewSelectedDate, button)
+            }
+        }
+    }
+
     fun attachDatePickertoConstraintlayout(
         button: ConstraintLayout,
         textviewSelectedDate: TextView,
@@ -76,7 +89,7 @@ class DatePickerHelper(private val context: Context) {
     ) {
         button.setOnClickListener {
             if (!isDatePickerOpen) {
-                showDatePickerConstraintLayout(textviewSelectedDate,ccStartdate)
+                showDatePickerConstraintLayout(textviewSelectedDate, ccStartdate)
             }
         }
     }
@@ -119,6 +132,7 @@ class DatePickerHelper(private val context: Context) {
 
         datePickerDialog.show()
     }
+
     private fun showDatePicker(textviewSelectedDate: TextView) {
         isDatePickerOpen = true
 
@@ -138,6 +152,45 @@ class DatePickerHelper(private val context: Context) {
                 textviewSelectedDate.text = formattedDate
                 selectedDate = formattedDate // Update the selected date
                 isDatePickerOpen = false
+            },
+            initialYear,
+            initialMonth,
+            initialDay
+        )
+
+        // Set the minimum date to today
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+
+        datePickerDialog.setOnDismissListener {
+            isDatePickerOpen = false
+        }
+
+        datePickerDialog.show()
+    }
+
+    private fun showDatePickerwithTextinput(
+        textviewSelectedDate: TextView,
+        button: TextInputLayout
+    ) {
+        isDatePickerOpen = true
+
+        val calendar = Calendar.getInstance()
+
+        // Set the initial date of the date picker to the selected date, if available
+        val selectedDateArray = selectedDate?.split("/")?.map { it.toInt() }
+        val initialYear = selectedDateArray?.get(2) ?: calendar.get(Calendar.YEAR)
+        val initialMonth = selectedDateArray?.get(0)?.minus(1) ?: calendar.get(Calendar.MONTH)
+        val initialDay = selectedDateArray?.get(1) ?: calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                // Format the selected date as "MM/dd/yyyy"
+                val formattedDate = formatDate(year, month, dayOfMonth)
+                textviewSelectedDate.text = formattedDate
+                selectedDate = formattedDate // Update the selected date
+                isDatePickerOpen = false
+                button.error = null
             },
             initialYear,
             initialMonth,

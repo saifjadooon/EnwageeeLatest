@@ -105,6 +105,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxEms="8"
+                android:drawableRight="@drawable/ic_pilldownarrow"
                 android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="4dp"

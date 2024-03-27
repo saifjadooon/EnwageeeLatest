@@ -18,6 +18,7 @@ import com.example.envagemobileapplication.Activities.DashBoard.DashboardFragmen
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsResponse.Record
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.GetJobsStatusesResponse.Datum
 import com.example.envagemobileapplication.R
+import com.example.envagemobileapplication.Utils.CircleTransformation
 import com.example.envagemobileapplication.Utils.Constants
 import com.example.envagemobileapplication.Utils.Global
 import com.squareup.picasso.Picasso
@@ -54,6 +55,13 @@ class JobsMainAdapter(
         try {
             if (!dataList.get(position).jobStatus.isNullOrEmpty()) {
                 holder.iv_job_status.text = dataList.get(position).jobStatus
+                if (dataList.get(position).isPublish.equals(true)){
+                    holder.ivVisivility.visibility = View.VISIBLE
+
+                }
+                else {
+                    holder.ivVisivility.visibility = View.GONE
+                }
             } else {
                 holder.iv_job_status.visibility = View.GONE
             }
@@ -119,10 +127,16 @@ class JobsMainAdapter(
         } catch (e: java.lang.Exception) {
         }
         try {
-            if (dataList.get(position).clientProfilePicture != null) {
-                Picasso.get().load(dataList.get(position).clientProfilePicture)
+
+            var profileImageLink = dataList.get(position).clientProfilePicture
+
+            if (profileImageLink != "") {
+                Picasso.get().load(profileImageLink)
                     .placeholder(R.drawable.upload_pic_bg)
-                    .into(holder.iv_profile_pic)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic);
+            } else {
+                Picasso.get().load(R.drawable.upload_pic_bg)
+                    .transform(CircleTransformation()).into(holder.iv_profile_pic);
             }
 
         } catch (e: java.lang.Exception) {
@@ -203,5 +217,6 @@ class JobsMainAdapter(
         var jobs_menu: ImageView = itemView.findViewById(R.id.jobs_menu)
         var tv_dropdown: ImageView = itemView.findViewById(R.id.tv_dropdown)
         var itemLayout: ConstraintLayout = itemView.findViewById(R.id.itemLayout)
+        var ivVisivility: ImageView = itemView.findViewById(R.id.ivVisivility)
     }
 }

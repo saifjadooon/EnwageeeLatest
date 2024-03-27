@@ -96,6 +96,8 @@ class SendEmailF : Fragment() {
     var joblocation = ""
 
     var candidateid = ""
+    var offeredSalary = ""
+    var linkExpiryDate = ""
 
 
     override fun onCreateView(
@@ -114,6 +116,8 @@ class SendEmailF : Fragment() {
         initviews()
         firstname = global.fn.toString() + ""
         lastname = global.ln.toString() + ""
+        offeredSalary  = global.offeredSalary
+        linkExpiryDate = global.offerLetterLinkExpiryDate
         return binding.root
     }
 
@@ -212,7 +216,7 @@ class SendEmailF : Fragment() {
 
         } catch (e: Exception) {
         }
-        try {
+      /*  try {
             positionname = global.jobHeaderSummary!!.data.jobInfo.positionName
 
 
@@ -284,7 +288,57 @@ class SendEmailF : Fragment() {
 
             } catch (e: Exception) {
             }
+*/
 
+        if (global.jobHeaderSummary!!.data.jobInfo != null) {
+            if (global.jobHeaderSummary!!.data.jobInfo.positionName != null) {
+                positionname = global.jobHeaderSummary!!.data.jobInfo.positionName
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.industryName != null) {
+                jobIndustry = global.jobHeaderSummary!!.data.jobInfo.industryName.toString()
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.jobType != null) {
+                jobType = global.jobHeaderSummary!!.data.jobInfo.jobType
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.jobNature != null) {
+                jobNature = global.jobHeaderSummary!!.data.jobInfo.jobNature
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.jobFrequency != null) {
+                jobFrequency = global.jobHeaderSummary!!.data.jobInfo.jobFrequency
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.address1 != null) {
+                jobaddress =
+                    global.jobHeaderSummary!!.data.jobInfo.address1 + " " + global.jobHeaderSummary!!.data.jobInfo.address2
+            }
+
+
+            if (global.jobHeaderSummary!!.data.client.city != null) {
+                jobcity = global.jobHeaderSummary!!.data.jobInfo.city.toString()
+            }
+
+
+            if (global.jobHeaderSummary!!.data.client.state != null) {
+                jobstate = global.jobHeaderSummary!!.data.jobInfo.state.toString()
+            }
+
+
+            if (global.jobHeaderSummary!!.data.jobInfo.location != null) {
+                joblocation = global.jobHeaderSummary!!.data.jobInfo.location.toString()
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.country != null) {
+                jobCountry = global.jobHeaderSummary!!.data.jobInfo.country.toString()
+            }
+
+            if (global.jobHeaderSummary!!.data.jobInfo.zipcode != null) {
+                jobzipcode = global.jobHeaderSummary!!.data.jobInfo.zipcode.toString()
+            }
+        
 
             offerletterlink = "offer letter link"
             clientFacebook = "www.facebook.com"
@@ -759,10 +813,12 @@ class SendEmailF : Fragment() {
 
         var replacedContent = htmlContent
             .replace("[First Name]", if (firstname.isNotEmpty()) firstname else "[First Name]")
+            .replace("[Offered Salary]", if (offeredSalary.isNotEmpty()) offeredSalary else "[Offered Salary]")
+            .replace("[Link Expiry Date]", if (linkExpiryDate.isNotEmpty()) linkExpiryDate else "[Link Expiry Date]")
             .replace("[Last Name]", if (lastname.isNotEmpty()) lastname else "[Last Name]")
             .replace(
                 "[Joining Date]",
-                if (joiningdate.isNotEmpty()) joiningdate else "[Joining Date]"
+                if (global.joiningDate.isNotEmpty()) global.joiningDate else "[Joining Date]"
             )
             .replace("[Salary]", if (salary.isNotEmpty()) salary else "[Salary]")
             .replace(
@@ -919,6 +975,57 @@ class SendEmailF : Fragment() {
                             if (response.body() != null) {
                                 loader.hide()
                                 clientHeaderSummaryResp = response.body()!!
+                                if (clientHeaderSummaryResp!!.data != null) {
+                                    if (clientHeaderSummaryResp!!.data.clientInfo != null) {
+
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.name != null) {
+                                            clientname =
+                                                clientHeaderSummaryResp!!.data.clientInfo.name
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.industryName != null) {
+                                            clientindustry =
+                                                clientHeaderSummaryResp!!.data.clientInfo.industryName
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.websiteUrl != null) {
+
+                                            clientwebsite =
+                                                clientHeaderSummaryResp!!.data.clientInfo.websiteUrl
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddress1 != null) {
+                                            clientAddress =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddress1 + " " + clientHeaderSummaryResp!!.data.clientInfo.primaryAddress2
+                                        }
+
+
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressLocation != null) {
+                                            clientLocation =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressLocation
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.country != null) {
+                                            clientCountry =
+                                                clientHeaderSummaryResp!!.data.clientInfo.country
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressCity != null) {
+                                            clientCity =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressCity
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressState != null) {
+                                            clientState =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressState
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.primaryAddressZipcode != null) {
+                                            clientZipCode =
+                                                clientHeaderSummaryResp!!.data.clientInfo.primaryAddressZipcode
+                                        }
+                                        if (clientHeaderSummaryResp!!.data.clientInfo.phone != null) {
+
+                                            clientPhoneNumber =
+                                                clientHeaderSummaryResp!!.data.clientInfo.phone
+                                        }
+
+                                    }
+                                }
+/*
 
                                 try {
                                     clientAddress =
@@ -943,6 +1050,7 @@ class SendEmailF : Fragment() {
                                         clientHeaderSummaryResp!!.data.clientInfo.websiteUrl
                                 } catch (e: Exception) {
                                 }
+*/
 
 /*
                                 for (i in 0 until clientHeaderSummaryResp!!.data.clientSocialMedia.size){

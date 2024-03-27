@@ -2,7 +2,8 @@ package com.example.envagemobileapplication.Models.RequestModels
 
 data class JobReqApprovedReqModel(
     val jobStatus: JobStatus,
-    val jobPublishSetting: JobPublishSetting
+    val jobPublishSetting: JobPublishSetting,
+    val jobPlatForm: String
 )
 
 data class JobStatus(
@@ -23,5 +24,6 @@ data class JobPublishSetting(
     val showType: Boolean,
     val showSkills: Boolean,
     val showShift: Boolean,
-    val isPublish: Boolean
+    val isPublish: Boolean,
+    val description: String
 )

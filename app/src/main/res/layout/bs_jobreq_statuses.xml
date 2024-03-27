@@ -89,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:boxBackgroundMode="outline"
+
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -100,11 +101,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_remarks"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/white"
                 android:gravity="left"
+
+                android:inputType="textMultiLine|textEmailAddress"
                 android:hint="Remarks"
-                android:inputType="textEmailAddress"
+
                 android:maxLength="500"
                 android:minHeight="130dp"
                 android:padding="8dp" />

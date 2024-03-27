@@ -1,8 +1,6 @@
 package com.example.envagemobileapplication.Adapters
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryActivity
 import com.example.envagemobileapplication.Activities.Client.AddClient.ClientSummary.ClientSummaryFragments.ClientSummaryF
 import com.example.envagemobileapplication.Models.RequestModels.UpdateStatusPayload
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.CompanyOnboardingRes.Datum
@@ -40,6 +37,7 @@ class CompanyStatusAdapter(
     RecyclerView.Adapter<CompanyStatusAdapter.MyViewHolder>() {
 
 
+    var global = com.example.envagemobileapplication.Utils.Global
     var statusList = onBoardingStatusList
     private var selectedPosition = -1
 
@@ -116,59 +114,28 @@ class CompanyStatusAdapter(
                     ) {
                         if (response.body() != null) {
 
-
                             var bundle: Bundle = Bundle()
                             try {
                                 ClientSummaryF.onboardingStatus.text = Constants.StatusClickedName
 
                                 val hexColorCode = Constants.statusclickedColor
                                 val colore = Color.parseColor(hexColorCode)
+
                                 ClientSummaryF.onboardingStatus.setTextColor(colore)
-
                                 ClientSummaryF.tvDropdown.setColorFilter(colore)
-                                val intent = Intent(context, ClientSummaryActivity::class.java)
-                                context.startActivity(intent)
-                                (context as Activity).finish()
+                                global.parseBackgroundColor(ClientSummaryF.clstatus, hexColorCode!!)
 
-                                /*   sharedViewModel.replaceFragmentclientsSummary(
-                                       ClientSummaryF(),
-                                       bundle
-                                   )*/
                             } catch (e: Exception) {
 
                             }
-
-                            /*var bundle: Bundle = Bundle()
-                            sharedViewModel.replaceFragmentclientsSummary(
-                                ClientSummaryF(),
-                                bundle
-                            )
-*/
-                            var isfromCompnyStatus = true
-                            var tokenManager: TokenManager = TokenManager(context)
-
-                            var Clientsbundle = Bundle()
-                            //  sharedViewModel.replaceFragment(ClientsF(), Clientsbundle)
-                            /*          val model = sortDirection(
-                                          pageIndex = 1,
-                                           pageSize = 25,
-                                          sortBy = "CreatedDate",
-                                          sortDirection = 1,
-                                          searchText = "",
-                                          tileStatusId = -1
-                                      )
-                                      sharedViewModel.getClients(
-                                          context as Activity,
-                                          tokenManager.getAccessToken(),
-                                          model, isfromCompnyStatus
-                                      )*/
-
                             val toast = Toast.makeText(
                                 context,
                                 "Client Onboarding status has been updated successfully.",
                                 Toast.LENGTH_LONG
                             )
                             toast.show()
+                            global.changeStatusClicked = true
+                            sharedViewModel.dismissbottomsheet("true")
                         }
                     }
 

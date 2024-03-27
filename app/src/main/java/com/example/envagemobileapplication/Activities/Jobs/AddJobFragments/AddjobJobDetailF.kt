@@ -18,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.envagemobileapplication.Activities.Jobs.AddJob.AddJobActivity
 import com.example.envagemobileapplication.Adapters.CustomJobSkillsAdapter
 import com.example.envagemobileapplication.Adapters.CustomSpinnerAdapterForWeekdays
+import com.example.envagemobileapplication.Adapters.SearchableSpinnerSkills
 import com.example.envagemobileapplication.Adapters.customadapter
 import com.example.envagemobileapplication.Models.RequestModels.AddJobRequestModels.AddJobDetailsReqModel
 import com.example.envagemobileapplication.Models.RequestModels.JobSkill
@@ -26,9 +27,7 @@ import com.example.envagemobileapplication.Models.RequestModels.weekdaysModel
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.JobSkillsResponse.JobSkillsResponse
 import com.example.envagemobileapplication.Models.ResponseModels.TokenResponse.tokenresp.getJobStatusResponse.GetJobStatusResponse
 import com.example.envagemobileapplication.Oauth.TokenManager
-import com.example.envagemobileapplication.Utils.DatePickerHelper
-import com.example.envagemobileapplication.Utils.Global
-import com.example.envagemobileapplication.Utils.Loader
+import com.example.envagemobileapplication.Utils.*
 import com.example.envagemobileapplication.ViewModels.AddJobsSharedViewModel
 import com.example.envagemobileapplication.databinding.FragmentAddjobJobDetailBinding
 import com.ezshifa.aihealthcare.network.ApiUtils
@@ -41,6 +40,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AddjobJobDetailF : Fragment() {
+    var selectedJobType = ""
+    private lateinit var adapter: CustomJobSkillsAdapter
+    private val selectedItems: MutableList<SearchableItemsCustom> = ArrayList()
+    var isTextInputLayoutClicked: Boolean = false
+    lateinit var skillssearchableSpinner: SearchableSpinnerSkills
     lateinit var jobtypeList: ArrayList<String>
     val viewModel: AddJobsSharedViewModel by activityViewModels()
     var global: Global.Companion =
@@ -68,6 +72,7 @@ class AddjobJobDetailF : Fragment() {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
     )
     private var counter = 0
+    private var counterExperience = 0
     lateinit var binding: FragmentAddjobJobDetailBinding
     lateinit var token: String
     lateinit var tokenManager: TokenManager
@@ -103,9 +108,11 @@ class AddjobJobDetailF : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         initviews()
         clicklisteners()
         networkCalls()
+
 
     }
 
@@ -114,15 +121,17 @@ class AddjobJobDetailF : Fragment() {
         super.onResume()
 
         if (viewModel.isStartDateFieldEnabled) {
-            binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
+            /*           binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)*/
             binding.ccStartdate.isEnabled = true
-            binding.tvStartDate.text = viewModel.startdate
+            /*      binding.tvStartDate.text = viewModel.startdate*/
+            binding.tvStartDate.setText(viewModel.startdate)
             //   binding.tvHeadCount.text = global.headcount
         }
         if (viewModel.isEndDateFieldEnabled) {
-            binding.ccEnddate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
+            /*   binding.ccEnddate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)*/
             binding.ccEnddate.isEnabled = true
-            binding.tvEndDate.text = viewModel.endDate
+            /*binding.tvEndDate.text = viewModel.endDate*/
+            binding.tvEndDate.setText(viewModel.endDate)
 
         }
         try {
@@ -132,6 +141,13 @@ class AddjobJobDetailF : Fragment() {
 
             binding.spinnerCurrency.setText(viewModel.currency)
 
+        } catch (e: Exception) {
+        }
+
+        try {
+            if (viewModel.headcountExperience != "") {
+                binding.tvHeadCountExperience.setText(viewModel.headcountExperience)
+            }
         } catch (e: Exception) {
         }
         if (viewModel.weekdaysConcatinated != "") {
@@ -166,83 +182,142 @@ class AddjobJobDetailF : Fragment() {
     private fun networkCalls() {
 
 
+        /*  if (!global.isfrombackpress) {
+              getJobSkills(token, searchjobSkillText)
+          }
+          else {
+              var itemss: MutableList<SearchableItemsCustom> = ArrayList()
+
+              for (i in 0 until global.jobskilllslist.size) {
+
+                  itemss.add(
+                      SearchableItemsCustom(
+                          global.jobskilllslist.get(i).name,
+                          "$i",
+                          global.jobskilllslist.get(i).skillId.toString()
+                      )
+                  )
+              }
+
+              binding.TIRequiredSkills.editText?.keyListener = null
+              binding.TIRequiredSkills.editText?.setOnClickListener {
+
+                  SearchableMultiSelectSpinnerCustom.show(
+                      requireContext(),
+                      "Select Items",
+                      "Done",
+                      itemss,
+                      object :
+                          SelectionCompleteListenerCustom {
+                          override fun onCompleteSelection(selectedItems: ArrayList<SearchableItemsCustom>) {
+                              Log.i("dsdsdsadsadsadsads", selectedItems.toString())
+
+                              var jobskill: JobSkill? = null
+                              for (i in 0 until selectedItems.size) {
+                                  jobskill =
+                                      JobSkill(
+                                          selectedItems.get(i).skillid.toInt(),
+                                          selectedItems.get(i).skillname,
+                                          "1",
+                                          false,
+                                          0
+                                      )
+
+                                  arraylistskills.add(jobskill!!)
+                              }
+
+                              global.arraylistSelectedSkills = arraylistskills
+
+                              updateVisibility()
+                              // Check the size of the selected items and update visibility accordingly
+                              if (selectedItems.size >= 1) {
+
+                                  binding.tvskillllstext.visibility = View.VISIBLE
+                                  binding.tvskillllstext.text =
+                                      "${selectedItems.size} Skills Selected"
+
+
+                              } else {
+                                  binding.tvskillllstext.visibility = View.GONE
+                              }
+
+                          }
+
+                      })
+              }
+          }*/
+
         if (!global.isfrombackpress) {
             getJobSkills(token, searchjobSkillText)
         } else {
-            val adapternew =
-                CustomJobSkillsAdapter(
-                    requireContext(),
-                    global.jobskilllslist
-                ) { jobskillList ->
+            var itemss: MutableList<SearchableItemsCustom> = ArrayList()
 
-                    if (jobskillList.size >= 1) {
-                        binding.tvskillllstext.visibility = View.VISIBLE
+            for (i in 0 until global.jobskilllslist.size) {
+                itemss.add(
+                    SearchableItemsCustom(
+                        global.jobskilllslist.get(i).name,
+                        "$i",
+                        global.jobskilllslist.get(i).skillId.toString()
+                    )
+                )
+            }
 
-                        // Remove items that are not selected
-                        val iterator = arraylistskills.iterator()
-                        while (iterator.hasNext()) {
-                            val skill = iterator.next()
-                            if (!jobskillList.any { it.skillId == skill.skillId }) {
-                                iterator.remove()
-                            }
-                        }
-
-                        // Add newly selected items
-                        for (i in jobskillList) {
-                            if (!arraylistskills.any { it.skillId == i.skillId }) {
-                                val jobskill =
-                                    JobSkill(i.skillId, i.name, "1", false, 0)
-                                arraylistskills.add(jobskill)
-                                com.example.envagemobileapplication.Utils.Global.jobskills =
-                                    jobskill
-                            }
-                        }
-
-                        binding.tvskillllstext.text =
-                            "${arraylistskills.size} Skills Selected"
-                        viewModel.skillCountText =
-                            "${arraylistskills.size} Skills Selected"
-                    } else {
-                        binding.tvskillllstext.visibility = View.GONE
+            // Set previously selected items as checked in the spinner
+            for (selectedSkill in global.arraylistSelectedSkills) {
+                for (item in itemss) {
+                    if (item.skillid == selectedSkill.skillId.toString()) {
+                        item.isSelected = true
+                        break
                     }
-
                 }
+            }
 
-            binding.spinnerRequiredSkills.setAdapter(adapternew)
+            binding.tvskillllstext.visibility = View.VISIBLE
+            binding.tvskillllstext.text = "${global.arraylistSelectedSkills.size} Skills Selected"
 
-            binding.spinnerRequiredSkills.setOnItemSelectedListener(object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parentView: AdapterView<*>?,
-                    selectedItemView: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    viewModel.selectedPositions[position] = true
-                    // Update visibility based on the selected items
-                    updateVisibility()
-                    /*   // Check the size of the selected items and update visibility accordingly
-                       if (jobskillList.size >= 1) {
+            binding.TIRequiredSkills.editText?.keyListener = null
+            binding.TIRequiredSkills.editText?.setOnClickListener {
 
-                           binding.tvskillllstext.visibility = View.VISIBLE
-                           binding.tvskillllstext.text =
-                               "${jobskillList.size} Skills Selected"
+                SearchableMultiSelectSpinnerCustom.show(
+                    requireContext(),
+                    "Select Items",
+                    "Done",
+                    itemss,
+                    object :
+                        SelectionCompleteListenerCustom {
+                        override fun onCompleteSelection(selectedItems: ArrayList<SearchableItemsCustom>) {
+                            Log.i("dsdsdsadsadsadsads", selectedItems.toString())
 
+                            var jobskill: JobSkill? = null
+                            for (i in 0 until selectedItems.size) {
+                                jobskill =
+                                    JobSkill(
+                                        selectedItems.get(i).skillid.toInt(),
+                                        selectedItems.get(i).skillname,
+                                        "1",
+                                        false,
+                                        0
+                                    )
 
-                       } else {
-                           binding.tvskillllstext.visibility = View.GONE
-                       }*/
-                }
+                                arraylistskills.add(jobskill!!)
+                            }
 
-                override fun onNothingSelected(parentView: AdapterView<*>?) {
-                    // Do nothing if nothing is selected
-                }
-            })
+                            global.arraylistSelectedSkills = arraylistskills
 
+                            updateVisibility()
+                            // Check the size of the selected items and update visibility accordingly
+                            if (selectedItems.size >= 1) {
+                                binding.tvskillllstext.visibility = View.VISIBLE
+                                binding.tvskillllstext.text =
+                                    "${selectedItems.size} Skills Selected"
+                            } else {
+                                binding.tvskillllstext.visibility = View.GONE
+                            }
+                        }
+                    })
+            }
         }
         getJobStatusResponse(token, searchviewtext)
-
-
     }
 
     private fun getJobStatusResponse(token: String, searchviewtext: String) {
@@ -259,7 +334,6 @@ class AddjobJobDetailF : Fragment() {
                     ) {
                         loader.hide()
                         if (response.body() != null) {
-
 
                             var jobStatuslist: ArrayList<String> = ArrayList()
                             for (i in 0 until response.body()!!.data.size) {
@@ -302,9 +376,10 @@ class AddjobJobDetailF : Fragment() {
                     ) {
                         loader.hide()
                         if (response.body() != null) {
-
-                            //       var jobsSkillsList: ArrayList<String> = ArrayList()
                             var jobskillList: ArrayList<SkillsRequestModels> = ArrayList()
+                            viewModel.selectedPositions = BooleanArray(jobskillList.size) { false }
+                            //       var jobsSkillsList: ArrayList<String> = ArrayList()
+
                             var skillModel: SkillsRequestModels
                             for (i in 0 until response.body()!!.data.size) {
                                 skillModel = SkillsRequestModels(
@@ -316,78 +391,71 @@ class AddjobJobDetailF : Fragment() {
                             loader.hide()
 
                             global.jobskilllslist = jobskillList
-                            val adapternew =
-                                CustomJobSkillsAdapter(
+
+                            var items: ArrayList<String> = ArrayList()
+                            for (i in 0 until global.jobskilllslist.size) {
+                                items.add(global.jobskilllslist.get(i).name)
+                            }
+
+                            binding.TIRequiredSkills.editText?.keyListener = null
+                            var itemss: MutableList<SearchableItemsCustom> = ArrayList()
+                            for (i in 0 until global.jobskilllslist.size) {
+                                itemss.add(
+                                    SearchableItemsCustom(
+                                        global.jobskilllslist.get(i).name,
+                                        "$i",
+                                        global.jobskilllslist.get(i).skillId.toString()
+                                    )
+                                )
+                            }
+
+
+                            binding.TIRequiredSkills.editText?.setOnClickListener {
+
+
+                                SearchableMultiSelectSpinnerCustom.show(
                                     requireContext(),
-                                    jobskillList
-                                ) { jobskillList ->
+                                    "Select Items",
+                                    "Done",
+                                    itemss,
+                                    object :
+                                        SelectionCompleteListenerCustom {
+                                        override fun onCompleteSelection(selectedItems: ArrayList<SearchableItemsCustom>) {
+                                            Log.i("dsdsdsadsadsadsads", selectedItems.toString())
 
-                                    if (jobskillList.size >= 1) {
-                                        binding.tvskillllstext.visibility = View.VISIBLE
+                                            var jobskill: JobSkill? = null
+                                            for (i in 0 until selectedItems.size) {
+                                                jobskill =
+                                                    JobSkill(
+                                                        selectedItems.get(i).skillid.toInt(),
+                                                        selectedItems.get(i).skillname,
+                                                        "1",
+                                                        false,
+                                                        0
+                                                    )
+                                                arraylistskills.add(jobskill!!)
 
-                                        // Remove items that are not selected
-                                        val iterator = arraylistskills.iterator()
-                                        while (iterator.hasNext()) {
-                                            val skill = iterator.next()
-                                            if (!jobskillList.any { it.skillId == skill.skillId }) {
-                                                iterator.remove()
                                             }
+
+                                            global.arraylistSelectedSkills = arraylistskills
+
+                                            updateVisibility()
+                                            // Check the size of the selected items and update visibility accordingly
+                                            if (selectedItems.size >= 1) {
+
+                                                binding.tvskillllstext.visibility = View.VISIBLE
+                                                binding.tvskillllstext.text =
+                                                    "${selectedItems.size} Skills Selected"
+
+
+                                            } else {
+                                                binding.tvskillllstext.visibility = View.GONE
+                                            }
+
                                         }
 
-                                        // Add newly selected items
-                                        for (i in jobskillList) {
-                                            if (!arraylistskills.any { it.skillId == i.skillId }) {
-                                                val jobskill =
-                                                    JobSkill(i.skillId, i.name, "1", false, 0)
-                                                arraylistskills.add(jobskill)
-                                                com.example.envagemobileapplication.Utils.Global.jobskills =
-                                                    jobskill
-                                            }
-                                        }
-
-                                        global.arraylistSelectedSkills = arraylistskills
-                                        binding.tvskillllstext.text =
-                                            "${arraylistskills.size} Skills Selected"
-                                        viewModel.skillCountText =
-                                            "${arraylistskills.size} Skills Selected"
-                                    }
-                                    else {
-                                        binding.tvskillllstext.visibility = View.GONE
-                                    }
-
-                                }
-
-                            arraylistskills = ArrayList()
-                            binding.spinnerRequiredSkills.setOnItemSelectedListener(object :
-                                AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parentView: AdapterView<*>?,
-                                    selectedItemView: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    viewModel.selectedPositions[position] = true
-                                    // Update visibility based on the selected items
-                                    updateVisibility()
-                                    /*   // Check the size of the selected items and update visibility accordingly
-                                       if (jobskillList.size >= 1) {
-
-                                           binding.tvskillllstext.visibility = View.VISIBLE
-                                           binding.tvskillllstext.text =
-                                               "${jobskillList.size} Skills Selected"
-
-
-                                       } else {
-                                           binding.tvskillllstext.visibility = View.GONE
-                                       }*/
-                                }
-
-                                override fun onNothingSelected(parentView: AdapterView<*>?) {
-                                    // Do nothing if nothing is selected
-                                }
-                            })
-
-                            binding.spinnerRequiredSkills.setAdapter(adapternew)
+                                    })
+                            }
                         }
                     }
 
@@ -404,11 +472,17 @@ class AddjobJobDetailF : Fragment() {
     }
 
     private fun initviews() {
-
+        skillssearchableSpinner = SearchableSpinnerSkills(requireContext())
         AddJobActivity.binding.ivTwo.setImageDrawable(requireContext().getDrawable(com.example.envagemobileapplication.R.drawable.ic_active_two))
         val JobtypeHint = "Job Type *"
         val formattedHintJobtype = formatHintWithRedAsterisk(JobtypeHint)
         binding.TIJobtype.hint = formattedHintJobtype
+
+
+        val expRequiredHint = "Experience Required *"
+        val formattedHintexpRequiredHint = formatHintWithRedAsterisk(expRequiredHint)
+        binding.TIexperiencereq.hint = formattedHintexpRequiredHint
+
 
         val jobStatusHint = "Job Status *"
         val formattedHintjobStatus = formatHintWithRedAsterisk(jobStatusHint)
@@ -569,16 +643,20 @@ class AddjobJobDetailF : Fragment() {
         }
 
 
-        binding.ccStartdate.setOnClickListener {
-            datePickerHelper.attachDatePicker(binding.ccStartdate, binding.tvStartDate)
-        }
 
-        binding.ccEnddate.setOnClickListener {
-            datePickerHelper.attachDatePicker(
-                binding.ccEnddate,
-                binding.tvEndDate
-            )
-        }
+
+        binding.tvStartDate.setOnTouchListener(View.OnTouchListener { v, event ->
+
+            datePickerHelper.attachDatePickertotextview(binding.ccStartdate, binding.tvStartDate)
+            false
+        })
+
+        binding.tvEndDate.setOnTouchListener(View.OnTouchListener { v, event ->
+
+
+            datePickerHelper.attachDatePickertotextview(binding.ccEnddate, binding.tvEndDate)
+            false
+        })
 
 
         binding.spinnerJobType.setOnItemClickListener { _, _, position, _ ->
@@ -587,18 +665,39 @@ class AddjobJobDetailF : Fragment() {
             global.index = position
             val selectedItemText = binding.spinnerJobType.text.toString()
             if (selectedItemText == "Full Time" || selectedItemText == "Part Time" || selectedItemText == "Freelance") {
+                binding.tvEndDate.setText("")
                 binding.ccStartdate.isEnabled = true
                 viewModel.isStartDateFieldEnabled = true
                 binding.ccEnddate.isEnabled = false
                 viewModel.isEndDateFieldEnabled = false
-                binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
+                binding.ccEnddate.error = null
+                selectedJobType = selectedItemText
+                /*   binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)*/
+
+                val startDateHint = "Start Date *"
+                val formattedHintstartDate = formatHintWithRedAsterisk(startDateHint)
+                binding.ccStartdate.hint = formattedHintstartDate
+
+                val endDateHint = "End Date"
+                val formattedHintendDateHint = formatHintWithRedAsterisk(endDateHint)
+                binding.ccEnddate.hint = formattedHintendDateHint
             } else {
-                binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
-                binding.ccEnddate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
+
+                selectedJobType = selectedItemText
+                /*     binding.ccStartdate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)
+                     binding.ccEnddate.setBackgroundResource(com.example.envagemobileapplication.R.drawable.searchbg)*/
                 binding.ccStartdate.isEnabled = true
                 viewModel.isStartDateFieldEnabled = true
                 binding.ccEnddate.isEnabled = true
                 viewModel.isEndDateFieldEnabled = true
+
+                val startDateHint = "Start Date *"
+                val formattedHintstartDate = formatHintWithRedAsterisk(startDateHint)
+                binding.ccStartdate.hint = formattedHintstartDate
+
+                val endDateHint = "End Date *"
+                val formattedHintendDateHint = formatHintWithRedAsterisk(endDateHint)
+                binding.ccEnddate.hint = formattedHintendDateHint
             }
         }
         binding.TIcurrency.setOnClickListener {
@@ -655,6 +754,21 @@ class AddjobJobDetailF : Fragment() {
             }
         }
 
+
+        binding.ivMinusExperience.setOnClickListener {
+            if (counterExperience > 1) {
+                binding.tvExperienceError.visibility = View.INVISIBLE
+                counterExperience--
+                binding.tvHeadCountExperience.setText(counterExperience.toString())
+            }
+        }
+
+        binding.ivPlusExperience.setOnClickListener {
+            binding.tvExperienceError.visibility = View.INVISIBLE
+            counterExperience++
+            binding.tvHeadCountExperience.setText(counterExperience.toString());
+        }
+
         binding.spinnerJobType.setOnTouchListener(View.OnTouchListener { v, event ->
             if (binding.spinnerJobType.isPopupShowing) {
                 binding.spinnerJobType.dismissDropDown()
@@ -701,26 +815,6 @@ class AddjobJobDetailF : Fragment() {
             false
         })
 
-        binding.spinnerRequiredSkills.setOnTouchListener(View.OnTouchListener { v, event ->
-            if (binding.spinnerRequiredSkills.isPopupShowing) {
-                binding.spinnerRequiredSkills.dismissDropDown()
-            } else {
-                binding.spinnerRequiredSkills.showDropDown()
-                (binding.spinnerRequiredSkills.adapter as? CustomJobSkillsAdapter)?.setUserInteracted(
-                    true
-                )
-            }
-            false
-        })
-
-        binding.tvskillllstext.setOnClickListener {
-            if (binding.spinnerRequiredSkills.isPopupShowing) {
-                binding.spinnerRequiredSkills.dismissDropDown()
-            } else {
-                binding.spinnerRequiredSkills.showDropDown()
-            }
-        }
-
         binding.tvWeekdaysconcaatinated.setOnClickListener {
             if (binding.spinnerWeekdays.isPopupShowing) {
                 binding.spinnerWeekdays.dismissDropDown()
@@ -729,12 +823,8 @@ class AddjobJobDetailF : Fragment() {
             }
         }
 
-
-
         binding.btnnext.setOnClickListener {
             global.isfrombackpress = false
-
-
             viewModel.arraylistSelectedSkills = global.arraylistSelectedSkills
             val jobSkillsList = global.arraylistSelectedSkills
             var headCount = binding.tvHeadCount.text.toString()
@@ -743,6 +833,7 @@ class AddjobJobDetailF : Fragment() {
             }
             global.headcount = headCount
             viewModel.headcount = headCount
+
             var jobtype = binding.spinnerJobType.text.toString()
             var startdate = binding.tvStartDate.text.toString()
 
@@ -793,8 +884,7 @@ class AddjobJobDetailF : Fragment() {
                         descriptionBody
                     )
                 description = descriptionPart
-            }
-            else {
+            } else {
 
                 val htmlContent = "<p></p>"
                 global.htmlcontent = htmlContent
@@ -810,14 +900,46 @@ class AddjobJobDetailF : Fragment() {
             }
 
             global.descriptiontext = descriptiontext
+            var headCountExperiece = binding.tvHeadCountExperience.text.toString()
+            viewModel.headcountExperience = headCountExperiece
 
-            if (!jobtype.isNullOrEmpty() && !jobStatus.isNullOrEmpty() && !weekdays.isNullOrEmpty()
+            if (selectedJobType != "") {
+                if (selectedJobType == "Full Time" || selectedJobType == "Part Time" || selectedJobType == "Freelance") {
+                    if (startdate.equals("")) {
+                        binding.ccStartdate.error = "StartDate is Required."
+                        binding.ccStartdate.errorIconDrawable = null// Set the error message
+                        binding.ccStartdate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+
+                    }
+                } else {
+
+                    if (startdate.equals("")) {
+                        binding.ccStartdate.error = "StartDate is Required."
+                        binding.ccStartdate.errorIconDrawable = null// Set the error message
+                        binding.ccStartdate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+
+                    }
+
+
+                    if (enddate.equals("")) {
+                        binding.ccEnddate.error = "EndDate is Required."
+                        binding.ccEnddate.errorIconDrawable = null// Set the error message
+                        binding.ccEnddate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+
+                    }
+
+                }
+
+            }
+
+            if (headCountExperiece != "" && !jobtype.isNullOrEmpty() && !jobStatus.isNullOrEmpty() && !weekdays.isNullOrEmpty()
                 && !noOfWorkingDays.isNullOrEmpty()
                 && !estimatedhours.isNullOrEmpty() && !descriptiontext.isNullOrEmpty() && !descriptiontext.equals(
                     "<p></p>"
-                )
+                ) && binding.ccStartdate.error == null && binding.ccEnddate.error == null
             ) {
 
+                global.headcountexprequired = headCountExperiece
                 var addjobDetailRM = AddJobDetailsReqModel(
                     description = description,
                     headcount = headCount.toInt(),
@@ -840,6 +962,25 @@ class AddjobJobDetailF : Fragment() {
             } else {
 
 
+                if (binding.ccStartdate.error != null) {
+                    binding.ccStartdate.error = "StartDate is Required."
+                    binding.ccStartdate.errorIconDrawable = null// Set the error message
+                    binding.ccStartdate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+                }
+
+                if (binding.ccEnddate.error != null) {
+                    binding.ccEnddate.error = "EndDate is Required."
+                    binding.ccEnddate.errorIconDrawable = null// Set the error message
+                    binding.ccEnddate.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+                }
+
+
+                if (headCountExperiece.equals("")) {
+                    //  binding.TIexperiencereq.error = "Experience is Required."
+                    // binding.TIexperiencereq.errorIconDrawable = null// Set the error message
+                    //  binding.TIexperiencereq.setErrorTextAppearance(com.example.envagemobileapplication.R.style.ErrorText)
+                    binding.tvExperienceError.visibility = View.VISIBLE
+                }
                 if (descriptiontext.isNullOrEmpty() || descriptiontext.equals("<p></p>")) {
                     binding.TIDescription.error = "Description is Required."
                     binding.TIDescription.errorIconDrawable = null// Set the error message
@@ -901,6 +1042,7 @@ class AddjobJobDetailF : Fragment() {
             global.enddate = enddate
             viewModel.endDate = enddate
 
+            viewModel.headcountExperience = binding.tvHeadCountExperience.text.toString()
 
             var currency = binding.spinnerCurrency.text.toString()
             viewModel.currency = currency

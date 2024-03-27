@@ -43,7 +43,7 @@
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:inputType="numberDecimal"
-                    android:maxLength="3" />
+                    android:maxLength="8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,8 +96,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:maxLength="8"
+                    android:inputType="numberDecimal"
+                      />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -150,8 +151,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                      />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -204,8 +206,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -321,7 +324,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:enabled="false"
+                android:enabled="true"
                 android:hint="Overtime Markup Percentage"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="12dp"
@@ -340,7 +343,7 @@
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:inputType="numberDecimal"
-                    android:maxLength="200" />
+                      />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -367,8 +370,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:inputType="numberDecimal"
+                         android:maxLength="8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -394,8 +397,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:inputType="numberDecimal"
+                         android:maxLength="8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -499,7 +502,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:enabled="false"
+                android:enabled="true"
                 android:hint="Doubletime Markup Percentage"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="12dp"
@@ -517,8 +520,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
-                    android:inputType="number"
-                    android:maxLength="200" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -546,7 +550,7 @@
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:inputType="number"
-                    android:maxLength="200" />
+                         android:maxLength="8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -573,7 +577,7 @@
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:inputType="number"
-                    android:maxLength="200" />
+                         android:maxLength="8" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
